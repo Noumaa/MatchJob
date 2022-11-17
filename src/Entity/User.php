@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -61,6 +63,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?ProfesionnalStatus $profesionnalStatus = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Demand::class, orphanRemoval: true)]
+    private Collection $demands;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offer::class, orphanRemoval: true)]
+    private Collection $offers;
+
+    public function __construct()
+    {
+        $this->demands = new ArrayCollection();
+        $this->offers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -260,6 +277,78 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getProfesionnalStatus(): ?ProfesionnalStatus
+    {
+        return $this->profesionnalStatus;
+    }
+
+    public function setProfesionnalStatus(?ProfesionnalStatus $profesionnalStatus): self
+    {
+        $this->profesionnalStatus = $profesionnalStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demand>
+     */
+    public function getDemands(): Collection
+    {
+        return $this->demands;
+    }
+
+    public function addDemand(Demand $demand): self
+    {
+        if (!$this->demands->contains($demand)) {
+            $this->demands->add($demand);
+            $demand->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemand(Demand $demand): self
+    {
+        if ($this->demands->removeElement($demand)) {
+            // set the owning side to null (unless already changed)
+            if ($demand->getUser() === $this) {
+                $demand->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): self
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): self
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getUser() === $this) {
+                $offer->setUser(null);
+            }
+        }
 
         return $this;
     }
