@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <h1>Inscription Pro</h1>
+
+    {{ form_start(proRegistrationForm) }}
+        {{ form_row(proRegistrationForm.email,{label:"E-mail "})}}
+        {{ form_row(proRegistrationForm.plainPassword, {label: 'Mot de passe '})}}
+        {{ form_row(proRegistrationForm.name, {label: "Nom de l'entreprise "})}}
+        {{ form_row(proRegistrationForm.siret, {label: "SIRET "})}}
+
+         {{ form_row(proRegistrationForm.location.adress,{label:"N° et Rue "}) }}
+         {{ form_row(proRegistrationForm.location.zipCode,{label:"Code postale "})}}
+         {{ form_row(proRegistrationForm.location.city,{label:"Ville "})}}
+         {{ form_row(proRegistrationForm.location.country,{label:"Pays "}) }}
+         {{ form_row(proRegistrationForm.location.phone,{label:"N° de téléphone "}) }}
+        {{ form_row(proRegistrationForm.agreeTerms,{label: "Accepter les conditons d'utilisations "}) }}
+
+        <button type="submit" class="btn">S'inscrire</button>
+    {{ form_end(proRegistrationForm) }}
+{% endblock %}
