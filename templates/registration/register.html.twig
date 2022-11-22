@@ -3,7 +3,42 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Inscription</h1>
+<div class="container pt-5 mt-lg-5 col-lg-5 mx-auto">
+    <form method="post">
+        <div class="card shadow">
+            <div class="card-body">
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">se déconnecter</a>.
+                    </div>
+                {% endif %}
+
+                <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+
+                <hr>
+
+                <label for="inputEmail">Courriel</label>
+                <input type="email" value="" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <label class="mt-2" for="inputPassword">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="checkbox my-3 row">
+                    {{ form_row(registrationForm.agreeTerms,{label: "Accepter les conditons d'utilisations "}) }}
+                    <div class="col-12 col-lg"></div>
+                    <p class="col text-muted my-auto">Pas encore inscrit ? <a href={{ path("app_register") }} class="link-dark">Rejoignez-nous.</a></p>
+                </div>
+
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Connexion
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+    {# <h1>Inscription</h1>
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email,{label:"E-mail "})}}
@@ -21,5 +56,5 @@
         {{ form_row(registrationForm.agreeTerms,{label: "Accepter les conditons d'utilisations "}) }}
 
         <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+    {{ form_end(registrationForm) }} #}
 {% endblock %}
