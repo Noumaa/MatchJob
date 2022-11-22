@@ -15,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/pro/register', name: 'app_pro_register')]
+    #[Route('/inscription-profesionnel', name: 'app_pro_register')]
     public function proRegister(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -66,7 +66,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_default');
         }
 
-        return $this->render('registration/proregister.html.twig', [
+        return $this->render('registration/pro-register.html.twig', [
             'proRegistrationForm' => $form->createView(),
         ]);
     }
