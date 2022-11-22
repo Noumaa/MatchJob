@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Offer;
 use App\Form\OfferAddType;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,18 +23,22 @@ class OfferController extends AbstractController
     }
 
     #[Route('/deposer-offre', name: 'app_offres_new')]
-    public function add(Request $request)
+    public function add(Request $request, ManagerRegistry $doctrine)
     {
         $offer = new Offer();
-        $form = $this->createForm(OfferAddType::class);
+
+        $form = $this->createForm(OfferAddType::class, $offer);
         $form->handleRequest($request);
-
-        $manager->persist($offer);
-        $manager->flush();
-        dump($offer);
-                
-
         
+        $entityManager = $doctrine->getManager();
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $offer = new Offer();
+            $offer = $form->getData();
+            $$entityManager->persist($offer);
+            $$entityManager->flush();
+            return $this->redirectToRoute("app_default");
+        }
         return $this->render('offres/deposer-offre.html.twig', 
         [
             'OfferControllerNew' => $form->createView(),

@@ -4,8 +4,17 @@
 
 {% block body %}
   {{form_start(OfferControllerNew)}}
+    <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4">
     {{ form_row(OfferControllerNew.label,{label:"Nom de l'offre"})}}
+    </div>
+    {{ form_row(OfferControllerNew.salary,{label:"Salaire"})}}
+    {{ form_row(OfferControllerNew.description,{label:"Description"})}}
+    {{ form_row(OfferControllerNew.startDate,{label:"Date de début"})}}
+    {{ form_row(OfferControllerNew.endDate,{label:"Date de fin"})}}
+    <button type="submit" class="btn btn-primary">Enregistrer</button> 
   {{form_end(OfferControllerNew)}}
-<button type="submit" class="btn btn-primary">Enregistrer</button> 
+
 
 {% endblock %}
