@@ -9,10 +9,6 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -25,12 +21,6 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 target: app_default
-            # remember_me:
-            #     secret:   '%kernel.secret%' # required
-            #     lifetime: 604800
-
-        
-                
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -41,7 +31,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/default, roles: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

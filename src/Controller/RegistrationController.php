@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/inscription-professionnel', name: 'app_pro_register')]
+    #[Route('/inscription-profesionnel', name: 'app_pro_register')]
     public function proRegister(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -58,7 +58,6 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $user->setRoles(array("ROLE_ADMIN"));
 
             $entityManager->persist($user);
             $entityManager->flush();
