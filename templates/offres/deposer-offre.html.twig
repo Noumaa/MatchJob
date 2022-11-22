@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Déposer une offre{% endblock %}
+
+{% block body %}
+  {{form_start(OfferControllerNew)}}
+    {{ form_row(OfferControllerNew.label,{label:"Nom de l'offre"})}}
+  {{form_end(OfferControllerNew)}}
+<button type="submit" class="btn btn-primary">Enregistrer</button> 
+
+{% endblock %}
