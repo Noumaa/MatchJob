@@ -14,29 +14,50 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OfferController extends AbstractController
 {
-    #[Route('/offres', name: 'app_offres_home')]
-    public function index(): Response
+    #[Route('/offres', name: 'app_offres_show')]
+    public function index(ManagerRegistry $doctrine): Response
     {
-        return $this->render('offres/index.html.twig', [
-            'controller_name' => 'OffresController',
+        /*
+            Cette fonction retourne l'ensemble des offres
+            Etat : fonctionnelle
+        */
+        $lesOffres = $doctrine->getRepository(Offer::class)->findAll();
+
+        return $this->render('offres/voir-les-offres.html.twig', 
+        [
+            'lesOffres' => $lesOffres,
+            'controller_name' => 'Les Offres',
         ]);
     }
 
     #[Route('/deposer-offre', name: 'app_offres_new')]
     public function add(Request $request, ManagerRegistry $doctrine)
     {
+        /*
+            Cette fonction a pour but d'enregistrer dans la base de données
+            une offre déposer par une entreprise
+
+            Etat : non fonctionnelle
+        */
+       
+        $entityManager = $doctrine->getManager();
         $offer = new Offer();
 
-        $form = $this->createForm(OfferAddType::class, $offer);
+        // $form = $this->createFormBuilder($offer)
+        //              ->add('label')
+        //              ->add('description')
+        //              ->add('salary')
+        //              ->getForm();
+
+        $form = $this->createForm(OfferAddType::class,$offer);
         $form->handleRequest($request);
-        
-        $entityManager = $doctrine->getManager();
-        if ($form->isSubmitted() && $form->isValid()) 
+
+        if($form->isSubmitted() && $form->isValid())
         {
-            $offer = new Offer();
-            $offer = $form->getData();
-            $$entityManager->persist($offer);
-            $$entityManager->flush();
+            $offer->setUser($this->getUser());
+            $entityManager->persist($offer);
+            $entityManager->flush();
+
             return $this->redirectToRoute("app_default");
         }
         return $this->render('offres/deposer-offre.html.twig', 
