@@ -22,6 +22,9 @@ class BusinessInfo
     #[ORM\OneToOne(mappedBy: 'businessInfo', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +72,18 @@ class BusinessInfo
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

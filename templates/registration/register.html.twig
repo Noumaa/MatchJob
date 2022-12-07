@@ -36,7 +36,7 @@
 
                 <div class="checkbox my-3 row">
                     <label class="col">
-                        {{ form_widget(registrationForm.agreeTerms, {label: "Accepter les conditons d'utilisations"}) }} Accepter les <a href="#{# path("app_cgu") #}" class="link-dark">CGU</a>
+                        {{ form_widget(registrationForm.agreeTerms) }} Accepter les <a href="#{# path("app_cgu") #}" class="link-dark">CGU</a>
                     </label>
                     <div class="col-12 col-lg"></div>
                     <p class="col text-muted my-auto">Pas encore inscrit ? <a href={{ path("app_register") }} class="link-dark">Rejoignez-nous.</a></p>
