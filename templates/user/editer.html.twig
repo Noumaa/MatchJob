@@ -4,12 +4,160 @@
 
 {% block body %}
 
-<div class="container mt-5 px-5">
-    {% if is_granted('ROLE_COMPLETE_USER') %}
-        <h1>Editer votre compte</h1>
-    {% else %}
-        <h1>Vous y êtes presque !</h1>
-    {% endif %}
+<div class="container my-3 my-md-5 px-md-5">
+    {# {{ dump(debug) }} #}
+
+    <h1 class="ms-md-5">{{ is_granted('ROLE_COMPLETE_USER') ? "Editer votre compte" : "Vous y êtes presque !" }}</h1>
+
+    <hr>
+
+    <form method="post">
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-7">
+
+                    <div class="row">
+                        <div class="col">
+                            <label class="ms-2" for="user_info_firstName">Prénom</label>
+                            {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col">
+                            <label class="ms-2" for="user_info_lastName">Nom de famille</label>
+                            {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <label class="mt-2 ms-2" for="user_info_dateOfBirth">Date de naissance</label>
+                    {{ form_widget(form.dateOfBirth, {'attr': {'class': 'form-control', 'placeholder': 'JJ/MM/AAAA'}}) }}
+
+                    <hr class="mt-4 mx-4">
+
+                    <label class="ms-2 mt-2" for="user_info_commonInfo_country">N° de téléphone</label>
+                    {{ form_widget(form.commonInfo.phone, {'attr': {'class': 'form-control'}}) }}
+
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label class="ms-2" for="user_info_profesionnalStatus">Statut professionnel</label>
+                            {{ form_widget(form.profesionnalStatus, {'attr': {'class': 'form-select'}}) }}
+                        </div>
+                        <div class="col">
+                            <label class="ms-2" for="user_info_cv">CV</label>
+                            {{ form_widget(form.cv, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col mt-md-0 mt-2">
+                    <hr class="mx-4 d-flex d-md-none">
+
+                    <label class="ms-2 mt-2" for="user_info_commonInfo_address">N° et nom de rue</label>
+                    {{ form_widget(form.commonInfo.address, {'attr': {'class': 'form-control'}}) }}
+
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label class="ms-2" for="user_info_commonInfo_city">Ville</label>
+                            {{ form_widget(form.commonInfo.city, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col-5">
+                            <label class="ms-2" for="user_info_commonInfo_zipCode">Code postal</label>
+                            {{ form_widget(form.commonInfo.zipCode, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+
+                    <label class="ms-2 mt-2" for="user_info_commonInfo_country">Pays</label>
+                    {{ form_widget(form.commonInfo.country, {'attr': {'class': 'form-control'}}) }}
+
+                    {{ form_rest(form) }}
+
+                    <div class="float-md-end text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">{{ is_granted('ROLE_COMPLETE_USER') ? "Mettre à jour" : "Finaliser mon inscription" }}</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </form>
 </div>
 
 {% endblock %}
+
+            {# <div class="accordion" id="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="whois">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Je suis..
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="whois" data-bs-parent="#accordion">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col">
+                                    <label class="ms-2" for="user_info_firstName">Prénom</label>
+                                    {{ form_widget(form.userInfo.firstName, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="col">
+                                    <label class="ms-2" for="user_info_lastName">Nom de famille</label>
+                                    {{ form_widget(form.userInfo.lastName, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+
+                            <label class="mt-2 ms-2" for="user_info_dateOfBirth">Date de naissance</label>
+                            {{ form_widget(form.userInfo.dateOfBirth, {'attr': {'class': 'form-control', 'placeholder': 'JJ/MM/AAAA'}}) }}
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class="ms-2" for="user_info_profesionnalStatus">Statut professionnel</label>
+                                    {{ form_widget(form.userInfo.profesionnalStatus, {'attr': {'class': 'form-select'}}) }}
+                                </div>
+                                <div class="col">
+                                    <label class="ms-2" for="user_info_cv">CV</label>
+                                    {{ form_widget(form.userInfo.cv, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Accordion Item #2
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+                        <div class="accordion-body">
+                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Accordion Item #3
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordion">
+                        <div class="accordion-body">
+                            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                        </div>
+                    </div>
+                </div>
+            </div> #}
+
+
+
+
+
+            {# <label class="mt-2 ms-2" for="user_email">Courriel</label>
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ms-2" for="user_password">Mot de passe</label>
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col">
+                    <label class="ms-2" for="user_password">Confirmer le mot de passe</label>
+                    {{ form_widget(form.confirmPassword, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div> #}
