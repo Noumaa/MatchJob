@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+<div class="container pt-5 mt-lg-5 col-lg-5 mx-auto">
+    <form method="post">
+        <div class="card shadow">
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">se déconnecter</a>.
+                    </div>
+                {% endif %}
+
+                <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+
+                <hr>
+
+                <label for="inputEmail">Courriel</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <label class="mt-2" for="inputPassword">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="checkbox my-3 row">
+                    <label class="col">
+                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                    </label>
+                    <div class="col-12 col-lg"></div>
+                    <p class="col text-muted my-auto">Pas encore inscrit ? <a href={{ path("app_register") }} class="link-dark">Rejoignez-nous.</a></p>
+                </div>
+
+                <button class="btn btn-lg btn-primary" type="submit">
+                    Connexion
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

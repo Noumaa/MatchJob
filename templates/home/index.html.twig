@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <img class="img-fluid d-block mx-auto mb-3" src="{{ asset("images/logo.png") }}" alt="" width="400">
+    {# <h1 class="display-5 fw-bold">Centered hero</h1> #}
+    <p class="display-3">Trouvez l'emploi de vos rêves</p>
+    <div class="mt-4 d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+    </div>
+</div>
+{% endblock %}
