@@ -8,11 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/profil', name: 'app_user')]
+    #[Route('/compte', name: 'app_user')]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
-        return $this->render('user/profil.html.twig', [
+        return $this->render('user/compte.html.twig', [
             'controller_name' => 'UserController',
         ]);
     }
