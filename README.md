@@ -39,8 +39,8 @@
   <a href="#white_check_mark-requirements">Dépendences</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-starting">Installation</a> &#xa0; | &#xa0;
   <a href="#memo-license">Licence</a> &#xa0; | &#xa0;
-  <a href="https://github.com/Noumaa" target="_blank">Félix ARTHUR</a>
-  <a href="https://github.com/AFelix20100" target="_blank">Nouma VALLÉE</a>
+  <a href="https://github.com/Noumaa" target="_blank">Félix A.</a> &#xa0; | &#xa0;
+  <a href="https://github.com/AFelix20100" target="_blank">Nouma V.</a>
 </p>
 
 <br>
