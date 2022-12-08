@@ -36,7 +36,6 @@ class UserInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // 'inherit_data' => true,
             'data_class' => UserInfo::class,
         ]);
     }
