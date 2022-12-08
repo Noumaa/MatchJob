@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20221208143927 extends AbstractMigration
+final class Version20221208160614 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -32,13 +32,10 @@ final class Version20221208143927 extends AbstractMigration
         , start_date DATE DEFAULT NULL, end_date DATE DEFAULT NULL, CONSTRAINT FK_29D6873EA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_29D6873EA76ED395 ON offer (user_id)');
         $this->addSql('CREATE TABLE profesionnal_status (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL)');
-        $this->addSql('CREATE TABLE "user" (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_info_id INTEGER DEFAULT NULL, business_info_id INTEGER DEFAULT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
-        , password VARCHAR(255) NOT NULL, CONSTRAINT FK_8D93D649586DFF2 FOREIGN KEY (user_info_id) REFERENCES user_info (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_8D93D649B87AB5 FOREIGN KEY (business_info_id) REFERENCES business_info (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('CREATE TABLE "user" (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, profesionnal_status_id INTEGER DEFAULT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
+        , password VARCHAR(255) NOT NULL, address VARCHAR(255) DEFAULT NULL, zip_code INTEGER DEFAULT NULL, city VARCHAR(255) DEFAULT NULL, country VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, first_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(255) DEFAULT NULL, date_of_birth DATE DEFAULT NULL, cv VARCHAR(255) DEFAULT NULL, CONSTRAINT FK_8D93D64973D5F860 FOREIGN KEY (profesionnal_status_id) REFERENCES profesionnal_status (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649586DFF2 ON "user" (user_info_id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649B87AB5 ON "user" (business_info_id)');
-        $this->addSql('CREATE TABLE user_info (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, profesionnal_status_id INTEGER DEFAULT NULL, first_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(255) NOT NULL, date_of_birth DATE DEFAULT NULL, cv VARCHAR(255) DEFAULT NULL, address VARCHAR(255) DEFAULT NULL, zip_code INTEGER DEFAULT NULL, city VARCHAR(255) DEFAULT NULL, country VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, CONSTRAINT FK_B1087D9E73D5F860 FOREIGN KEY (profesionnal_status_id) REFERENCES profesionnal_status (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
-        $this->addSql('CREATE INDEX IDX_B1087D9E73D5F860 ON user_info (profesionnal_status_id)');
+        $this->addSql('CREATE INDEX IDX_8D93D64973D5F860 ON "user" (profesionnal_status_id)');
         $this->addSql('CREATE TABLE messenger_messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, body CLOB NOT NULL, headers CLOB NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL, available_at DATETIME NOT NULL, delivered_at DATETIME DEFAULT NULL)');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
         $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');
@@ -55,7 +52,6 @@ final class Version20221208143927 extends AbstractMigration
         $this->addSql('DROP TABLE offer');
         $this->addSql('DROP TABLE profesionnal_status');
         $this->addSql('DROP TABLE "user"');
-        $this->addSql('DROP TABLE user_info');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }
