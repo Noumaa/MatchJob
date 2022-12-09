@@ -18,7 +18,7 @@ class OfferAddType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('salary')
+            ->add('moneyPerHour')
             ->add('description')
             // ->add('duration', DateIntervalType::class, ['widget'      => 'integer'])
             // ->add('startDate', DateType::class)

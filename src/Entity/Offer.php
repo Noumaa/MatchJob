@@ -20,7 +20,7 @@ class Offer
     private ?string $label = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $salary = null;
+    private ?float $moneyPerHour = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -40,6 +40,9 @@ class Offer
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
@@ -63,14 +66,14 @@ class Offer
         return $this;
     }
 
-    public function getSalary(): ?float
+    public function getMoneyPerHour(): ?float
     {
-        return $this->salary;
+        return $this->moneyPerHour;
     }
 
-    public function setSalary(float $salary): self
+    public function setMoneyPerHour(float $moneyPerHour): self
     {
-        $this->salary = $salary;
+        $this->moneyPerHour = $moneyPerHour;
 
         return $this;
     }
@@ -161,6 +164,18 @@ class Offer
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
