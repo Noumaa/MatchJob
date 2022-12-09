@@ -18,7 +18,7 @@ class ProRegistrationFormType extends AbstractType
     {
         $builder
             ->add("location", LocationFormType::class, [
-            'data_class' => User::class,
+                'data_class' => User::class,
             ])
             ->add('email')
             ->add('name')

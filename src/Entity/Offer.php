@@ -43,7 +43,6 @@ class Offer
 
     public function __construct()
     {
-        $this->demandStatuses = new ArrayCollection();
         $this->demands = new ArrayCollection();
     }
 

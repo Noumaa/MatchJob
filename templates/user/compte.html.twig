@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+
+<style>
+@media screen and (min-width: 1200px) {
+    .rule {
+        padding-right: 100px;
+        border-right: 1px dashed #046E8F;
+    }
+}
+</style>
+
+<div class="container mt-5 px-5">
+    <div class="row">
+        <div class="col-xl-4 rule">
+            {# Photo de profil #}
+            <picture>
+                <img src="{{ asset("images/pp_default.png") }}" alt="Photo de profil" class="img-fluid rounded mx-auto d-block">
+            </picture>
+            
+            {# Résumé #}
+
+        </div>
+        <div class="col-xl-8">
+            {# Toutes les données #}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

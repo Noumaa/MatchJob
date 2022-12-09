@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'L\'adresse email est déjà utilisée.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -33,47 +33,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $firstName = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $lastName = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateOfBirth = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $cv = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $adress = null;
-
-    #[ORM\Column]
-    private ?int $zipCode = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $country = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $phone = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $siret = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $name = null;
-
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    private ?ProfesionnalStatus $profesionnalStatus = null;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Demand::class, orphanRemoval: true)]
     private Collection $demands;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offer::class, orphanRemoval: true)]
     private Collection $offers;
+
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserInfo $userInfo = null;
+
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?BusinessInfo $businessInfo = null;
 
     public function __construct()
     {
@@ -107,11 +77,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
-
-    public function isPro() : bool
-    {
-        return isset($this->siret);
-    }
     
     /**
      * @see UserInterface
@@ -121,6 +86,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+        if ($this->getUserInfo() != null) $roles[] = 'ROLE_COMPLETE_USER';
+        if ($this->getBusinessInfo() != null) $roles[] = 'ROLE_BUSINESS';
 
         return array_unique($roles);
     }
@@ -155,150 +122,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getDateOfBirth(): ?\DateTimeInterface
-    {
-        return $this->dateOfBirth;
-    }
-
-    public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
-    {
-        $this->dateOfBirth = $dateOfBirth;
-
-        return $this;
-    }
-
-    public function getCv(): ?string
-    {
-        return $this->cv;
-    }
-
-    public function setCv(string $cv): self
-    {
-        $this->cv = $cv;
-
-        return $this;
-    }
-
-    public function getAdress(): ?string
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(string $adress): self
-    {
-        $this->adress = $adress;
-
-        return $this;
-    }
-
-    public function getZipCode(): ?int
-    {
-        return $this->zipCode;
-    }
-
-    public function setZipCode(int $zipCode): self
-    {
-        $this->zipCode = $zipCode;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): self
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getSiret(): ?string
-    {
-        return $this->siret;
-    }
-
-    public function setSiret(?string $siret): self
-    {
-        $this->siret = $siret;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getProfesionnalStatus(): ?ProfesionnalStatus
-    {
-        return $this->profesionnalStatus;
-    }
-
-    public function setProfesionnalStatus(?ProfesionnalStatus $profesionnalStatus): self
-    {
-        $this->profesionnalStatus = $profesionnalStatus;
-
-        return $this;
     }
 
     /**
@@ -357,6 +180,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $offer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserInfo(): ?UserInfo
+    {
+        return $this->userInfo;
+    }
+
+    public function setUserInfo(?UserInfo $userInfo): self
+    {
+        $this->userInfo = $userInfo;
+
+        return $this;
+    }
+
+    public function getBusinessInfo(): ?BusinessInfo
+    {
+        return $this->businessInfo;
+    }
+
+    public function setBusinessInfo(?BusinessInfo $businessInfo): self
+    {
+        $this->businessInfo = $businessInfo;
 
         return $this;
     }
