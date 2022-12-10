@@ -7,12 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class OfferAddType extends AbstractType
+class OfferType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,9 +16,23 @@ class OfferAddType extends AbstractType
             ->add('label')
             ->add('moneyPerHour')
             ->add('description')
-            // ->add('duration', DateIntervalType::class, ['widget'      => 'integer'])
-            // ->add('startDate', DateType::class)
-            // ->add('endDate', DateType::class)
+             ->add('startAt',DateType::class,[
+                'placeholder' => 
+                [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ],
+                'format' => 'dd-MM-yyyy',
+                ])
+             
+             
+            ->add('endAt',DateType::class,[
+                'placeholder' => 
+                [
+                    'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+                ],
+                'format' => 'dd-MM-yyyy',
+                ])
+            //->add('createdAt')
             //->add('user')
         ;
     }

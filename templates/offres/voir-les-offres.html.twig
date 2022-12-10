@@ -12,13 +12,13 @@
     <h1>{{ controller_name }} :</h1>
 </div>
 <div class="container d-flex flex-row flex-wrap justify-content-center">
-{% for unOffre in lesOffres %}
+{% for uneOffre in lesOffres %}
 
   <div class="card m-x-3" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">{{unOffre.label}}</h5>
-      <p class="card-text">{{unOffre.description}}</p>
-      <a href="#" class="btn btn-primary">Voir l'offre</a>
+      <h5 class="card-title">{{uneOffre.label}}</h5>
+      <p class="card-text">{{uneOffre.description}}</p>
+      <a href={{path('app_offres_show_one',{'id':uneOffre.id})}} class="btn btn-primary">Voir l'offre</a>
     </div>
   </div>
 

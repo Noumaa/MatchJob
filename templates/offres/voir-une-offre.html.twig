@@ -12,13 +12,11 @@
     <h1>{{ controller_name }} :</h1>
 </div>
 
-{% for unOffre in lesOffres %}
-<div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">{{unOffre.label}}</h5>
-    <p class="card-text">{{unOffre.description}}</p>
-    <a href="#" class="btn btn-primary">Voir l'offre</a>
-  </div>
-</div>
-{% endfor  %}
+<h1>Nom de l'emploi : {{uneOffre.label}}</h1>
+<h5>Description de l'emploi : {{uneOffre.description}}</h5>
+<h5>Salaire par heure : {{uneOffre.moneyPerHour}} €</h5>
+<h5>Date de début : {{uneOffre.startAt|date('d-m-Y')}}</h5>
+<h5>Date de fin : {{uneOffre.endAt|date('d-m-Y')}}</h5>
+<h5>Durée de l'emploi : {{duration}}</h5>
+
 {% endblock %}

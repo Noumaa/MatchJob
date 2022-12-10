@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
-use App\Form\OfferAddType;
+use App\Form\OfferType;
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -15,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OfferController extends AbstractController
 {
-    #[Route('/offres', name: 'app_offres_show')]
+    #[Route('/offres', name: 'app_offres_show_all')]
     public function index(ManagerRegistry $doctrine): Response
     {
         /*
@@ -31,8 +34,10 @@ class OfferController extends AbstractController
         ]);
     }
 
+    
+
     #[IsGranted("ROLE_USER")]
-    #[Route('/deposer-offre', name: 'app_offres_new')]
+    #[Route('offres/deposer-offre', name: 'app_offres_new')]
     public function add(Request $request, ManagerRegistry $doctrine)
     {
         /*
@@ -45,28 +50,47 @@ class OfferController extends AbstractController
         $entityManager = $doctrine->getManager();
         $offer = new Offer();
 
-        // $form = $this->createFormBuilder($offer)
-        //              ->add('label')
-        //              ->add('description')
-        //              ->add('salary')
-        //              ->getForm();
-
-        $form = $this->createForm(OfferAddType::class,$offer);
+        $form = $this->createForm(OfferType::class,$offer);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             $offer->setUser($this->getUser());
+            $offer->setLabel($form->get('label')->getData());
+            $offer->setMoneyPerHour($form->get('moneyPerHour')->getData());
+            $offer->setstartAt($form->get('startAt')->getData());
+            $offer->setEndAt($form->get('endAt')->getData());
+            $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
+            $offer->setCreatedAt(new DateTimeImmutable());
             $entityManager->persist($offer);
             $entityManager->flush();
-
-            return $this->redirectToRoute("app_default");
+            return $this->redirectToRoute("app_offres_show_all");
         }
         return $this->render('offres/deposer-offre.html.twig', 
         [
-            'OfferControllerNew' => $form->createView(),
+            'Offer' => $form->createView(),
         ]);
 
+    }
+
+    #[Route('/offres/show/{id}', name: 'app_offres_show_one')]
+    public function showOne(ManagerRegistry $doctrine, Offer $uneOffre): Response
+    {
+        $uneOffre = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $uneOffre->getId()]);
+        
+        $duration = $uneOffre->getDuration();
+        $years = $duration->format('%Y années');
+        $month = $duration->format('%M mois');
+        $days = $duration->format('%D jours');
+
+        $dateInterval = $days . " " . $month . " " . $years . " ";
+
+        return $this->render('offres/voir-une-offre.html.twig', 
+        [
+            'uneOffre' => $uneOffre,
+            'duration' => $dateInterval,
+            'controller_name' => $uneOffre->getLabel(),
+        ]);
     }
 
 }

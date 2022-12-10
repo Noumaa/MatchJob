@@ -29,10 +29,10 @@ class Offer
     private ?\DateInterval $duration = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $startDate = null;
+    private ?\DateTimeInterface $startAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $endDate = null;
+    private ?\DateTimeInterface $endAt = null;
 
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Demand::class, orphanRemoval: true)]
     private Collection $demands;
@@ -102,26 +102,26 @@ class Offer
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getstartAt(): ?\DateTimeInterface
     {
-        return $this->startDate;
+        return $this->startAt;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setstartAt(?\DateTimeInterface $startAt): self
     {
-        $this->startDate = $startDate;
+        $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
-        return $this->endDate;
+        return $this->endAt;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndAt(?\DateTimeInterface $endAt): self
     {
-        $this->endDate = $endDate;
+        $this->endAt = $endAt;
 
         return $this;
     }
