@@ -6,8 +6,10 @@
     {# <h1 class="display-5 fw-bold">Centered hero</h1> #}
     <p class="display-3">Trouvez l'emploi de vos rêves</p>
     <div class="mt-4 d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+    {# <button type="button" class="btn btn-primary btn-lg px-4 gap-3"></button>
+    <button type="button" class="btn btn-outline-secondary btn-lg px-4"></button> #}
+        <a href={{path('app_offres_show_all')}} class="btn btn-primary btn-lg px-4 gap-3">Voir les offres</a>
+        <a class="btn btn-outline-secondary btn-lg px-4">Secondary</a>
     </div>
 </div>
 {% endblock %}
