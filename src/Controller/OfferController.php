@@ -56,12 +56,10 @@ class OfferController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $offer->setUser($this->getUser());
-            $offer->setLabel($form->get('label')->getData());
-            $offer->setMoneyPerHour($form->get('moneyPerHour')->getData());
-            $offer->setstartAt($form->get('startAt')->getData());
-            $offer->setEndAt($form->get('endAt')->getData());
             $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
             $offer->setCreatedAt(new DateTimeImmutable());
+            $offer = $form->getData();
+            
             $entityManager->persist($offer);
             $entityManager->flush();
             return $this->redirectToRoute("app_offres_show_all");
