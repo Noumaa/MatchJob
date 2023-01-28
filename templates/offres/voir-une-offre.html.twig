@@ -12,11 +12,17 @@
     <h1>{{ controller_name }} :</h1>
 </div>
 
-<h1>Nom de l'emploi : {{uneOffre.label}}</h1>
+{# <h1>Nom de l'emploi : {{uneOffre.label}}</h1>
 <h5>Description de l'emploi : {{uneOffre.description}}</h5>
 <h5>Salaire par heure : {{uneOffre.moneyPerHour}} €</h5>
 <h5>Date de début : {{uneOffre.startAt|date('d-m-Y')}}</h5>
 <h5>Date de fin : {{uneOffre.endAt|date('d-m-Y')}}</h5>
-<h5>Durée de l'emploi : {{duration}}</h5>
+<h5>Durée de l'emploi : {{duration}}</h5> #}
+
+{{ form_start(uneOffre) }}
+
+    {{ form_label(uneOffre.label) }}
+
+{{ form_end(uneOffre) }}
 
 {% endblock %}
