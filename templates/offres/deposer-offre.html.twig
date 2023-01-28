@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Déposer une offre
+{% endblock %}
+
+{% block body %}
+
+	{{form_start(Offer)}}
+	<div class="container mt-5">
+		<div class="card shadow-lg bg-body">
+			<div class="card-body">
+				<div class="row justify-content-center">
+					<div class="row">
+						<div class="col-3">
+							<div class="row">
+								{{ form_label(Offer.label,"Nom de l'offre")}}
+								{{ form_widget(Offer.label,{ 'attr': {"type":"text", "class":"form-control"}})}}
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="row">
+								{{ form_label(Offer.moneyPerHour, "Salaire de l'heure")}}
+								{{ form_widget(Offer.moneyPerHour,{ 'attr': {"class":"form-control"}})}}
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="row">
+								{{ form_label(Offer.startAt, "Date de début")}}
+								{{ form_widget(Offer.startAt,{'attr': {'type':'date',"class":"form-control"}})}}
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="row">
+								{{ form_label(Offer.endAt, "Date de fin")}}
+								{{ form_widget(Offer.endAt,{ 'attr': {"class":"form-control"}})}}
+							</div>
+						</div>
+					</div>
+				</div>
+                <div class="col">
+						{{ form_label(Offer.description)}}
+						<div class="form-floating">
+							{{ form_widget(Offer.description,{'id':"floatingTextarea2", 'name':'textarea', 'placeholder':"Description de l'emploi",'attr': {"class":"form-control",'style':"height: 200px"}})}}
+							<label for="floatingTextarea2">Description de l'emploi</label>
+						</div>
+					</div>
+                <div class="row justify-content-center mt-5">
+                    <button type="submit" class="col-3 btn btn-success">Déposer l'offre d'emploi</button>
+                </div>                
+			</div>
+		</div>
+	</div>
+
+
+	{# {{ form_row(OfferControllerNew.startDate,{label:"Date de début"})}}
+								{{ form_row(OfferControllerNew.endDate,{label:"Date de fin"})}} #}
+	
+	{{form_end(Offer)}}
+{% endblock %}
+

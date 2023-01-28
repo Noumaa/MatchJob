@@ -20,7 +20,7 @@ class Offer
     private ?string $label = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $salary = null;
+    private ?float $moneyPerHour = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -29,10 +29,10 @@ class Offer
     private ?\DateInterval $duration = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $startDate = null;
+    private ?\DateTimeInterface $startAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $endDate = null;
+    private ?\DateTimeInterface $endAt = null;
 
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Demand::class, orphanRemoval: true)]
     private Collection $demands;
@@ -40,6 +40,9 @@ class Offer
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
@@ -63,14 +66,14 @@ class Offer
         return $this;
     }
 
-    public function getSalary(): ?float
+    public function getMoneyPerHour(): ?float
     {
-        return $this->salary;
+        return $this->moneyPerHour;
     }
 
-    public function setSalary(float $salary): self
+    public function setMoneyPerHour(float $moneyPerHour): self
     {
-        $this->salary = $salary;
+        $this->moneyPerHour = $moneyPerHour;
 
         return $this;
     }
@@ -99,26 +102,26 @@ class Offer
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getstartAt(): ?\DateTimeInterface
     {
-        return $this->startDate;
+        return $this->startAt;
     }
 
-    public function setStartDate(?\DateTimeInterface $startDate): self
+    public function setstartAt(?\DateTimeInterface $startAt): self
     {
-        $this->startDate = $startDate;
+        $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndAt(): ?\DateTimeInterface
     {
-        return $this->endDate;
+        return $this->endAt;
     }
 
-    public function setEndDate(?\DateTimeInterface $endDate): self
+    public function setEndAt(?\DateTimeInterface $endAt): self
     {
-        $this->endDate = $endDate;
+        $this->endAt = $endAt;
 
         return $this;
     }
@@ -161,6 +164,18 @@ class Offer
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
