@@ -1,61 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block body %}
-<div class="container pt-5 mt-lg-5 col-lg-5 mx-auto">
-    <div class="card shadow">
-        <div class="card-body">
-            <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
 
-            <hr>
-
-            {% if app.user %}
-                <div class="mb-3">
-                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">se déconnecter</a>.
-                </div>
-            {% endif %}
-
-            {% if formErrors != '' %}
-                <div class="mb-3 alert alert-danger" role="alert">
-                    <ul class="list-group list-group-flush">
-                        {% for error in formErrors|split('\n') %}
-                            {% if error != '' %}
-                                <li class="list-group-item list-group-item-danger">{{ error }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
-            <form method="post">
-                <label for="inputEmail">Courriel</label>
-                <input type="email" value="" name="registration_form[email]" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                <label class="mt-2" for="password">Mot de passe</label>
-                <input type="password" name="registration_form[plainPassword]" id="password" class="form-control" autocomplete="current-password" required>
-
-                <div class="checkbox my-3 row">
-                    <label class="col">
-                        {{ form_widget(registrationForm.agreeTerms) }} Accepter les <a href="#{# path("app_cgu") #}" class="link-dark">CGU</a>
-                    </label>
-                    <div class="col-12 col-lg"></div>
-                    <p class="col text-muted my-auto">Pas encore inscrit ? <a href={{ path("app_register") }} class="link-dark">Rejoignez-nous.</a></p>
-                </div>
-
-                <button class="btn btn-lg btn-primary" type="submit">
-                    S'inscrire
-                </button>
-
-                {{ form_row(registrationForm._token) }}
-            </form>
-        </div>
-    </div>
-</div>
-
-    {# <h1>Inscription</h1>
+    <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(registrationForm) }} #}
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
 {% endblock %}

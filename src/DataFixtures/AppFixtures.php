@@ -10,6 +10,9 @@ use App\Entity\Offer;
 
 class AppFixtures extends Fixture
 {
+
+    private $hasher;
+
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;
@@ -21,7 +24,7 @@ class AppFixtures extends Fixture
         $user->setEmail("tata@gmail.com");
         $password = $this->hasher->hashPassword($user, 'tatatata');
         $user->setPassword($password);
-        $user->setAdress("5 rue de la Fayette");
+        $user->setAddress("5 rue de la Fayette");
         $user->setZipCode("28000");
         $user->setCity("Chartres");
         $user->setCountry("France");
@@ -33,7 +36,7 @@ class AppFixtures extends Fixture
         {
             $offer = new Offer();
             $offer->setLabel("Stage de développeur n°". $i);
-            $offer->setSalary(12000);
+            $offer->setMoneyPerHour(12000);
             $offer->setDescription("Stage PHP ; C# ; JS ; PYTHON");
             $offer->setDuration(new \DateInterval('P2Y4DT6H8M'));
             $offer->setUser($user);
