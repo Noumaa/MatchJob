@@ -5,14 +5,13 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'L\'adresse email est déjà utilisée.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,7 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180)]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -33,27 +32,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    /**
-     * Common data
-     */
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $address = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column()]
     private ?int $zipCode = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
+
     /**
-     * Individual data
+     * Business
      */
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $siret = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offer::class)]
+    private Collection $offers;
+
+
+    /**
+     * Person
+     */
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstName = null;
 
@@ -63,26 +75,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $cv = null;
-
-    #[ORM\ManyToOne(inversedBy: 'user')]
-    private ?ProfesionnalStatus $profesionnalStatus = null;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Demand::class, orphanRemoval: true)]
-    private Collection $demands;
-
-    /**
-     * Business data
-     */
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offer::class, orphanRemoval: true)]
-    private Collection $offers;
-
     public function __construct()
     {
-        $this->demands = new ArrayCollection();
         $this->offers = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -151,7 +148,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
     
     /**
      * @see UserInterface
@@ -160,114 +156,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Demand>
-     */
-    public function getDemands(): Collection
-    {
-        return $this->demands;
-    }
-
-    public function addDemand(Demand $demand): self
-    {
-        if (!$this->demands->contains($demand)) {
-            $this->demands->add($demand);
-            $demand->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDemand(Demand $demand): self
-    {
-        if ($this->demands->removeElement($demand)) {
-            // set the owning side to null (unless already changed)
-            if ($demand->getUser() === $this) {
-                $demand->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Offer>
-     */
-    public function getOffers(): Collection
-    {
-        return $this->offers;
-    }
-
-    public function addOffer(Offer $offer): self
-    {
-        if (!$this->offers->contains($offer)) {
-            $this->offers->add($offer);
-            $offer->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOffer(Offer $offer): self
-    {
-        if ($this->offers->removeElement($offer)) {
-            // set the owning side to null (unless already changed)
-            if ($offer->getUser() === $this) {
-                $offer->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(?string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getDateOfBirth(): ?\DateTimeInterface
-    {
-        return $this->dateOfBirth;
-    }
-
-    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
-    {
-        $this->dateOfBirth = $dateOfBirth;
-
-        return $this;
-    }
-
-    public function getCv(): ?string
-    {
-        return $this->cv;
-    }
-
-    public function setCv(?string $cv): self
-    {
-        $this->cv = $cv;
-
-        return $this;
     }
 
     public function getAddress(): ?string
@@ -330,14 +218,102 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfesionnalStatus(): ?ProfesionnalStatus
+
+    /**
+     * Business
+    */
+
+    public function getName(): ?string
     {
-        return $this->profesionnalStatus;
+        return $this->name;
     }
 
-    public function setProfesionnalStatus(?ProfesionnalStatus $profesionnalStatus): self
+    public function setName(string $name): self
     {
-        $this->profesionnalStatus = $profesionnalStatus;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(string $siret): self
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Offer>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offer $offer): self
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offer $offer): self
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getUser() === $this) {
+                $offer->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Person
+     */
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
+    {
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }
