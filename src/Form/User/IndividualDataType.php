@@ -2,7 +2,7 @@
 
 namespace App\Form\User;
 
-use App\Entity\UserInfo;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserInfoType extends AbstractType
+class IndividualDataType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -23,7 +23,7 @@ class UserInfoType extends AbstractType
                 'mapped' => false
             ])
             ->add('commonInfo', CommonInfoType::class, [
-                'data_class' => UserInfo::class,
+                'data_class' => User::class,
             ])
             // Todo : map this thing too
             ->add('cv', FileType::class, [
@@ -37,8 +37,7 @@ class UserInfoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // 'inherit_data' => true,
-            'data_class' => UserInfo::class,
+            'data_class' => User::class,
         ]);
     }
 }

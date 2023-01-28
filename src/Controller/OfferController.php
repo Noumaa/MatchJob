@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class OfferController extends AbstractController
 {
     #[Route('/offres', name: 'app_offres_show_all')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $doctrine) : Response
     {
         /*
             Cette fonction retourne l'ensemble des offres
@@ -75,7 +75,7 @@ class OfferController extends AbstractController
     public function showOne(ManagerRegistry $doctrine, Offer $uneOffre): Response
     {
         $uneOffre = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $uneOffre->getId()]);
-        
+        $form = $this->createForm(OfferType::class,$uneOffre);
         $duration = $uneOffre->getDuration();
         $years = $duration->format('%Y années');
         $month = $duration->format('%M mois');
@@ -85,7 +85,7 @@ class OfferController extends AbstractController
 
         return $this->render('offres/voir-une-offre.html.twig', 
         [
-            'uneOffre' => $uneOffre,
+            'uneOffre' => $form->createView(),
             'duration' => $dateInterval,
             'controller_name' => $uneOffre->getLabel(),
         ]);

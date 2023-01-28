@@ -18,12 +18,12 @@ class ProfesionnalStatus
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'profesionnalStatus', targetEntity: UserInfo::class)]
-    private Collection $userInfos;
+    #[ORM\OneToMany(mappedBy: 'profesionnalStatus', targetEntity: User::class)]
+    private Collection $users;
 
     public function __construct()
     {
-        $this->userInfos = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,27 +46,27 @@ class ProfesionnalStatus
     /**
      * @return Collection<int, UserInfo>
      */
-    public function getUserInfos(): Collection
+    public function getUsers(): Collection
     {
-        return $this->userInfos;
+        return $this->users;
     }
 
-    public function addUserInfo(UserInfo $userInfo): self
+    public function addUser(User $user): self
     {
-        if (!$this->userInfos->contains($userInfo)) {
-            $this->userInfos->add($userInfo);
-            $userInfo->setProfesionnalStatus($this);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setProfesionnalStatus($this);
         }
 
         return $this;
     }
 
-    public function removeUserInfo(UserInfo $userInfo): self
+    public function removeUser(User $user): self
     {
-        if ($this->userInfos->removeElement($userInfo)) {
+        if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($userInfo->getProfesionnalStatus() === $this) {
-                $userInfo->setProfesionnalStatus(null);
+            if ($user->getProfesionnalStatus() === $this) {
+                $user->setProfesionnalStatus(null);
             }
         }
 
