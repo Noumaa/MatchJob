@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\User\UserInfoType;
 use App\Form\User\UserType;
+use App\Repository\UserInfoRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,13 +20,17 @@ class UserController extends AbstractController
 {
     #[Route('', name: 'app_user')]
     #[IsGranted('ROLE_USER')]
-    public function account(): Response
+    public function account(ManagerRegistry $doctrine): Response
     {
         if (!$this->isGranted('ROLE_COMPLETE_USER'))
+        {
             return $this->redirectToRoute("app_edit_userinfo");
-        
-        return $this->render('user/compte.html.twig', [
-            // 'roles' => $this->getUser()->getRoles(),
+        }
+        $user = $this->getUser();
+        $userAccountDetails = $doctrine->getRepository(UserInfo::class)->findOneBy(['id'=>$user->getId()]);
+        return $this->render('user/compte.html.twig', 
+        [
+            'userAccountDetails' => $userAccountDetails,
         ]);
     }
 
@@ -42,7 +48,7 @@ class UserController extends AbstractController
             $entityManager->persist($userInfo);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_user');
         }
 
         return $this->render('user/editer.html.twig', [

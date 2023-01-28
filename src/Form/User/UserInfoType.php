@@ -27,7 +27,8 @@ class UserInfoType extends AbstractType
             ])
             // Todo : map this thing too
             ->add('cv', FileType::class, [
-                "mapped" => false
+                "mapped" => false,
+                "require" => false,
             ])
             ->add('profesionnalStatus')
         ;

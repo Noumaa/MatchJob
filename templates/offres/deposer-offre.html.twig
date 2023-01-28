@@ -6,6 +6,7 @@
 {% block body %}
 
 	{{form_start(Offer)}}
+	{{ form_errors(Offer.startAt) }}
 	<div class="container mt-5">
 		<div class="card shadow-lg bg-body">
 			<div class="card-body">

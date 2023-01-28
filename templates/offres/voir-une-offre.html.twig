@@ -18,5 +18,6 @@
 <h5>Date de début : {{uneOffre.startAt|date('d-m-Y')}}</h5>
 <h5>Date de fin : {{uneOffre.endAt|date('d-m-Y')}}</h5>
 <h5>Durée de l'emploi : {{duration}}</h5>
-
+<a href={{path('app_offres_delete_one',{'id':uneOffre.id})}} class="btn btn-primary">Supprimer l'offre</a>
+<a href={{path('app_offres_edit',{'id':uneOffre.id})}} class="btn btn-primary">Modifier l'offre</a>
 {% endblock %}
