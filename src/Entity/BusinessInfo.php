@@ -19,11 +19,11 @@ class BusinessInfo
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $siret = null;
 
-    #[ORM\OneToOne(mappedBy: 'businessInfo', cascade: ['persist', 'remove'])]
-    private ?User $user = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
+
+    #[ORM\OneToOne(mappedBy: 'businessInfo', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -54,6 +54,18 @@ class BusinessInfo
         return $this;
     }
 
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -72,18 +84,6 @@ class BusinessInfo
         }
 
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
 
         return $this;
     }

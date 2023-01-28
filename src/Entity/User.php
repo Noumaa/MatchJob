@@ -33,17 +33,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * Common data
+     */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $zipCode = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $country = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
+    /**
+     * Individual data
+     */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateOfBirth = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cv = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?ProfesionnalStatus $profesionnalStatus = null;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Demand::class, orphanRemoval: true)]
     private Collection $demands;
 
+    /**
+     * Business data
+     */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Offer::class, orphanRemoval: true)]
     private Collection $offers;
-
-    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?UserInfo $userInfo = null;
-
-    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?BusinessInfo $businessInfo = null;
 
     public function __construct()
     {
@@ -86,8 +119,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-        if ($this->getUserInfo() != null) $roles[] = 'ROLE_COMPLETE_USER';
-        if ($this->getBusinessInfo() != null) $roles[] = 'ROLE_BUSINESS';
 
         return array_unique($roles);
     }
@@ -95,6 +126,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+        $this->roles[] = $role;
 
         return $this;
     }
@@ -184,26 +222,122 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUserInfo(): ?UserInfo
+    public function getFirstName(): ?string
     {
-        return $this->userInfo;
+        return $this->firstName;
     }
 
-    public function setUserInfo(?UserInfo $userInfo): self
+    public function setFirstName(?string $firstName): self
     {
-        $this->userInfo = $userInfo;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getBusinessInfo(): ?BusinessInfo
+    public function getLastName(): ?string
     {
-        return $this->businessInfo;
+        return $this->lastName;
     }
 
-    public function setBusinessInfo(?BusinessInfo $businessInfo): self
+    public function setLastName(string $lastName): self
     {
-        $this->businessInfo = $businessInfo;
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeInterface
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
+    {
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    public function getCv(): ?string
+    {
+        return $this->cv;
+    }
+
+    public function setCv(?string $cv): self
+    {
+        $this->cv = $cv;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?int
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(?int $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getProfesionnalStatus(): ?ProfesionnalStatus
+    {
+        return $this->profesionnalStatus;
+    }
+
+    public function setProfesionnalStatus(?ProfesionnalStatus $profesionnalStatus): self
+    {
+        $this->profesionnalStatus = $profesionnalStatus;
 
         return $this;
     }

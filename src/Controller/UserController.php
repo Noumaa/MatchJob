@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\UserInfo;
-use App\Form\User\UserInfoType;
+use App\Form\User\IndividualDataType;
 use App\Form\User\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -16,42 +15,38 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/compte')]
 class UserController extends AbstractController
 {
-    #[Route('', name: 'app_user')]
+    #[Route('', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
-    public function account(): Response
+    public function profile(): Response
     {
         if (!$this->isGranted('ROLE_COMPLETE_USER'))
-            return $this->redirectToRoute("app_edit_userinfo");
+            return $this->redirectToRoute("app_profile_edit");
         
         return $this->render('user/compte.html.twig', [
             // 'roles' => $this->getUser()->getRoles(),
         ]);
     }
 
-    #[Route('/editer', name: 'app_edit_userinfo')]
+    #[Route('/editer', name: 'app_profile_edit')]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $userInfo = $this->getUser()->getUserInfo() == null ? new UserInfo() : $this->getUser()->getUserInfo();
-        $form = $this->createForm(UserInfoType::class, $userInfo);
+        $user = $this->getUser();
+
+        $form = $this->createForm(IndividualDataType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userInfo->setUser($this->getUser());
+            // $user->addRole("ROLE_COMPLETE_USER");
 
-            $entityManager->persist($userInfo);
+            $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_profile');
         }
 
         return $this->render('user/editer.html.twig', [
-            'form' => $form->createView(),
-            // 'debug' => $form->get('userInfo')->getData()
+            'form' => $form->createView()
         ]);
-
-        // return $this->render('user/editer.html.twig', [
-        //     // 'roles' => $this->getUser()->getRoles(),
-        // ]);
     }
 }
