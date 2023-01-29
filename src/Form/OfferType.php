@@ -16,21 +16,17 @@ class OfferType extends AbstractType
         $builder
             ->add('label',TextareaType::class,
             [
-                'disabled' => true,
                 // 'label' => false,
             ])
             ->add('moneyPerHour',TextareaType::class,
             [
-                'disabled' => true,
                 // 'label' => false,
             ])
             ->add('description',TextareaType::class,
             [
-                'disabled' => true,
                 // 'label' => false,
             ])
              ->add('startAt',DateType::class,[
-                'disabled' => true,
                 'placeholder' => 
                 [
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
@@ -40,7 +36,6 @@ class OfferType extends AbstractType
              
              
             ->add('endAt',DateType::class,[
-                'disabled' => true,
                 'placeholder' => 
                 [
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
