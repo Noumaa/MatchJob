@@ -27,7 +27,7 @@ class OfferController extends AbstractController
         */
         $Offers = $doctrine->getRepository(Offer::class)->findAll();
 
-        return $this->render('offres/list.html.twig', 
+        return $this->render('offer/list.html.twig', 
         [
             'Offers' => $Offers,
             'controller_name' => 'Les Offres',
@@ -64,7 +64,7 @@ class OfferController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute("app_listOffer");
         }
-        return $this->render('offres/create.html.twig', 
+        return $this->render('offer/create.html.twig', 
         [
             'Offer' => $form->createView(),
         ]);
@@ -103,7 +103,7 @@ class OfferController extends AbstractController
             }
             
         }
-        return $this->render('offres/create.html.twig', 
+        return $this->render('offer/create.html.twig', 
         [
             'Offer' => $form->createView(),
         ]);
@@ -145,7 +145,7 @@ class OfferController extends AbstractController
 
         $dateInterval = $days . " " . $month . " " . $years . " ";
 
-        return $this->render('offres/detail.html.twig', 
+        return $this->render('offer/detail.html.twig', 
         [
             'oneOffer' => $form->createView(),
             'duration' => $dateInterval,
