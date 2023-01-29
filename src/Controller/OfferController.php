@@ -67,7 +67,7 @@ class OfferController extends AbstractController
             Etat : non fonctionnelle
         */
 
-        if($this->getUser() != null && count($this->getUser()->getRoles()) == 2 && in_array("BUSINESS",$this->getUser()->getRoles()))
+        if($this->getUser() != null && count($this->getUser()->getRoles()) == 2 && in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
         {
             $entityManager = $doctrine->getManager();
             $offer = new Offer();

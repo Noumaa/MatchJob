@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Form\User\BusinessFormType;
+use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
-use App\Form\User\PersonFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,8 +38,8 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
 
-        $formType = in_array("BUSINESS", $user->getRoles()) ? 
-            BusinessFormType::class :
+        $formType = $this->isGranted("ROLE_BUSINESS") ? 
+            BusinessEditFormType::class :
             PersonEditFormType::class;
 
         $form = $this->createForm($formType, $user);
