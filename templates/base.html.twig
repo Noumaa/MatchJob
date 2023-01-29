@@ -65,7 +65,11 @@
                         Contact
                     </a>
                 </div>
-                <a href="{{ path("app_offres_new") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
+                {% if app.user %}
+                    <a href="{{ path("app_profile") }}" class="btn btn-secondary rounded-0 py-4 px-lg-5 d-none d-lg-block">Mon espace<i class="fa fa-arrow-right ms-3"></i></a>
+                {% else %}
+                    <a href="{{ path("app_offres_new") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
+                {% endif %}
             </div>
         </nav>
         <!-- Navbar End -->
