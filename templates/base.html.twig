@@ -1,599 +1,160 @@
-<!doctype html>
-<html class="no-js" lang="zxx">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}MatchJob{% endblock %}</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Place favicon.ico in the root directory -->
-    <link href="{{ asset("assets/images/favicon.ico") }}" type="img/x-icon" rel="shortcut icon">
-    <!-- All css files are included here. -->
-    <link rel="stylesheet" href="{{ asset("assets/css/vendor/bootstrap.min.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets/css/vendor/iconfont.min.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets/css/vendor/helper.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets/css/plugins/plugins.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets/css/style.css") }}">
-    <!-- Modernizr JS -->
-    <script src="{{ asset("assets/js/vendor/modernizr-3.10.0.min.js") }}"></script>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{{ asset("assets/img/favicon.ico") }}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset("assets/lib/animate/animate.min.css") }}" rel="stylesheet">
+    <link href="{{ asset("assets/lib/owlcarousel/assets/owl.carousel.min.css") }}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset("assets/css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset("assets/css/style.css") }}" rel="stylesheet">
 </head>
 
-<body class="template-color-2">
-
-    <div id="main-wrapper" class="bg_image-hv2 section">
-
-        <!--Header section start-->
-        <header class="header-absolute black-logo-version header-sticky sticky-white no-padding d-none d-lg-block pt-25 pb-25">
-            <div class="main-header">
-                <div class="container-fluid pl-90 pl-lg-15 pl-md-15 pr-90 pr-lg-15 pr-md-15">
-                    <div class="row align-items-center g-0">
-
-                        <!--Logo start-->
-                        <div class="col-xl-2 col-lg-2 col-12">
-                            <div class="logo">
-                                <a href="{{ path("app_home") }}"><img src="{{ asset("assets/images/justLogo.png") }}" height="100" alt="MatchJob"></a>
-                            </div>
-                        </div>
-                        <!--Logo end-->
-
-                        <!--Menu start-->
-                        <div class="col-xl-7 col-lg-7 col-12">
-                            <nav class="main-menu">
-                                <ul>
-                                    <li><a href="{{ path("app_home") }}">Accueil</a></li>
-                                    <li><a href="{{ path("app_offres_show_all") }}">Emplois</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <!--Menu end-->
-
-                        <!-- Cart & Search Area Start -->
-                        <div class="col-xl-3 col-lg-3 col-12">
-                            <div class="header-btn-action d-flex justify-content-end">
-                                <div class="btn-action-wrap d-flex">
-                                    <div class="jp-author item">
-                                        <a href="{{ path("app_login") }}">
-                                            <i class="lnr lnr-user"></i>
-                                            <span>Connexion</span>
-                                        </a>
-                                    </div>
-                                    <div class="jp-author-action-two item">
-                                        <a class="ht-btn header-btn"
-                                           href="#quick-view-modal-container"
-                                           data-bs-toggle="modal"
-                                        >
-                                            Poster une offre
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Cart & Search Area End -->
-                    </div>
-
-                </div>
-            </div>
-        </header>
-        <!--Header section end-->
-
-        <!--Header Mobile section start-->
-        <header class="header-mobile bg_color--6 d-block d-lg-none">
-            <div class="header-bottom menu-right">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="header-mobile-navigation d-block d-lg-none">
-                                <div class="row align-items-center">
-                                    <div class="col-3 col-md-3">
-                                        <div class="mobile-navigation text-right">
-                                            <div class="header-icon-wrapper">
-                                                <ul class="icon-list justify-content-start">
-                                                    <li class="popup-mobile-click">
-                                                        <a href="javascript:void(0)"><i class="lnr lnr-menu"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-md-6">
-                                        <div class="header-logo text-center">
-                                            <a href="index.html">
-                                                <img src="{{ asset("assets/images/justLogo.png") }}" class="img-fluid" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    {# <div class="col-3 col-md-3">
-                                        <div class="mobile-navigation text-right">
-                                            <div class="header-icon-wrapper">
-                                                <ul class="icon-list justify-content-end">
-                                                    <li>
-                                                        <div class="header-cart-icon">
-                                                            <a href="#" class="header-search-toggle"><i class="lnr lnr-magnifier"></i></a>
-                                                        </div>
-                                                        <div class="header-search-form">
-                                                            <form action="#">
-                                                                <input type="text" placeholder="Type and hit enter">
-                                                                <button><i class="lnr lnr-magnifier"></i></button>
-                                                            </form>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div> #}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </header>
-        <!--Header Mobile section end-->
-
-        <!-- Start Popup Menu -->
-        <div class="popup-mobile-manu popup-mobile-visiable">
-            <div class="inner">
-                <div class="mobileheader">
-                    <div class="logo">
-                        <a href="index.html">
-                            <img src="{{ asset("assets/images/justLogo.png") }}" style="width: 80px; !important" alt="Multipurpose">
-                        </a>
-                    </div>
-                    <a class="mobile-close" href="#"></a>
-                </div>
-                <div class="menu-content">
-                    <ul class="menulist object-custom-menu">
-                        <li><a href="#"><span>Accueil</span></a></li>
-                        <li><a href="{{ path("app_offres_show_all") }}"><span>Emplois</span></a></li>
-                        <li><a href="#"><span>Se connecter</span></a></li>
-                        <li><a href="#"><span>Poster une offre</span></a></li>
-                    </ul>
-                </div>
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Chargement...</span>
             </div>
         </div>
-        <!-- End Popup Menu -->
+        <!-- Spinner End -->
 
-        <!-- Bottom Navbar Mobile Start -->
-        <div class="bottom-navbar-mobile section d-block d-lg-none">
-            <nav>
-                <ul class="list-actions">
-                    <li>
-                        <a class="toggle-btn active" href="index-2.html">
-                            <span><i class="lnr lnr-home"></i></span>
-                            <span class="text">Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="toggle-btn toggle-btn-js" data-target="#job-list-mobile-id" href="#">
-                            <span><i class="lnr lnr-list"></i></span>
-                            <span class="text">Jobs list</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="login-register.html">
-                            <span><i class="lnr lnr-heart"></i></span>
-                            <span class="text">Save</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="toggle-btn-two toggle-btn-js" data-target="#notifications-mobile-id" href="#">
-                            <span><i class="lnr lnr-alarm"></i></span>
-                            <span class="text">Notifications</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="login-register.html">
-                            <span><i class="lnr lnr-user"></i></span>
-                            <span class="text">Account</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <!-- Bottom Navbar Mobile End -->
 
-        <!-- Bottom Navbar Mobile Popup Start -->
-        <div class="mobile-popup">
-            <div class="job-list-mobile" id="job-list-mobile-id">
-                <div class="heading">
-                    <div class="title">
-                        <i class="lnr lnr-list"></i>
-                        <h3>All Jobs list</h3>
-                    </div>
-                    <a class="view-all" href="#">See all jobs</a>
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+            <a href="{{ path("app_home") }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+                <h1 class="m-0 text-primary">MatchJob</h1>
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto p-4 p-lg-0">
+                    <a href="{{ path("app_home") }}"
+                       class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}">
+                        Accueil
+                    </a>
+                    <a href="{{ path("app_offres_show_all") }}"
+                       class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_offer_list' %}active{% endif %}">
+                        Offres d'emploi
+                    </a>
+                    <a href="#"
+                       class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">
+                        Contact
+                    </a>
                 </div>
-                <div class="content-popup-scroll">
-                    <ul class="list-item">
-                        <li><a href="job-listing.html"><i class="lnr lnr-printer"></i>Accounting </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-film-play"></i>Broadcasting </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-phone"></i>Customer Service </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-bullhorn"></i>Digital Marketing </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-chart-bars"></i>Finance & Accounting </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-smartphone"></i>Game Mobile </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-picture"></i>Graphics & Design </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-home"></i>Graphics & Design </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-database"></i>Medical Doctor </a></li>
-                        <li><a href="job-listing.html"><i class="lnr lnr-dinner"></i>Restaurant </a></li>
-                    </ul>
-                </div>
+                <a href="{{ path("app_offres_new") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
             </div>
-            <div class="notifications-mobile" id="notifications-mobile-id">
-                <div class="heading">
-                    <div class="title">
-                        <i class="lnr lnr-list"></i>
-                        <h3>All Notifications</h3>
-                    </div>
-                    <a class="view-all" href="#">See all jobs</a>
-                </div>
-                <div class="content-popup-scroll">
-                    <ul class="list-item">
-                        <li><a href="login-register.html"><i class="lnr lnr-book"></i><span><b class="highlight">Register now</b> to reach dream jobs easier.</span> </a></li>
-                        <li><a href="job-with-map.html"><i class="lnr lnr-book"></i><span><b class="highlight">Job suggestion</b> you might be interested based on your profile.</span> </a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- Bottom Navbar Mobile Popup End -->
+        </nav>
+        <!-- Navbar End -->
 
-        <!--slider section start-->
-        <div class="hero-section section position-relative">
-            <!--Hero Item start-->
-            <div class="hero-item hero-item-two bg_image-v2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-7">
-
-                            <!--Hero Content start-->
-                            <div class="hero-content-3 left">
-                                <h2 class="title">next stop...</h2>
-                                <h3 class="sub-title">a job you love!</h3>
-                                <p>We have <span class="theme-color">280,000+</span> live jobs adverts on our site, helping you to <br> find any type of job, in any industry, wherever you are based.</p>
-
-                                    <div class="job-search-wrap-two mt-50">
-                                        <div class="job-search-form">
-                                            <form action="#">
-                                                <!-- Single Field Item Start  -->
-                                                <div class="single-field-item keyword">
-                                                    <label for="keyword">What</label>
-                                                    <input id="keyword" placeholder="What jobs you want?" name="keyword" type="text">
-                                                </div>
-                                                <!-- Single Field Item End  -->
-                                                <!-- Single Field Item Start  -->
-                                                <div class="single-field-item location">
-                                                    <label for="location">Where</label>
-                                                    <input id="location" class="input-field input-field-location" placeholder="Location" name="location" type="text">
-                                                    <span class="btn-action-location">
-                                                <i class="far fa-dot-circle"></i>
-                                            </span>
-                                                </div>
-                                                <!-- Single Field Item End  -->
-                                                <div class="submit-btn">
-                                                    <button class="ht-btn" type="submit">Search</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="trending-keywords mt-30">
-                                            <div class="keywords style-two">
-                                                <span class="title">Popular </span>
-                                                <ul>
-                                                    <li><a href="#">Account Manager</a></li>
-                                                    <li><a href="#">Administrative</a></li>
-                                                    <li><a href="#">Android</a></li>
-                                                    <li><a href="#">Angular</a></li>
-                                                    <li><a href="#">app</a></li>
-                                                    <li><a href="#">ASP.NET</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                            </div>
-                            <!--Hero Content end-->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Hero Item end-->
-        </div>
-        <!--slider section end-->
 
         {% block body %}{% endblock %}
+        
 
-        <!--Footer section start-->
-        <footer class="footer-section section bg_color--1">
-
-            <!-- Footer Top Section Start -->
-            <div class="footer-top-section section st-border pt-120 pt-lg-100 pt-md-80 pt-sm-60 pt-xs-50 pb-80 pb-lg-60 pb-md-40 pb-sm-20 pb-xs-15">
-                <div class="container">
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Company</h5>
+                        <a class="btn btn-link text-white-50" href="">About Us</a>
+                        <a class="btn btn-link text-white-50" href="">Contact Us</a>
+                        <a class="btn btn-link text-white-50" href="">Our Services</a>
+                        <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                        <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Quick Links</h5>
+                        <a class="btn btn-link text-white-50" href="">About Us</a>
+                        <a class="btn btn-link text-white-50" href="">Contact Us</a>
+                        <a class="btn btn-link text-white-50" href="">Our Services</a>
+                        <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
+                        <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Contact</h5>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                        <div class="d-flex pt-2">
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Newsletter</h5>
+                        <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                        <div class="position-relative mx-auto" style="max-width: 400px;">
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
                     <div class="row">
-
-                        <div class="col-xl-4 col-lg-3 col-md-6">
-                            <!-- Footer Widget Start -->
-                            <div class="footer-widget mb-30">
-                                <div class="footer-logo">
-                                    <a href="index.html"><img src="{{ asset("assets/images/logo-purple.png") }}" alt=""></a>
-                                </div>
-                                <div class="address">
-                                    <i class="lnr lnr-map-marker"></i>
-                                    <span>8375 E. Heather Drive Tonawanda, Manchester 14150, United Kingdom</span>
-                                </div>
-                                <div class="email">
-                                    <i class="lnr lnr-envelope"></i>
-                                    <span>jopota@recruitment.com</span>
-                                </div>
-                                <div class="phone theme-color fz-17">(+1) 000 987-1234</div>
-                                <div class="footer-social justify-content-start mt-35">
-                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fab fa-instagram"></i></a>
-                                    <a href="#"><i class="fab fa-google"></i></a>
-                                </div>
-                            </div>
-                            <!-- Footer Widget End -->
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">MatchJob</a>, Tous droits réservés. 
+							
+							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                            </br>Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
                         </div>
-
-                        <div class="col-xl-2 col-lg-2 col-md-6">
-                            <!-- Footer Widget Start -->
-                            <div class="footer-widget mb-30">
-                                <h6 class="title">Company</h6>
-                                <div class="footer-widget-link">
-                                    <ul>
-                                        <li><a href="#">Press Corner</a></li>
-                                        <li><a href="#">Policy Privacy</a></li>
-                                        <li><a href="#">Terms And Conditions</a></li>
-                                        <li><a href="#">Partner</a></li>
-                                        <li><a href="#">Help Center</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Footer Widget End -->
-                        </div>
-
-                        <div class="col-xl-2 col-lg-3 col-md-6">
-                            <!-- Footer Widget Start -->
-                            <div class="footer-widget mb-30">
-                                <h6 class="title">Help Center</h6>
-                                <div class="footer-widget-link">
-                                    <ul>
-                                        <li><a href="#">Teachers</a></li>
-                                        <li><a href="#">Accounting</a></li>
-                                        <li><a href="#">Customer Service</a></li>
-                                        <li><a href="#">Digital Marketing</a></li>
-                                        <li><a href="#">Web & Software Dev</a></li>
-                                        <li><a href="#">Science & Analitycs</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Footer Widget End -->
-                        </div>
-
-                        <div class="col-xl-4 col-lg-4 col-md-6">
-                            <!-- Footer Widget Start -->
-                            <div class="footer-widget mb-30">
-                                <h6 class="title">Newsletter</h6>
-                                <div class="newsletter">
-                                    <p>Join our email subscription now to get updates on <strong>new jobs</strong> and <strong>notifications</strong>.</p>
-                                    <div class="newsletter-form">
-                                        <form id="mc-form" class="mc-form">
-                                            <input type="email" placeholder="Enter Your email..." required="" name="EMAIL">
-                                            <button class="ht-btn small-btn" type="submit" value="submit">Subscribe</button>
-                                        </form>
-                                    </div>
-                                    <!-- mailchimp-alerts Start -->
-                                    <div class="mailchimp-alerts">
-                                        <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
-                                        <div class="mailchimp-success"></div><!-- mailchimp-success end -->
-                                        <div class="mailchimp-error"></div><!-- mailchimp-error end -->
-                                    </div>
-                                    <!-- mailchimp-alerts end -->
-                                </div>
-                            </div>
-                            <!-- Footer Widget End -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer Top Section End -->
-
-            <!--Footer bottom start-->
-            <div class="footer-bottom section fb-60">
-                <div class="container">
-                    <div class="row g-0 st-border pt-35 pb-35 align-items-center justify-content-between">
-                        <div class="col-lg-6 col-md-6">
-                            <div class="copyright">
-                                <p>&copy;2022 <a href="https://hasthemes.com/">Jetapo</a>. All rights reserved.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <div class="footer-nav">
-                                <nav>
-                                    <ul>
-                                        <li><a href="#">Find Work</a></li>
-                                        <li><a href="#">Candicates</a></li>
-                                        <li><a href="#">Employers</a></li>
-                                    </ul>
-                                </nav>
+                        <div class="col-md-6 text-center text-md-end">
+                            <div class="footer-menu">
+                                <a href="">Home</a>
+                                <a href="">Cookies</a>
+                                <a href="">Help</a>
+                                <a href="">FQAs</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--Footer bottom end-->
-
-        </footer>
-        <!--Footer section end-->
-
-        <!-- Modal Area Strat -->
-        <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="row g-0">
-
-                                <div class="col-lg-4">
-                                    <div class="login-register-form-area">
-                                        <div class="login-tab-menu">
-                                            <ul class="nav">
-                                                <li><a class="active show" data-bs-toggle="tab" href="#login">Login</a></li>
-                                                <li><a data-bs-toggle="tab" href="#register">Register</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="tab-content">
-                                            <div id="login" class="tab-pane fade show active">
-                                                <div class="login-register-form">
-                                                    <form action="#" method="post">
-                                                        <p>Login to Jotopa with your registered account</p>
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <div class="single-input">
-                                                                    <input type="text" placeholder="Username or Email" name="name">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="single-input">
-                                                                    <input type="password" placeholder="Password" name="password">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="checkbox-input">
-                                                                    <input type="checkbox" name="login-form-remember" id="login-form-remember">
-                                                                    <label for="login-form-remember">Remember me</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 mb-25"><button class="ht-btn">Login</button></div>
-                                                        </div>
-                                                    </form>
-                                                    <div class="divider">
-                                                        <span class="line"></span>
-                                                        <span class="circle">or login with</span>
-                                                    </div>
-                                                    <div class="social-login">
-                                                        <ul class="social-icon">
-                                                            <li><a class="facebook" href="#"><i class="fab fa-facebook"></i></a></li>
-                                                            <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-                                                            <li><a class="linkedin" href="#"><i class="fab fa-linkedin"></i></a></li>
-                                                            <li><a class="google" href="#"><i class="fab fa-google-plus"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="register" class="tab-pane fade">
-                                                <div class="login-register-form">
-                                                    <form action="#" method="post">
-                                                        <p>Create Your account</p>
-                                                        <div class="row row-5">
-                                                            <div class="col-12">
-                                                                <div class="single-input">
-                                                                    <input type="text" placeholder="Your Username" name="name">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="single-input">
-                                                                    <input type="email" placeholder="Your Email Address" name="emain">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="single-input">
-                                                                    <input type="password" placeholder="Password" name="password">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="single-input">
-                                                                    <input type="password" placeholder="Confirm Password" name="conPassword">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="checkbox-input">
-                                                                    <input type="checkbox" name="login-form-candidate" id="login-form-candidate">
-                                                                    <label for="login-form-candidate">I am a candidate</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="checkbox-input">
-                                                                    <input type="checkbox" name="login-form-employer" id="login-form-employer">
-                                                                    <label for="login-form-employer">I am a employer</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="register-account">
-                                                                    <input id="register-terms-conditions" type="checkbox" class="checkbox" checked="" required="">
-                                                                    <label for="register-terms-conditions">I read and agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a></label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 mb-25"><button class="ht-btn">Register</button></div>
-                                                        </div>
-                                                    </form>
-                                                    <div class="divider">
-                                                        <span class="line"></span>
-                                                        <span class="circle">or login with</span>
-                                                    </div>
-                                                    <div class="social-login">
-                                                        <ul class="social-icon">
-                                                            <li><a class="facebook" href="#"><i class="fab fa-facebook"></i></a></li>
-                                                            <li><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-                                                            <li><a class="linkedin" href="#"><i class="fab fa-linkedin"></i></a></li>
-                                                            <li><a class="google" href="#"><i class="fab fa-google-plus"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="login-instruction">
-                                        <div class="login-instruction-content">
-                                            <h3 class="title">Why Login To Us</h3>
-                                            <p>It’s important for you to have an account and login in order to have full access at Jotopa. We need to know your account details in order to allow work together</p>
-                                            <ul class="list-reasons">
-                                                <li class="reason">Be alerted to the latest jobs</li>
-                                                <li class="reason">Apply for jobs with a single click</li>
-                                                <li class="reason">Showcase your CV to thousands of employers</li>
-                                                <li class="reason">Keep a record of all your applications</li>
-                                            </ul>
-                                            <span class="sale-text theme-color border-color">Login today &amp; Get 15% Off Coupon for the first planning purchase</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
-        <!-- Modal Area End -->
+        <!-- Footer End -->
 
 
-        <!-- Placed js at the end of the document so the pages load faster -->
-
-
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- Placed js at the end of the document so the pages load faster -->
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset("assets/lib/wow/wow.min.js") }}"></script>
+    <script src="{{ asset("assets/lib/easing/easing.min.js") }}"></script>
+    <script src="{{ asset("assets/lib/waypoints/waypoints.min.js") }}"></script>
+    <script src="{{ asset("assets/lib/owlcarousel/owl.carousel.min.js") }}"></script>
 
-    <!-- All jquery file included here -->
-    <script src="{{ asset("assets/js/vendor/jquery-3.5.0.min.js") }}"></script>
-    <script src="{{ asset("assets/js/vendor/jquery-migrate-3.1.0.min.js") }}"></script>
-    <script src="{{ asset("assets/js/vendor/bootstrap.bundle.min.js") }}"></script>
-    <script src="{{ asset("assets/js/plugins/plugins.js") }}"></script>
-
-
+    <!-- Template Javascript -->
     <script src="{{ asset("assets/js/main.js") }}"></script>
-
-
-    
-
 </body>
 
 </html>
