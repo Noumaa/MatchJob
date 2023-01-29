@@ -18,7 +18,7 @@
         <div class="col-xl-4 rule">
             {# Photo de profil #}
             <picture>
-                <img src="{{ asset("assets/img/pp_default.png") }}" alt="Photo de profil" class="img-fluid rounded mx-auto d-block">
+                <img src="{{ asset("assets/img/pp/" ~ app.user.profilePicture) }}" alt="Photo de profil" class="img-fluid rounded mx-auto d-block">
             </picture>
             
             {# Résumé #}

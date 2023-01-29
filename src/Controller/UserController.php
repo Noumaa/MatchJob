@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\User\BusinessFormType;
+use App\Form\User\Edit\PersonEditFormType;
 use App\Form\User\PersonFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -29,12 +30,25 @@ class UserController extends AbstractController
 
         $formType = in_array("BUSINESS", $user->getRoles()) ? 
             BusinessFormType::class :
-            PersonFormType::class;
+            PersonEditFormType::class;
 
         $form = $this->createForm($formType, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $image = $form->get('user')['profilePicture']->getData();
+            if (isset($image)) {
+                
+                // Move the file to the directory where files are stored
+                $imageName = md5($user->getEmail()).'.'.$image->guessExtension();
+                $image->move(
+                    $this->getParameter('profile_pictures_directory'),
+                    $imageName
+                );
+    
+                $user->setProfilePicture($imageName);
+            }
 
             $entityManager->persist($user);
             $entityManager->flush();

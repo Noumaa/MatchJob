@@ -47,6 +47,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePicture = null;
+
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
@@ -217,6 +220,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture == null ? ".default.png" : $this->profilePicture;
+    }
+
+    public function setProfilePicture(string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
 
         return $this;
     }
