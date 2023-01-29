@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Form\User\BusinessFormType;
-use App\Form\User\IndividualDataType;
 use App\Form\User\PersonFormType;
-use App\Form\User\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
