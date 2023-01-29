@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Form\User\BusinessFormType;
 use App\Form\User\IndividualDataType;
-use App\Form\User\UserType;
-use App\Repository\UserInfoRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Form\User\PersonFormType;
+use App\Form\User\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,13 +19,8 @@ class UserController extends AbstractController
     #[Route('', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
     public function profile(): Response
-    {
-        if (!$this->isGranted('ROLE_COMPLETE_USER'))
-            return $this->redirectToRoute("app_profile_edit");
-        
-        return $this->render('user/compte.html.twig', [
-            // 'roles' => $this->getUser()->getRoles(),
-        ]);
+    {        
+        return $this->render('user/compte.html.twig');
     }
 
     #[Route('/editer', name: 'app_profile_edit')]
@@ -35,11 +29,14 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
 
-        $form = $this->createForm(IndividualDataType::class, $user);
+        $formType = in_array("BUSINESS", $user->getRoles()) ? 
+            BusinessFormType::class :
+            PersonFormType::class;
+
+        $form = $this->createForm($formType, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $user->addRole("ROLE_COMPLETE_USER");
 
             $entityManager->persist($user);
             $entityManager->flush();
