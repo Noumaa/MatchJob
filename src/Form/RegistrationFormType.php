@@ -18,6 +18,15 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
+
+            // FIXME: maybe need a not blank constraint
+            ->add('address')
+            ->add('zipCode')
+            ->add('city')
+            ->add('country')
+            // TODO: validate (askip)
+            ->add('phone')
+
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -26,6 +35,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
