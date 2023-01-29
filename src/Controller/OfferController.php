@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
+use App\Entity\User;
 use App\Form\OfferType;
 use App\Repository\OfferRepository;
 use DateInterval;
@@ -25,10 +26,29 @@ class OfferController extends AbstractController
             Cette fonction retourne l'ensemble des offres
             Etat : fonctionnelle
         */
-        $Offers = $doctrine->getRepository(Offer::class)->findAll();
-
+        $Offers = $doctrine->getRepository(Offer::class)->findBy(['isArchived' => 0]);
+        // if($this->getUser() == null)
+        // {
+        //     return $this->render('offer/list.html.twig', 
+        //     [
+        //         'isBusiness' => false,
+        //         'Offers' => $Offers,
+        //         'controller_name' => 'Les Offres',
+        //     ]);
+        // }
+        if($this->getUser() != null && in_array("BUSINESS", $this->getUser()->getRoles()))
+        {
+            return $this->render('offer/list.html.twig', 
+            [
+                'isBusiness' => true,
+                'Offers' => $Offers,
+                'controller_name' => 'Les Offres',
+            ]);
+        }
+        //dd($Offers);
         return $this->render('offer/list.html.twig', 
         [
+            'isBusiness' => false,
             'Offers' => $Offers,
             'controller_name' => 'Les Offres',
         ]);
@@ -46,29 +66,32 @@ class OfferController extends AbstractController
 
             Etat : non fonctionnelle
         */
-       
-        $entityManager = $doctrine->getManager();
-        $offer = new Offer();
 
-        $form = $this->createForm(OfferType::class, $offer);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
+        if($this->getUser() != null && count($this->getUser()->getRoles()) == 2 && in_array("BUSINESS",$this->getUser()->getRoles()))
         {
-            $offer->setUser($this->getUser());
-            $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
-            $offer->setCreatedAt(new DateTimeImmutable());
-            $offer = $form->getData();
-            
-            $entityManager->persist($offer);
-            $entityManager->flush();
-            return $this->redirectToRoute("app_listOffer");
-        }
-        return $this->render('offer/create.html.twig', 
-        [
-            'Offer' => $form->createView(),
-        ]);
+            $entityManager = $doctrine->getManager();
+            $offer = new Offer();
 
+            $form = $this->createForm(OfferType::class, $offer);
+            $form->handleRequest($request);
+            
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $offer->setUser($this->getUser());
+                $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
+                $offer->setCreatedAt(new DateTimeImmutable());
+                $offer = $form->getData();
+                
+                $entityManager->persist($offer);
+                $entityManager->flush();
+                return $this->redirectToRoute("app_listOffer");
+            }
+            return $this->render('offer/create.html.twig', 
+            [
+                'Offer' => $form->createView(),
+            ]);
+        }
+        return $this->redirectToRoute("app_listOffer");
     }
 
     #[Route('/offres/edit/{id}', name: 'app_editOffer')]
@@ -142,12 +165,13 @@ class OfferController extends AbstractController
         $years = $duration->format('%Y années');
         $month = $duration->format('%M mois');
         $days = $duration->format('%D jours');
-
         $dateInterval = $days . " " . $month . " " . $years . " ";
 
+        $proOffer = $doctrine->getRepository(User::class)->findOneBy(['id' => $oneOffer->getUser()]);
         return $this->render('offer/detail.html.twig', 
         [
-            'oneOffer' => $form->createView(),
+            'oneOffer' => $oneOffer,
+            'proOffer' => $proOffer,
             'duration' => $dateInterval,
             'controller_name' => $oneOffer->getLabel(),
         ]);
