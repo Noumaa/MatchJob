@@ -34,20 +34,12 @@ class Offer
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Demand::class, orphanRemoval: true)]
-    private Collection $demands;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'offers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    public function __construct()
-    {
-        $this->demands = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -126,32 +118,14 @@ class Offer
         return $this;
     }
 
-    /**
-     * @return Collection<int, Demand>
-     */
-    public function getDemands(): Collection
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->demands;
+        return $this->createdAt;
     }
 
-    public function addDemand(Demand $demand): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        if (!$this->demands->contains($demand)) {
-            $this->demands->add($demand);
-            $demand->setOffer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDemand(Demand $demand): self
-    {
-        if ($this->demands->removeElement($demand)) {
-            // set the owning side to null (unless already changed)
-            if ($demand->getOffer() === $this) {
-                $demand->setOffer(null);
-            }
-        }
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -164,18 +138,6 @@ class Offer
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
