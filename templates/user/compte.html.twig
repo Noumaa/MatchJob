@@ -7,70 +7,83 @@
 <style>
 @media screen and (min-width: 1200px) {
     .rule {
-        padding-right: 100px;
-        border-right: 1px dashed #046E8F;
+        border-right: 1px dashed black;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .rule-right {
+        padding-left: 50px;
     }
 }
 </style>
 
-<div class="container mt-5 px-5">
-    <div class="row">
-        <div class="col-xl-4 rule">
-            {# Photo de profil #}
-            <picture>
-                <img src="{{ asset("assets/img/pp/" ~ app.user.profilePicture) }}" alt="Photo de profil" class="img-fluid rounded mx-auto d-block">
-            </picture>
-            
-            {# Résumé #}
+<div class="row mx-auto">
+    <div class="col-md-4 rule">
+        {# Photo de profil #}
+        <picture>
+            <img src="{{ asset("assets/img/pp/" ~ app.user.profilePicture) }}" alt="Photo de profil" class="mb-3 img-fluid rounded d-block mx-auto">
+        </picture>
+
+        <div class="mb-3 d-grid gap-2">
+            <a class="btn btn-secondary" href="{{ path("app_profile_edit") }}">
+                <i class="bi bi-pencil-square"></i>
+                Modifier le profil
+            </a>
         </div>
-        <div class="col-xl-8">
-                <h4>Prénom : {{app.user.firstName}}</h4>
-                <h4>Nom : {{app.user.lastName}}</h4>
-            {# Toutes les données #}
-        </div>
+        
+        {# Bio #}
+        <p class="mb-1"><span class="fw-bolder">Bio</span></p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste quod dolorem eligendi fuga, hic perspiciatis tenetur ipsa asperiores, ullam, cupiditate possimus! Omnis animi natus quis nulla, beatae velit magnam sint!</p>
     </div>
-    <div class="content">
-       
-        <div class="row">
+    <div class="col-8 rule-right">
+        <h1 class="display-3">{{app.user.firstName}} {{app.user.lastName}}</h1>
+
+        {# Toutes les données #}
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+
         <section class="col-6 mt-5">
-        <h5>Mes demandes</h5>
-        <div class="demands-list">
+            <h5>Mes demandes</h5>
+            <div class="demands-list">
                 <ul class="list-group">
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
-            <label class="form-check-label" for="firstCheckbox">AG2R | Informaticien CDI</label>
-        </li>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckbox">
-            <label class="form-check-label" for="secondCheckbox">DARTY | Caissier</label>
-        </li>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckbox">
-            <label class="form-check-label" for="thirdCheckbox">GSV | Ressources humaines</label>
-        </li>
-        </ul>
-        </div>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
+                        <label class="form-check-label" for="firstCheckbox">AG2R | Informaticien CDI</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckbox">
+                        <label class="form-check-label" for="secondCheckbox">DARTY | Caissier</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckbox">
+                        <label class="form-check-label" for="thirdCheckbox">GSV | Ressources humaines</label>
+                    </li>
+                </ul>
+            </div>
         </section>
+
         <section class="col-6 mt-5">
-        <h5>Mes documents</h5>
-        <div class="demands-list">
+            <h5>Mes documents</h5>
+            <div class="demands-list">
                 <ul class="list-group">
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
-            <label class="form-check-label" for="firstCheckbox">CV</label>
-        </li>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckbox">
-            <label class="form-check-label" for="secondCheckbox">Lettre de motivation</label>
-        </li>
-        <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckbox">
-            <label class="form-check-label" for="thirdCheckbox">Attestation TOEIC</label>
-        </li>
-        </ul>
-        </div>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
+                        <label class="form-check-label" for="firstCheckbox">CV</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckbox">
+                        <label class="form-check-label" for="secondCheckbox">Lettre de motivation</label>
+                    </li>
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckbox">
+                        <label class="form-check-label" for="thirdCheckbox">Attestation TOEIC</label>
+                    </li>
+                </ul>
+            </div>
         </section>
-        </div>
     </div>
 </div>
 
