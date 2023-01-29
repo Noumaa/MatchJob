@@ -19,7 +19,7 @@ class UserFixtures extends Fixture
     }
 
     /**
-     * Cette fonction s'occupe de charger le jeu de données utilisateur initial.
+     * Cette fonction s'occupe de charger le jeu de données utilisateurs initial.
      * Elle contient une matrice @var persons contenant le nom et prénom des particuliers.
      * Un tableau @var businesses quand à lui contient le nom des sociétés.
      * 
@@ -49,7 +49,7 @@ class UserFixtures extends Fixture
         ];
 
         for ($i = 0; $i < sizeof($persons); $i++) {
-            // Creating person accounts
+            // Creating persons accounts
             $user = new User();
 
             $user->setEmail($persons[$i][0].".".$persons[$i][1]."@gmail.com");
@@ -69,7 +69,7 @@ class UserFixtures extends Fixture
         }
 
         for ($i = 0; $i < sizeof($businesses); $i++) {
-            // Creating business accounts
+            // Creating businesses accounts
             $user = new User();
 
             $user->setEmail("contact@".$businesses[$i].".fr");
@@ -87,22 +87,6 @@ class UserFixtures extends Fixture
             $user->addRole("ROLE_BUSINESS");
 
             $manager->persist($user);
-
-            // TODO make OfferFixtures
-            // Creating its offers
-            // for ($i = 0; $i < 2; $i++) {
-            //     $offer = new Offer();
-    
-            //     $offer->setLabel("Emploi n°". $i);
-            //     $offer->setMoneyPerHour(12000);
-            //     $offer->setDescription("Lorem ispum dolor sit amet..");
-            //     $offer->setDuration(new \DateInterval('P2Y4DT6H8M'));
-            //     $offer->setCreatedAt(new \DateTimeImmutable());
-            //     $offer->setUser($user);
-    
-            //     $manager->persist($offer);
-            //     $manager->flush();
-            // }
         }
 
         $manager->flush();
