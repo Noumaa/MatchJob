@@ -56,7 +56,7 @@
                        class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}">
                         Accueil
                     </a>
-                    <a href="{{ path("app_offres_show_all") }}"
+                    <a href="{{ path("app_listOffer") }}"
                        class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_offer_list' %}active{% endif %}">
                         Offres d'emploi
                     </a>
@@ -68,7 +68,7 @@
                 {% if app.user and "BUSINESS" not in app.user.roles %}
                     <a href="{{ path("app_profile") }}" class="btn btn-secondary rounded-0 py-4 px-lg-5 d-none d-lg-block">Mon espace<i class="fa fa-arrow-right ms-3"></i></a>
                 {% else %}
-                    <a href="{{ path("app_offres_new") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
+                    <a href="{{ path("app_createOffer") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
                 {% endif %}
             </div>
         </nav>

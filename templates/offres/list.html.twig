@@ -11,16 +11,16 @@
 <div class="example-wrapper">
     <h1>{{ controller_name }} :</h1>
 </div>
-<a class="btn btn-success" href={{path('app_offres_new')}}>Déposer une offre</a>
+<a class="btn btn-success" href={{path('app_createOffer')}}>Déposer une offre</a>
 <div class="container d-flex flex-row flex-wrap justify-content-center">
 
-{% for uneOffre in lesOffres %}
+{% for oneOffer in Offers %}
 
   <div class="card m-x-3" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">{{uneOffre.label}}</h5>
-      <p class="card-text">{{uneOffre.description}}</p>
-      <a href={{path('app_offres_show_one',{'id':uneOffre.id})}} class="btn btn-primary">Voir l'offre</a>
+      <h5 class="card-title">{{oneOffer.label}}</h5>
+      <p class="card-text">{{oneOffer.description}}</p>
+      <a href={{path('app_detailOffer',{'id':oneOffer.id})}} class="btn btn-primary">Voir l'offre</a>
     </div>
   </div>
 
