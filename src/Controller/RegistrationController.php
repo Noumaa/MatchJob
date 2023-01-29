@@ -28,6 +28,15 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
+    /**
+     * Gère l'inscription d'une entreprise pour le site web.
+     * 
+     * @param Request $request Requête HTTP contenant les données soumises du formulaire
+     * @param UserPasswordHasherInterface $userPasswordHasher Utilisé pour hasher le mot de passe de l'utilisateur
+     * @param EntityManagerInterface $entityManager Gère les opérations de persistance pour les entités de l'application
+     * 
+     * @return Response La réponse HTTP qui peut être une redirection vers la page d'accueil ou une vue qui affiche le formulaire d'inscription
+     */
     #[Route('/pro/inscription', name: 'app_register_business')]
     public function registerBusiness(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -51,6 +60,15 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Gère l'inscription d'un particulier pour le site web.
+     * 
+     * @param Request $request Requête HTTP contenant les données soumises du formulaire
+     * @param UserPasswordHasherInterface $userPasswordHasher Utilisé pour hasher le mot de passe de l'utilisateur
+     * @param EntityManagerInterface $entityManager Gère les opérations de persistance pour les entités de l'application
+     * 
+     * @return Response La réponse HTTP qui peut être une redirection vers la page d'accueil ou une vue qui affiche le formulaire d'inscription
+     */
     #[Route('/inscription', name: 'app_register')]
     public function registerPerson(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -71,6 +89,14 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    /**
+     * Enregistre un nouvel utilisateur en hasheant son mot de passe et en lui envoyant un email de confirmation.
+     * 
+     * @param User $user L'utilisateur à enregistrer
+     * @param Form $form Le formulaire soumis contenant les données de l'utilisateur
+     * @param UserPasswordHasherInterface $hasher L'interface utilisée pour hasher le mot de passe de l'utilisateur
+     * @param EntityManagerInterface $manager Gère les opérations de persistance pour les entités de l'application
+     */
     private function register(User $user, Form $form, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager) {
         // encode the plain password
         $user->setPassword(
@@ -93,6 +119,17 @@ class RegistrationController extends AbstractController
         );
     }
 
+    /**
+     * Vérifie la validité d'un lien de confirmation d'email pour un utilisateur.
+     *
+     * @param Request $request L'instance de requête
+     * @param TranslatorInterface $translator L'interface de traduction
+     * @param UserRepository $userRepository Le repository d'utilisateurs
+     *
+     * @return Response L'instance de réponse
+     *
+     * @throws VerifyEmailExceptionInterface Si la vérification de l'email échoue
+     */
     #[Route('/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
     {
