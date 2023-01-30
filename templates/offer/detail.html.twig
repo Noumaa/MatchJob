@@ -15,7 +15,7 @@
  <!-- Header End -->
         <div class="container-xxl py-5 bg-dark page-header mb-5">
             <div class="container my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">{{ controller_name }}</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">{{oneOffer.label}}</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb text-uppercase">
                         <li class="breadcrumb-item"><a href="{{path('app_home')}}">Home</a></li>
@@ -79,12 +79,12 @@
                         </div>
                         <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
                             <h4 class="mb-4">Informations sur le l'entreprise</h4>
-                            <p class="m-0"><strong>Nom de l'entreprise : </strong><br>{{proOffer.name}}</p>
-                            <p class="m-0"><strong>Adresse :</strong><br>{{proOffer.address}}</p>
-                            <p class="m-0">{{proOffer.city}}, {{proOffer.zipCode}}</p>
-                            <p class="m-0">{{proOffer.country}}</p>
-                            <p class="m-0"><strong>Numéro de téléphone :</strong>{{proOffer.phone}}</p>
-                            <p class="m-0"><strong>SIRET : </strong>{{proOffer.siret}}</p>
+                            <p class="m-0"><strong>Nom de l'entreprise : </strong><br>{{oneOffer.user.name}}</p>
+                            <p class="m-0"><strong>Adresse :</strong><br>{{oneOffer.user.address}}</p>
+                            <p class="m-0">{{oneOffer.user.city}}, {{oneOffer.user.zipCode}}</p>
+                            <p class="m-0">{{oneOffer.user.country}}</p>
+                            <p class="m-0"><strong>Numéro de téléphone :</strong>{{oneOffer.user.phone}}</p>
+                            <p class="m-0"><strong>SIRET : </strong>{{oneOffer.user.siret}}</p>
                         </div>
                     </div>
                 </div>

@@ -27,37 +27,17 @@ class OfferController extends AbstractController
             Etat : fonctionnelle
         */
         $Offers = $doctrine->getRepository(Offer::class)->findBy(['isArchived' => 0]);
-        // if($this->getUser() == null)
-        // {
-        //     return $this->render('offer/list.html.twig', 
-        //     [
-        //         'isBusiness' => false,
-        //         'Offers' => $Offers,
-        //         'controller_name' => 'Les Offres',
-        //     ]);
-        // }
-        if($this->getUser() != null && in_array("BUSINESS", $this->getUser()->getRoles()))
-        {
-            return $this->render('offer/list.html.twig', 
-            [
-                'isBusiness' => true,
-                'Offers' => $Offers,
-                'controller_name' => 'Les Offres',
-            ]);
-        }
-        //dd($Offers);
+
         return $this->render('offer/list.html.twig', 
         [
-            'isBusiness' => false,
             'Offers' => $Offers,
-            'controller_name' => 'Les Offres',
         ]);
     }
 
     
 
-    #[IsGranted("ROLE_USER")]
-    #[Route('offres/deposer-offre', name: 'app_createOffer')]
+    #[IsGranted("ROLE_BUSINESS")]
+    #[Route('pro/deposer-offre', name: 'app_createOffer')]
     public function add(Request $request, ManagerRegistry $doctrine)
     {
         /*
@@ -66,35 +46,32 @@ class OfferController extends AbstractController
 
             Etat : non fonctionnelle
         */
+       
+        $entityManager = $doctrine->getManager();
+        $offer = new Offer();
 
-        if($this->getUser() != null && count($this->getUser()->getRoles()) == 2 && in_array("BUSINESS",$this->getUser()->getRoles()))
+        $form = $this->createForm(OfferType::class, $offer);
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid())
         {
-            $entityManager = $doctrine->getManager();
-            $offer = new Offer();
-
-            $form = $this->createForm(OfferType::class, $offer);
-            $form->handleRequest($request);
+            $offer->setUser($this->getUser());
+            $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
+            $offer->setCreatedAt(new DateTimeImmutable());
+            $offer = $form->getData();
             
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $offer->setUser($this->getUser());
-                $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
-                $offer->setCreatedAt(new DateTimeImmutable());
-                $offer = $form->getData();
-                
-                $entityManager->persist($offer);
-                $entityManager->flush();
-                return $this->redirectToRoute("app_listOffer");
-            }
-            return $this->render('offer/create.html.twig', 
-            [
-                'Offer' => $form->createView(),
-            ]);
+            $entityManager->persist($offer);
+            $entityManager->flush();
+            return $this->redirectToRoute("app_listOffer");
         }
-        return $this->redirectToRoute("app_listOffer");
+        return $this->render('offer/create.html.twig', 
+        [
+            'Offer' => $form->createView(),
+        ]);
+
     }
 
-    #[Route('/offres/edit/{id}', name: 'app_editOffer')]
+    #[Route('pro/edit/{id}', name: 'app_editOffer')]
     public function edit(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         /*
@@ -107,24 +84,15 @@ class OfferController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            if($this->getUser() != null)
-            {
-                
-                $oneOffer->setUser($this->getUser());
-                $oneOffer->setDuration(date_diff($oneOffer->getstartAt(),$oneOffer->getEndAt()));
-                $oneOffer->setCreatedAt(new DateTimeImmutable());
-                $oneOffer = $form->getData();
-                $entityManager->flush();
-                return $this->redirectToRoute("app_detailOffer",
-                [
-                    'id' => $oneOffer->getId()
-                ]);
-            }
-            else
-            {
-                return $this->redirectToRoute("app_listOffer");
-            }
-            
+            $oneOffer->setUser($this->getUser());
+            $oneOffer->setDuration(date_diff($oneOffer->getstartAt(),$oneOffer->getEndAt()));
+            $oneOffer->setCreatedAt(new DateTimeImmutable());
+            $oneOffer = $form->getData();
+            $entityManager->flush();
+            return $this->redirectToRoute("app_detailOffer",
+            [
+                'id' => $oneOffer->getId()
+            ]);
         }
         return $this->render('offer/create.html.twig', 
         [
@@ -140,7 +108,8 @@ class OfferController extends AbstractController
         /*
             Cette fonction a pour but de supprimer une offre de la base de donnée
 
-            Etat : fonctionnelle
+            Etat : fonctionnelle mais il faut l'adapter pour que seul le déposeur puisse le supprimer c'est 
+            à dire isArchived à true
         */
         if($this->getUser() != null)
         {
@@ -160,20 +129,15 @@ class OfferController extends AbstractController
     public function detail(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
-        $form = $this->createForm(OfferType::class,$oneOffer);
         $duration = $oneOffer->getDuration();
         $years = $duration->format('%Y années');
         $month = $duration->format('%M mois');
         $days = $duration->format('%D jours');
         $dateInterval = $days . " " . $month . " " . $years . " ";
-
-        $proOffer = $doctrine->getRepository(User::class)->findOneBy(['id' => $oneOffer->getUser()]);
         return $this->render('offer/detail.html.twig', 
         [
             'oneOffer' => $oneOffer,
-            'proOffer' => $proOffer,
             'duration' => $dateInterval,
-            'controller_name' => $oneOffer->getLabel(),
         ]);
     }
 
