@@ -32,6 +32,40 @@
 </head>
 
 <body>
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+        <a href="{{ path("app_home") }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+            <h1 class="m-0 text-primary">MatchJob</h1>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="{{ path("app_home") }}"
+                    class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}">
+                    Accueil
+                </a>
+                <a href="{{ path("app_listOffer") }}"
+                    class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_offer_list' %}active{% endif %}">
+                    Offres d'emploi
+                </a>
+                <a href="#"
+                    class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">
+                    Contact
+                </a>
+            </div>
+            {% if app.user and "BUSINESS" not in app.user.roles %}
+                <a href="{{ path("app_profile") }}" class="btn btn-secondary rounded-0 py-4 px-lg-5 d-none d-lg-block">Mon espace<i class="fa fa-arrow-right ms-3"></i></a>
+            {% else %}
+                <a href="{{ path("app_createOffer") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
+            {% endif %}
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -40,39 +74,6 @@
             </div>
         </div>
         <!-- Spinner End -->
-
-
-        <!-- Navbar Start -->
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-            <a href="{{ path("app_home") }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                <h1 class="m-0 text-primary">MatchJob</h1>
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="{{ path("app_home") }}"
-                       class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}">
-                        Accueil
-                    </a>
-                    <a href="{{ path("app_listOffer") }}"
-                       class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_offer_list' %}active{% endif %}">
-                        Offres d'emploi
-                    </a>
-                    <a href="#"
-                       class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">
-                        Contact
-                    </a>
-                </div>
-                {% if app.user and "BUSINESS" not in app.user.roles %}
-                    <a href="{{ path("app_profile") }}" class="btn btn-secondary rounded-0 py-4 px-lg-5 d-none d-lg-block">Mon espace<i class="fa fa-arrow-right ms-3"></i></a>
-                {% else %}
-                    <a href="{{ path("app_createOffer") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Poster une offre<i class="fa fa-arrow-right ms-3"></i></a>
-                {% endif %}
-            </div>
-        </nav>
-        <!-- Navbar End -->
 
 
         {% block home %}{% endblock %}
