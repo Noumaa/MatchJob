@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Form\User\BusinessFormType;
+use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
-use App\Form\User\PersonFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,14 +21,25 @@ class UserController extends AbstractController
         return $this->render('user/compte.html.twig');
     }
 
+    /**
+     * Cette fonction gère le formulaire d'édition de l'utilisateur.
+     * Il détermine si l'utilisateur est une entreprise ou une personne et lui renvoie le formulaire adapté. 
+     * Si le formulaire est valide, l'image séléctionné est alors uploadé dans le répertoire désigné et le nom du fichier est attribué à l'utilisateur.
+     * Pour finir, elle renvoie la même vue pour plus amples modifications.
+     * 
+     * @param Request $request - an instance of the Request object that contains the incoming HTTP request
+     * @param EntityManagerInterface $entityManager - an instance of the EntityManager that manages entities and manages the database
+     * 
+     * @return Response - a response object that redirects the user to the profile page or returns a view for the edit form
+     */
     #[Route('/editer', name: 'app_profile_edit')]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
 
-        $formType = in_array("BUSINESS", $user->getRoles()) ? 
-            BusinessFormType::class :
+        $formType = $this->isGranted("ROLE_BUSINESS") ? 
+            BusinessEditFormType::class :
             PersonEditFormType::class;
 
         $form = $this->createForm($formType, $user);
@@ -52,8 +62,6 @@ class UserController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_profile');
         }
 
         return $this->render('user/editer.html.twig', [

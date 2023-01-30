@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
 
             $this->register($user, $form, $userPasswordHasher, $entityManager);
 
-            $user->addRole("BUSINESS");
+            $user->addRole("ROLE_BUSINESS");
             $entityManager->flush();
 
             return $this->redirectToRoute('app_home');
