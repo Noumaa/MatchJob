@@ -71,7 +71,7 @@ class OfferController extends AbstractController
 
     }
 
-    #[Route('pro/offres/edit/{id}', name: 'app_editOffer')]
+    #[Route('pro/offres/modifier/{id}', name: 'app_editOffer')]
     public function edit(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         /*
@@ -108,7 +108,7 @@ class OfferController extends AbstractController
     }
 
     #[IsGranted("ROLE_BUSINESS")]
-    #[Route('/pro/offres/delete/{id}', name: 'app_deleteOffer')]
+    #[Route('/pro/offres/supprimer/{id}', name: 'app_deleteOffer')]
     public function delete(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         /*
@@ -129,7 +129,7 @@ class OfferController extends AbstractController
         
     }
 
-    #[Route('/offres/show/{id}', name: 'app_detailOffer')]
+    #[Route('/offres/detail/{id}', name: 'app_detailOffer')]
     public function detail(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);

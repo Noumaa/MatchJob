@@ -1,95 +1,132 @@
 {% extends 'base.html.twig' %}
-{% block title %}Détails | MatchJob{% endblock %}
+{% block title %}Détails | MatchJob
+{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-{# {{ form_start(oneOffer) }}
-
-    {{ form_label(oneOffer.label) }}
-
-{{ form_end(oneOffer) }} #}
-
-
- <!-- Header End -->
-        <div class="container-xxl py-5 bg-dark page-header mb-5">
-            <div class="container my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">{{oneOffer.label}}</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb text-uppercase">
-                        <li class="breadcrumb-item"><a href="{{path('app_home')}}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{path('app_listOffer')}}">Offres</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Detail</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <!-- Header End -->
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+	{# {{ form_start(oneOffer) }}
+	
+	    {{ form_label(oneOffer.label) }}
+	
+	{{ form_end(oneOffer) }} #}
 
 
-        <!-- Job Detail Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container">
-                <div class="row gy-5 gx-4">
-                    <div class="col-lg-8">
-                        <div class="d-flex align-items-center mb-5">
-                            <img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-2.jpg" alt="" style="width: 80px; height: 80px;">
-                            <div class="text-start ps-4">
-                                <h3 class="mb-3">{{oneOffer.label}}</h3>
-                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>New York, USA</span>
-                                {# <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>Full Time</span> #}
-                                <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{oneOffer.moneyPerHour}} €/h</span>
-                            </div>
-                        </div>
+	<!-- Header End -->
+	<div class="container-xxl py-5 bg-dark page-header mb-5">
+		<div class="container my-5 pt-5 pb-4">
+			<h1 class="display-3 text-white mb-3 animated slideInDown">{{oneOffer.label}}</h1>
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb text-uppercase">
+					<li class="breadcrumb-item">
+						<a href="{{path('app_home')}}">Home</a>
+					</li>
+					<li class="breadcrumb-item">
+						<a href="{{path('app_listOffer')}}">Offres</a>
+					</li>
+					<li class="breadcrumb-item text-white active" aria-current="page">Detail</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+	<!-- Header End -->
 
-                        <div class="mb-5">
-                            <h4 class="mb-3">Description</h4>
-                            <p>{{oneOffer.description}}</p>
-                            {# <h4 class="mb-3">Responsibility</h4>
-                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                            </ul>
-                            <h4 class="mb-3">Qualifications</h4>
-                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                            </ul> #}
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-4">
-                        <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Résumé</h4>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Déposé le : {{oneOffer.createdAt | date("m/d/Y")}}</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Date de début : {{oneOffer.startAt | date("m/d/Y")}}</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Date de fin : {{oneOffer.endAt | date("m/d/Y")}}</p>
-                            {# <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: 123 Position</p> #}
-                            {# <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: Full Time</p> #}
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
-                        </div>
-                        <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Informations sur le l'entreprise</h4>
-                            <p class="m-0"><strong>Nom de l'entreprise : </strong><br>{{oneOffer.user.name}}</p>
-                            <p class="m-0"><strong>Adresse :</strong><br>{{oneOffer.user.address}}</p>
-                            <p class="m-0">{{oneOffer.user.city}}, {{oneOffer.user.zipCode}}</p>
-                            <p class="m-0">{{oneOffer.user.country}}</p>
-                            <p class="m-0"><strong>Numéro de téléphone :</strong>{{oneOffer.user.phone}}</p>
-                            <p class="m-0"><strong>SIRET : </strong>{{oneOffer.user.siret}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Job Detail End -->
+
+	<!-- Job Detail Start -->
+	<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+		<div class="container">
+			<div class="row gy-5 gx-4">
+				<div class="col-lg-8">
+					<div class="d-flex align-items-center mb-5">
+						<img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-2.jpg" alt="" style="width: 80px; height: 80px;">
+						<div class="text-start ps-4">
+							<h3 class="mb-3">{{oneOffer.label}}</h3>
+							<span class="text-truncate me-3">
+								<i class="fa fa-map-marker-alt text-primary me-2"></i>New York, USA</span>
+							{# <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>Full Time</span> #}
+							<span class="text-truncate me-0">
+								<i class="far fa-money-bill-alt text-primary me-2"></i>
+								{{oneOffer.moneyPerHour}}
+								€/h</span>
+						</div>
+					</div>
+
+					<div class="mb-5">
+						<h4 class="mb-3">Description</h4>
+						<p>{{oneOffer.description}}</p>
+						{# <h4 class="mb-3">Responsibility</h4>
+						                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
+						                            <ul class="list-unstyled">
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+						                            </ul>
+						                            <h4 class="mb-3">Qualifications</h4>
+						                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
+						                            <ul class="list-unstyled">
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+						                            </ul> #}
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
+						<h4 class="mb-4">Résumé</h4>
+						<p>
+							<i class="fa fa-angle-right text-primary me-2"></i>Déposé le :
+							{{oneOffer.createdAt | date("m/d/Y")}}</p>
+						<p>
+							<i class="fa fa-angle-right text-primary me-2"></i>Date de début :
+							{{oneOffer.startAt | date("m/d/Y")}}</p>
+						<p>
+							<i class="fa fa-angle-right text-primary me-2"></i>Date de fin :
+							{{oneOffer.endAt | date("m/d/Y")}}</p>
+						{# <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: 123 Position</p> #}
+						{# <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: Full Time</p> #}
+						<p>
+							<i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
+					</div>
+					<div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
+						<h4 class="mb-4">Informations sur le l'entreprise</h4>
+						<p class="m-0">
+							<strong>Nom de l'entreprise :
+							</strong><br>{{oneOffer.user.name}}</p>
+						<p class="m-0">
+							<strong>Adresse :</strong><br>{{oneOffer.user.address}}</p>
+						<p class="m-0">{{oneOffer.user.city}},
+							{{oneOffer.user.zipCode}}</p>
+						<p class="m-0">{{oneOffer.user.country}}</p>
+						<p class="m-0">
+							<strong>Numéro de téléphone :</strong>
+							{{oneOffer.user.phone}}</p>
+						<p class="m-0">
+							<strong>SIRET :
+							</strong>
+							{{oneOffer.user.siret}}</p>
+					</div>
+				</div>
+				<div class="col-12">
+					<button class="btn btn-primary w-20"><a style="color:white" href="{{path('app_newDemand',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Job Detail End -->
 
 {% endblock %}
+
