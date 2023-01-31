@@ -6,7 +6,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
-use App\Entity\Offer;
 
 class UserFixtures extends Fixture
 {
@@ -64,6 +63,8 @@ class UserFixtures extends Fixture
 
             $password = $this->hasher->hashPassword($user, $persons[$i][0]);
             $user->setPassword($password);
+
+            $user->addRole("ROLE_PERSON");
 
             $manager->persist($user);
         }
