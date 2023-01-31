@@ -77,29 +77,34 @@ class OfferController extends AbstractController
         /*
             Cette fonction a pour but de modifier une offre
 
-            Etat : non fonctionnelle
+            Etat : fonctionnelle
         */
-        $entityManager = $doctrine->getManager();
-        $form = $this->createForm(OfferType::class, $oneOffer);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
+        if($this->getUser() == $oneOffer->getUser())
         {
-            $oneOffer->setUser($this->getUser());
-            $oneOffer->setDuration(date_diff($oneOffer->getstartAt(),$oneOffer->getEndAt()));
-            $oneOffer->setCreatedAt(new DateTimeImmutable());
-            $oneOffer = $form->getData();
-            $entityManager->flush();
-            return $this->redirectToRoute("app_detailOffer",
-            [
-                'id' => $oneOffer->getId()
-            ]);
+            if($oneOffer->IsArchived() == false)
+            {
+                $entityManager = $doctrine->getManager();
+                $form = $this->createForm(OfferType::class, $oneOffer);
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid())
+                {
+                    $oneOffer->setUser($this->getUser());
+                    $oneOffer->setDuration(date_diff($oneOffer->getstartAt(),$oneOffer->getEndAt()));
+                    $oneOffer->setCreatedAt(new DateTimeImmutable());
+                    $oneOffer = $form->getData();
+                    $entityManager->flush();
+                    return $this->redirectToRoute("app_detailOffer",
+                    [
+                        'id' => $oneOffer->getId()
+                    ]);
+                }
+                return $this->render('offer/create.html.twig', 
+                [
+                    'Offer' => $form->createView(),
+                ]);
+            }
         }
-        return $this->render('offer/create.html.twig', 
-        [
-            'Offer' => $form->createView(),
-        ]);
-        
-        
+        return $this->redirectToRoute("app_listOffer");
     }
 
     #[IsGranted("ROLE_BUSINESS")]
@@ -119,10 +124,8 @@ class OfferController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute('app_listOffer');
         }
-        else
-        {
-            return $this->redirectToRoute('app_listOffer');
-        }
+        return $this->redirectToRoute('app_listOffer');
+        
         
     }
 
