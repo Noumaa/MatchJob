@@ -102,19 +102,20 @@ class OfferController extends AbstractController
         
     }
 
-    #[Route('/offres/delete/{id}', name: 'app_deleteOffer')]
+    #[IsGranted("ROLE_BUSINESS")]
+    #[Route('/pro/delete/{id}', name: 'app_deleteOffer')]
     public function delete(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         /*
             Cette fonction a pour but de supprimer une offre de la base de donnée
 
-            Etat : fonctionnelle mais il faut l'adapter pour que seul le déposeur puisse le supprimer c'est 
-            à dire isArchived à true
+            Etat : fonctionnelle
         */
-        if($this->getUser() != null)
+        if($oneOffer->getUser() == $this->getUser())
         {
             $manager = $doctrine->getManager();
-            $manager->remove($oneOffer);
+            $oneOffer->setIsArchived(true);
+            $manager->persist($oneOffer);
             $manager->flush();
             return $this->redirectToRoute('app_listOffer');
         }
