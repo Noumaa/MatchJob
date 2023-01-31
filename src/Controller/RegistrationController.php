@@ -80,6 +80,9 @@ class RegistrationController extends AbstractController
 
             $this->register($user, $form, $userPasswordHasher, $entityManager);
 
+            $user->addRole("ROLE_PERSON");
+            $entityManager->flush();
+
             return $this->redirectToRoute('app_home');
         }
 
