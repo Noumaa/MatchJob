@@ -71,7 +71,7 @@ class OfferController extends AbstractController
 
     }
 
-    #[Route('pro/edit/{id}', name: 'app_editOffer')]
+    #[Route('pro/offres/edit/{id}', name: 'app_editOffer')]
     public function edit(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         /*
@@ -108,7 +108,7 @@ class OfferController extends AbstractController
     }
 
     #[IsGranted("ROLE_BUSINESS")]
-    #[Route('/pro/delete/{id}', name: 'app_deleteOffer')]
+    #[Route('/pro/offres/delete/{id}', name: 'app_deleteOffer')]
     public function delete(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
         /*

@@ -44,6 +44,14 @@ class Offer
     #[ORM\Column]
     private ?bool $isArchived = false;
 
+    #[ORM\OneToMany(mappedBy: 'idOffer', targetEntity: Demands::class, orphanRemoval: true)]
+    private Collection $demands;
+
+    public function __construct()
+    {
+        $this->demands = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +161,36 @@ class Offer
     public function setIsArchived(bool $isArchived): self
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demands>
+     */
+    public function getDemands(): Collection
+    {
+        return $this->demands;
+    }
+
+    public function addDemand(Demands $demand): self
+    {
+        if (!$this->demands->contains($demand)) {
+            $this->demands->add($demand);
+            $demand->setIdOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemand(Demands $demand): self
+    {
+        if ($this->demands->removeElement($demand)) {
+            // set the owning side to null (unless already changed)
+            if ($demand->getIdOffer() === $this) {
+                $demand->setIdOffer(null);
+            }
+        }
 
         return $this;
     }

@@ -81,9 +81,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
+    #[ORM\OneToMany(mappedBy: 'idIndividual', targetEntity: Demands::class)]
+    private Collection $demands;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+        $this->demands = new ArrayCollection();
     }
 
 
@@ -344,6 +348,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateOfBirth(\DateTimeInterface $dateOfBirth): self
     {
         $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Demands>
+     */
+    public function getDemands(): Collection
+    {
+        return $this->demands;
+    }
+
+    public function addDemand(Demands $demand): self
+    {
+        if (!$this->demands->contains($demand)) {
+            $this->demands->add($demand);
+            $demand->setIdIndividual($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemand(Demands $demand): self
+    {
+        if ($this->demands->removeElement($demand)) {
+            // set the owning side to null (unless already changed)
+            if ($demand->getIdIndividual() === $this) {
+                $demand->setIdIndividual(null);
+            }
+        }
 
         return $this;
     }
