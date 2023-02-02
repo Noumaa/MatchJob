@@ -10,12 +10,15 @@ use App\Entity\User;
 class UserFixtures extends Fixture
 {
 
+    //public const USERS_REFERENCE = 'users';
     private $hasher;
+    public static $users = [];
 
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;
     }
+
 
     /**
      * Cette fonction s'occupe de charger le jeu de données utilisateurs initial.
@@ -85,11 +88,12 @@ class UserFixtures extends Fixture
             $password = $this->hasher->hashPassword($user, $businesses[$i]);
             $user->setPassword($password);
 
-            $user->addRole("ROLE_BUSINESS");
-
+            $user->addRole("ROLE_BUSINESS"); 
+            self::$users[] = $user;
             $manager->persist($user);
         }
-
+        //$this->addReference(self::USERS_REFERENCE, $this->users);
         $manager->flush();
     }
+    
 }

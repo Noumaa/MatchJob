@@ -14,6 +14,6 @@ class Kernel extends BaseKernel
         parent::boot();
         // FIXME
         date_default_timezone_set("Europe/Madrid");
-        locale_set_default("fr");
+        //locale_set_default("fr");
     }
 }
