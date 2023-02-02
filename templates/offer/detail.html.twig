@@ -47,7 +47,7 @@
 			<div class="row gy-5 gx-4">
 				<div class="col-lg-8">
 					<div class="d-flex align-items-center mb-5">
-						<img class="flex-shrink-0 img-fluid border rounded" src="img/com-logo-2.jpg" alt="" style="width: 80px; height: 80px;">
+						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/img/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
 						<div class="text-start ps-4">
 							<h3 class="mb-3">{{oneOffer.label}}</h3>
 							<span class="text-truncate me-3">
@@ -123,6 +123,14 @@
 				<div class="col-12">
 					<button class="btn btn-primary w-20"><a style="color:white" href="{{path('app_newDemand',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
 				</div>
+
+				{% if message is defined %}
+					<div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Erreur !</strong> {{message}}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endif %}
+
 			</div>
 		</div>
 	</div>

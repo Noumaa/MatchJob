@@ -19,7 +19,6 @@
         
     {% endif %} #}
 
-    <a class="btn btn-primary py-3 px-5" href={{path('app_createOffer')}}>Déposer une offre</a>
 	<div
 		class="container d-flex flex-row flex-wrap justify-content-center">
 
@@ -27,6 +26,9 @@
 		<!-- Jobs Start -->
 		<div class="container-xxl py-5">
 			<div class="container">
+			<div class="mt-2 ml-2">
+				<a class="btn btn-primary py-3 px-5" href={{path('app_createOffer')}}>Déposer une offre</a>
+			</div>
 				<h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Les offres</h1>
 				<div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
 					<ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">

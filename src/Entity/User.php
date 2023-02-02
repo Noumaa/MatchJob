@@ -402,7 +402,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->demands->contains($demand)) {
             $this->demands->add($demand);
-            $demand->setIdIndividual($this);
+            $demand->setIndividual($this);
         }
 
         return $this;
@@ -412,8 +412,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->demands->removeElement($demand)) {
             // set the owning side to null (unless already changed)
-            if ($demand->getIdIndividual() === $this) {
-                $demand->setIdIndividual(null);
+            if ($demand->getIndividual() === $this) {
+                $demand->setIndividual(null);
             }
         }
 

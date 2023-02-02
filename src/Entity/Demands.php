@@ -3,24 +3,25 @@
 namespace App\Entity;
 
 use App\Repository\DemandsRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 #[ORM\Entity(repositoryClass: DemandsRepository::class)]
+#[UniqueEntity(fields: ['Individual', 'Offer'], message: 'Vous avez déjà déposé votre candidature !')]
 class Demands
 {
-    //#[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'demands')]
-    private ?User $idIndividual = null;
+    private ?User $Individual = null;
 
     #[ORM\ManyToOne(inversedBy: 'demands')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Offer $idOffer = null;
+    private ?Offer $Offer = null;
 
 
     #[ORM\Column(type:"datetime", name:"date_add")]
@@ -36,26 +37,26 @@ class Demands
         return $this->id;
     }
 
-    public function getIdIndividual(): ?User
+    public function getIndividual(): ?User
     {
-        return $this->idIndividual;
+        return $this->Individual;
     }
 
-    public function setIdIndividual(?User $idIndividual): self
+    public function setIndividual(?User $Individual): self
     {
-        $this->idIndividual = $idIndividual;
+        $this->Individual = $Individual;
 
         return $this;
     }
 
-    public function getIdOffer(): ?Offer
+    public function getOffer(): ?Offer
     {
-        return $this->idOffer;
+        return $this->Offer;
     }
 
-    public function setIdOffer(?Offer $idOffer): self
+    public function setOffer(?Offer $Offer): self
     {
-        $this->idOffer = $idOffer;
+        $this->Offer = $Offer;
 
         return $this;
     }

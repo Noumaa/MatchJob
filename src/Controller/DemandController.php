@@ -17,25 +17,33 @@ class DemandController extends AbstractController
     #[IsGranted("ROLE_USER")]
     #[Route('/deposer-candidature/{id}', name: 'app_newDemand')]
     public function apply(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
-    {
+    { 
         $entityManager = $doctrine->getManager();
-        $user = $this->getUser();
-        $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
         if(in_array("ROLE_BUSINESS", $this->getUser()->getRoles()))
         {
             return $this->redirectToRoute("app_listOffer");
         }
-        $demand = new Demands();
-        $demand->setIdOffer($oneOffer);
-        $demand->setIdIndividual($user);
-        $demand->setDateAdd(new DateTimeImmutable());
-        $demand->setDateUpdate(new DateTimeImmutable());
-        $entityManager->persist($demand);
-        $entityManager->flush();
-        return $this->redirectToRoute("app_profile");
-        // return $this->render('demand/index.html.twig', 
-        // [
-        //     'controller_name' => 'DemandController',
-        // ]);
+        $user = $this->getUser();
+        $NbDemandsOneOffer = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $user->getId(), "Offer" => $oneOffer->getId()]);
+        if(empty($NbDemandsOneOffer))
+        {
+            $demand = new Demands();
+            $demand->setOffer($oneOffer);
+            $demand->setIndividual($user);
+            $demand->setDateAdd(new DateTimeImmutable());
+            $demand->setDateUpdate(new DateTimeImmutable());
+            $entityManager->persist($demand);
+            $entityManager->flush();
+            return $this->redirectToRoute("app_listOffer");
+        }
+        else
+        {
+            $message = "Vous avez déjà déposé votre candidature !";
+            return $this->render('offer/detail.html.twig', 
+            [
+                'oneOffer' => $oneOffer,
+                'message' => $message,
+            ]);
+        }
     }
 }
