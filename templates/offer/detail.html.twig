@@ -120,13 +120,40 @@
 							{{oneOffer.user.siret}}</p>
 					</div>
 				</div>
-				<div class="col-12">
-					<button class="btn btn-primary w-20"><a style="color:white" href="{{path('app_newDemand',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary col-lg-3 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModal">Déposer sa candidature</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Déposer sa candidature</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Voulez-vous vraiment déposer votre candidature ?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+						<button type="button" class="btn btn-primary"><a style="color:white" href="{{path('app_newDemand',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
+					</div>
+					</div>
+				</div>
 				</div>
 
-				{% if message is defined %}
+				{# <div class="col-12">
+					<button class="btn btn-primary w-20"><a style="color:white" href="{{path('app_newDemand',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
+				</div> #}
+				{% if messageTrue is defined %}
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+						<strong>Confirmé !</strong> {{messageTrue}}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endif %}
+				{% if messageFalse is defined %}
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<strong>Erreur !</strong> {{message}}
+						<strong>Erreur !</strong> {{messageFalse}}
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 				{% endif %}

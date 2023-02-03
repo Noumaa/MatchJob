@@ -34,15 +34,20 @@ class DemandController extends AbstractController
             $demand->setDateUpdate(new DateTimeImmutable());
             $entityManager->persist($demand);
             $entityManager->flush();
-            return $this->redirectToRoute("app_listOffer");
+            $messageTrue = "La candidature a bien été déposé.";
+            return $this->render('offer/detail.html.twig', 
+            [
+                'messageTrue' => $messageTrue,
+                'oneOffer' => $oneOffer,
+            ]);
         }
         else
         {
-            $message = "Vous avez déjà déposé votre candidature !";
+            $messageFalse = "Vous avez déjà déposé votre candidature !";
             return $this->render('offer/detail.html.twig', 
             [
                 'oneOffer' => $oneOffer,
-                'message' => $message,
+                'messageFalse' => $messageFalse,
             ]);
         }
     }
