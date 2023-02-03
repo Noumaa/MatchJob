@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Demands;
 use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,9 +18,18 @@ class UserController extends AbstractController
 {
     #[Route('', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
-    public function profile(): Response
+    public function profile(ManagerRegistry $doctrine): Response
     {        
-        return $this->render('user/compte.html.twig');
+        $demands = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $this->getUser()->getId()]);
+        if(!in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
+        {
+            
+            return $this->render('user/compte.html.twig',
+            [
+                'demands' => $demands,
+            ]);
+        }
+        //return $this->render('user/compte.html.twig');
     }
 
     /**
