@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230203162018 extends AbstractMigration
+final class Version20230203182249 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,7 @@ final class Version20230203162018 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE demand_status (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, label VARCHAR(255) NOT NULL)');
         $this->addSql('CREATE TABLE demands (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, individual_id INTEGER DEFAULT NULL, offer_id INTEGER NOT NULL, date_add DATETIME NOT NULL, date_update DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT FK_D24062F4AE271C0D FOREIGN KEY (individual_id) REFERENCES user (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_D24062F453C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_D24062F4AE271C0D ON demands (individual_id)');
         $this->addSql('CREATE INDEX IDX_D24062F453C674EE ON demands (offer_id)');
@@ -50,6 +51,7 @@ final class Version20230203162018 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('DROP TABLE demand_status');
         $this->addSql('DROP TABLE demands');
         $this->addSql('DROP TABLE offer');
         $this->addSql('DROP TABLE resume');

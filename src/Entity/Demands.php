@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DemandsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -31,6 +33,15 @@ class Demands
     #[ORM\Column(type:"datetime", options:["default" => "CURRENT_TIMESTAMP"], name:"date_update")]
     
     private ?\DateTimeInterface $date_update = null;
+
+    #[ORM\OneToMany(mappedBy: 'Demand', targetEntity: DemandStatusChange::class, orphanRemoval: true)]
+    private Collection $demandStatusChanges;
+
+
+    public function __construct()
+    {
+        $this->demandStatusChanges = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -83,6 +94,36 @@ class Demands
     public function setDateUpdate(\DateTimeInterface $date_update): self
     {
         $this->date_update = $date_update;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DemandStatusChange>
+     */
+    public function getDemandStatusChanges(): Collection
+    {
+        return $this->demandStatusChanges;
+    }
+
+    public function addDemandStatusChange(DemandStatusChange $demandStatusChange): self
+    {
+        if (!$this->demandStatusChanges->contains($demandStatusChange)) {
+            $this->demandStatusChanges->add($demandStatusChange);
+            $demandStatusChange->setDemand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandStatusChange(DemandStatusChange $demandStatusChange): self
+    {
+        if ($this->demandStatusChanges->removeElement($demandStatusChange)) {
+            // set the owning side to null (unless already changed)
+            if ($demandStatusChange->getDemand() === $this) {
+                $demandStatusChange->setDemand(null);
+            }
+        }
 
         return $this;
     }
