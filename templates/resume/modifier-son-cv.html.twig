@@ -1,20 +1,151 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ResumeController!{% endblock %}
+{% block title %}Modifier son CV{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="container pt-5">
+    
+    <h1>dcp ca c'est ton cv stv lchanger et tt</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/Windows/Documents/GitHub/MatchJob/src/Controller/ResumeController.php'|file_link(0) }}">src/Controller/ResumeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/Windows/Documents/GitHub/MatchJob/templates/resume/index.html.twig'|file_link(0) }}">templates/resume/index.html.twig</a></code></li>
-    </ul>
+    <hr>
+
+    <h4>ici les emplois précedemments obtenu par le passé notamment:</h4>
+    {% for experience in experiences %}
+
+        {{ experience.label }} •
+
+        {% if experience.business %}
+
+            <a href={{ url("app_profile") }}>
+                {{ experience.business.name }}
+            </a>
+
+        {% else %}
+
+            {{ experience.location }}
+
+        {% endif %}
+
+        <ul>
+            <li>De {{ experience.startedAt|date("F Y", false) }}</li>
+            <li>
+                à
+                {% if experience.endedAt %}
+                    {{ experience.endedAt|date("F Y", false) }}
+                {% else %}
+                    Aujourd'hui
+                {% endif %}
+            </li>
+        </ul>
+
+    {% else %}
+
+        <p>ah bah va falloir slancer mon vieux</p>
+
+    {% endfor %}
+
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Ajouter une expérience profesionnelle
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    
+                    <form action="{{ url ('app_resume_experience_add') }}" method="post">
+                        {{ form_rest(add_experience) }}
+                        <input type="submit" value="lesgo">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h4>et maintenant les formations hihi:</h4>
+    {% for course in courses %}
+
+        {{ course.label }} • {{ course.location }}
+
+        <ul>
+            <li>De {{ course.startedAt|date("F Y", false) }}</li>
+            <li>
+                à
+                {% if course.endedAt %}
+                    {{ course.endedAt|date("F Y", false) }}
+                {% else %}
+                    Aujourd'hui
+                {% endif %}
+            </li>
+        </ul>
+
+    {% else %}
+
+        <p>pas très cultivé lgamin</p>
+
+    {% endfor %}
+
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Ajouter une formation
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    
+                    <form action="{{ url ('app_resume_course_add') }}" method="post">
+                        {{ form_rest(add_course) }}
+                        <input type="submit" value="lesgo">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h4>y'a les coméptences;</h4>
+
+        {% if skills %}
+            <ul>
+                {% for skill in skills %}
+                        <li>
+                            {{ skill.label }}
+                        </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>mdrr il a rien tellement y sais r faire en + il est moche</p>
+        {% endif %}
+
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                    Ajouter une compétence
+                </button>
+            </h2>
+            <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    
+                    <form action="{{ url ('app_resume_skill_add') }}" method="post">
+                        {{ form_rest(add_skill) }}
+                        <input type="submit" value="lesgo">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
 {% endblock %}
