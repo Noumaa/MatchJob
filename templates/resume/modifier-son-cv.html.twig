@@ -4,13 +4,13 @@
 
 {% block body %}
 
-<div class="container pt-5">
-    
-    <h1>dcp ca c'est ton cv stv lchanger et tt</h1>
+<div class="container">
+
+    <h1>{{ app.user.firstName }} {{ app.user.lastName }}</h1>
 
     <hr>
 
-    <h4>ici les emplois précedemments obtenu par le passé notamment:</h4>
+    <h2>Experiences professionnelles</h2>
     {% for experience in experiences %}
 
         {{ experience.label }} •
@@ -41,33 +41,40 @@
 
     {% else %}
 
-        <p>ah bah va falloir slancer mon vieux</p>
+        <p>Aucune expérience.</p>
 
     {% endfor %}
 
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                    Ajouter une expérience profesionnelle
-                </button>
-            </h2>
-            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    
-                    <form action="{{ url ('app_resume_experience_add') }}" method="post">
-                        {{ form_rest(add_experience) }}
-                        <input type="submit" value="lesgo">
-                    </form>
+    <button type="button" class="button btn-primary" data-bs-toggle="modal" data-bs-target="#add_experience">Ajouter une expérience</button>
 
-                </div>
+    <!-- Modal -->
+    <div class="modal fade" id="add_experience" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_experienceLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form class="mb-0" action="{{ url ('app_resume_experience_add') }}" method="post">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="add_experienceLabel">Ajouter une expérience</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_rest(add_experience) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <input type="submit" class="btn btn-primary" value="Ajouter">
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
 
     <hr>
 
-    <h4>et maintenant les formations hihi:</h4>
+    <h2>Formations</h2>
     {% for course in courses %}
 
         {{ course.label }} • {{ course.location }}
@@ -86,62 +93,80 @@
 
     {% else %}
 
-        <p>pas très cultivé lgamin</p>
+        <p>Aucune formation.</p>
 
     {% endfor %}
 
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                    Ajouter une formation
-                </button>
-            </h2>
-            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    
-                    <form action="{{ url ('app_resume_course_add') }}" method="post">
-                        {{ form_rest(add_course) }}
-                        <input type="submit" value="lesgo">
-                    </form>
+    <button type="button" class="button btn-primary" data-bs-toggle="modal" data-bs-target="#add_course">Ajouter une formation</button>
 
-                </div>
+    <!-- Modal -->
+    <div class="modal fade" id="add_course" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_courseLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form class="mb-0" action="{{ url ('app_resume_course_add') }}" method="post">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="add_courseLabel">Ajouter une formation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_rest(add_course) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <input type="submit" class="btn btn-primary" value="Ajouter">
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
 
     <hr>
 
-    <h4>y'a les coméptences;</h4>
+    <h2>Compétences</h2>
 
-        {% if skills %}
-            <ul>
-                {% for skill in skills %}
-                        <li>
-                            {{ skill.label }}
-                        </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>mdrr il a rien tellement y sais r faire en + il est moche</p>
-        {% endif %}
+    {% if skills is not empty %}
 
-    <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingFour">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
-                    Ajouter une compétence
-                </button>
-            </h2>
-            <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
-                    
-                    <form action="{{ url ('app_resume_skill_add') }}" method="post">
+        <ul>
+            {% for skill in skills %}
+                <li>
+                    {{ skill.label }}
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+
+        <p>Aucune compétence.</p>
+
+    {% endif %}
+
+    <button type="button" class="button btn-primary" data-bs-toggle="modal" data-bs-target="#add_skill">Ajouter une compétence</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add_skill" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add_skillLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form class="mb-0" action="{{ url ('app_resume_skill_add') }}" method="post">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="add_skillLabel">Ajouter une formation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         {{ form_rest(add_skill) }}
-                        <input type="submit" value="lesgo">
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <input type="submit" class="btn btn-primary" value="Ajouter">
+                    </div>
 
-                </div>
+                </form>
+
             </div>
         </div>
     </div>
