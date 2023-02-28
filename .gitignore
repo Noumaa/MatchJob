@@ -57,3 +57,6 @@ var/data.db
 
 **/public/assets/img/pp/**
 !**/public/assets/img/pp/.default.png
+
+.vscode/
+.idea/

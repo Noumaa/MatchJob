@@ -45,7 +45,7 @@
 
 <br>
 
-## :dart: About ##
+## :dart: A propos ##
 
 Trouvez l'emploi de vos rêves
 
@@ -54,6 +54,11 @@ Trouvez l'emploi de vos rêves
 :heavy_check_mark: S'inscrire;\
 :heavy_check_mark: Se connecter;\
 :heavy_check_mark: Fixer la page d'accueil pendant des heures !;
+
+## :sparkles: A faire ##
+
+- [ ] A faire
+- [x] Fait
 
 ## :rocket: Technologies ##
 
