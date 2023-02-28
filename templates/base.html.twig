@@ -1,166 +1,383 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html dir="ltr" lang="en-US">
 <head>
-    <meta charset="utf-8">
-    <title>{% block title %}MatchJob{% endblock %}</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="{{ asset("assets/img/favicon.ico") }}" rel="icon">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Poppins:300,400,500,600,700|PT+Serif:400,400i&display=swap" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/swiper.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/dark.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/font-icons.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}" type="text/css" />
 
-    <!-- Libraries Stylesheet -->
-    <link href="{{ asset("assets/lib/animate/animate.min.css") }}" rel="stylesheet">
-    <link href="{{ asset("assets/lib/owlcarousel/assets/owl.carousel.min.css") }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset("assets/css/bootstrap.min.css") }}" rel="stylesheet">
+	<!-- Document Title
+	============================================= -->
+	<title>{% block title %}MatchJob{% endblock %}</title>
 
-    <!-- Template Stylesheet -->
-    <link href="{{ asset("assets/css/style.css") }}" rel="stylesheet">
+	<link rel="icon" type="image/x-icon" href="{{ asset('assets/images/matchjob.png') }}">
+
 </head>
 
-<body>
+<body class="stretched">
 
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-        <a href="{{ path("app_home") }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-            <h1 class="m-0 text-primary">MatchJob</h1>
-        </a>
-        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ path("app_home") }}"
-                    class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_home' %}active{% endif %}">
-                    Accueil
-                </a>
-                <a href="{{ path("app_listOffer") }}"
-                    class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_offer_list' %}active{% endif %}">
-                    Offres d'emploi
-                </a>
-                <a href="#"
-                    class="nav-item nav-link {% if app.request.attributes.get('_route') == 'app_contact' %}active{% endif %}">
-                    Contact
-                </a>
-            </div>
-            {% if app.user and "BUSINESS" not in app.user.roles %}
-                <a href="{{ path("app_profile") }}" class="btn btn-secondary rounded-0 py-4 px-lg-5 d-none d-lg-block">Mon espace<i class="fa fa-arrow-right ms-3"></i></a>
-            {% else %}
-                <a href="{{ path("app_login") }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Se connecter<i class="fa fa-arrow-right ms-3"></i></a>
-            {% endif %}
-        </div>
-    </nav>
-    <!-- Navbar End -->
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
 
+		<!-- Header
+		============================================= -->
+		<header id="header" class="transparent-header floating-header">
+			<div id="header-wrap">
+				<div class="container">
+					<div class="header-row">
 
-    <div class="container-xxl bg-white p-0 shadow">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Chargement...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+						<!-- Logo
+						============================================= -->
+						<div id="logo">
+							<a href="{{ path('app_home') }}" class="standard-logo" data-dark-logo="images/logo-dark.png"><img src="{{ asset('assets/images/matchjob.png') }}" alt="MatchJob Logo"></a>
+							<a href="{{ path('app_home') }}" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img src="{{ asset('assets/images/logo@2x.png') }}" alt="MatchJob Logo"></a>
+						</div><!-- #logo end -->
 
+						<div class="header-misc">
 
-        {% block home %}{% endblock %}
-        {% block body %}{% endblock %}
-        
+							<!-- Top Search
+							============================================= -->
+							<div id="top-search" class="header-misc-icon">
+								<a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i class="icon-line-cross"></i></a>
+							</div><!-- #top-search end -->
 
-        <!-- Footer Start -->
-        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-            <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Société</h5>
-                        <a class="btn btn-link text-white-50" href="">À propos de nous</a>
-                        <a class="btn btn-link text-white-50" href="">Nous contacter</a>
-                        <a class="btn btn-link text-white-50" href="">Nos services</a>
-                        <a class="btn btn-link text-white-50" href="">Politique de confidentialité</a>
-                        <a class="btn btn-link text-white-50" href="">Termes et conditions</a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Lien rapides</h5>
-                        <a class="btn btn-link text-white-50" href="">À propos de nous</a>
-                        <a class="btn btn-link text-white-50" href="">Nous contacter</a>
-                        <a class="btn btn-link text-white-50" href="">Nos services</a>
-                        <a class="btn btn-link text-white-50" href="">Politique de confidentialité</a>
-                        <a class="btn btn-link text-white-50" href="">Termes et conditions</a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Contacter</h5>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>62 Rue St Chéron, 28000 Chartres</p>
-                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>09 XX XX XX XX</p>
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>contact@matchjob.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/matchjob_pro/"><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-outline-light btn-social" href="https://www.linkedin.com/company/matchjob-pro/"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Newsletter</h5>
-                        <p>Inscrivez-vous à notre newsletter pour ne rien rater de MatchJob.</p>
-                        <div class="position-relative mx-auto" style="max-width: 400px;">
-                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Votre email">
-                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">S'inscrire</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="copyright">
-                    <div class="row">
-                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">MatchJob</a>, Tous droits réservés. 
-							
-							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                            </br>Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                        </div>
-                        <div class="col-md-6 text-center text-md-end">
-                            <div class="footer-menu">
-                                <a href="">Accueil</a>
-                                <a href="">Cookies</a>
-                                <a href="">Aide</a>
-                                <a href="">FAQ</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer End -->
+						</div>
 
+						<div id="primary-menu-trigger">
+							<svg class="svg-trigger" viewBox="0 0 100 100"><path d="m 30,33 h 40 c 3.722839,0 7.5,3.126468 7.5,8.578427 0,5.451959 -2.727029,8.421573 -7.5,8.421573 h -20"></path><path d="m 30,50 h 40"></path><path d="m 70,67 h -40 c 0,0 -7.5,-0.802118 -7.5,-8.365747 0,-7.563629 7.5,-8.634253 7.5,-8.634253 h 20"></path></svg>
+						</div>
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
+						<!-- Primary Navigation
+						============================================= -->
+						<nav class="primary-menu">
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset("assets/lib/wow/wow.min.js") }}"></script>
-    <script src="{{ asset("assets/lib/easing/easing.min.js") }}"></script>
-    <script src="{{ asset("assets/lib/waypoints/waypoints.min.js") }}"></script>
-    <script src="{{ asset("assets/lib/owlcarousel/owl.carousel.min.js") }}"></script>
+							<ul class="menu-container">
+								<li class="menu-item">
+									<a class="menu-link" href="{{ path('app_home') }}"><div>Accueil</div></a>
+								</li>
+								<li class="menu-item">
+									<a class="menu-link" href="{{ path('app_listOffer') }}"><div>Offres</div></a>
+									<ul class="sub-menu-container">
+										<li class="menu-item">
+											<a class="menu-link" href="{{ path('app_profile') }}"><div><i class="icon-stack"></i>Mes offres</div></a>
+										</li>
+									</ul>
+								</li>
+								<li class="menu-item">
+									{% if is_granted('ROLE_USER') %}
+									<a class="menu-link button button-3d button-rounded gradient-purple-blue" href="{{ path('app_profile') }}">
+										<div>Mon espace</div>
+									</a>
+									<ul class="sub-menu-container">
+										<li class="menu-item">
+											<a class="menu-link" href="{{ path('app_logout') }}"><div><i class="icon-line2-logout"></i>Déconnexion</div></a>
+										</li>
+									</ul>
+									{% else %}
+										<a class="menu-link button button-3d button-rounded gradient-purple-blue" href="{{ path('app_register') }}">
+											<div>S'enregistrer</div>
+										</a>
+									{% endif %}
+								</li>
+							</ul>
 
-    <!-- Template Javascript -->
-    <script src="{{ asset("assets/js/main.js") }}"></script>
+						</nav><!-- #primary-menu end -->
+
+						<form class="top-search-form" action="#" method="get">
+							<input type="text" name="q" class="form-control" value="" placeholder="Type &amp; Hit Enter.." autocomplete="off">
+						</form>
+
+					</div>
+				</div>
+			</div>
+			<div class="header-wrap-clone"></div>
+		</header><!-- #header end -->
+
+		{% block home %}{% endblock home %}
+
+		<!-- Content
+		============================================= -->
+		<section id="content">
+			<div class="content-wrap">
+				{% block body %}{% endblock %}
+			</div>
+		</section><!-- #content end -->
+
+		<!-- Footer
+		============================================= -->
+		<footer id="footer" class="dark">
+			<div class="container">
+
+				<!-- Footer Widgets
+				============================================= -->
+				<div class="footer-widgets-wrap">
+
+					<div class="row col-mb-50">
+						<div class="col-lg-8">
+
+							<div class="row col-mb-50">
+								<div class="col-md-4">
+
+									<div class="widget clearfix">
+
+										<img src="{{ asset('assets/images/footer-widget-logo.png') }}" alt="Image" class="footer-logo">
+
+										<p>We believe in <strong>Simple</strong>, <strong>Creative</strong> &amp; <strong>Flexible</strong> Design Standards.</p>
+
+										<div style="background: url('{{ asset('assets/images/world-map.png') }}') no-repeat center center; background-size: 100%;">
+											<address>
+												<strong>Headquarters:</strong><br>
+												795 Folsom Ave, Suite 600<br>
+												San Francisco, CA 94107<br>
+											</address>
+											<abbr title="Phone Number"><strong>Phone:</strong></abbr> (1) 8547 632521<br>
+											<abbr title="Fax"><strong>Fax:</strong></abbr> (1) 11 4752 1433<br>
+											<abbr title="Email Address"><strong>Email:</strong></abbr> info@canvas.com
+										</div>
+
+									</div>
+
+								</div>
+
+								<div class="col-md-4">
+
+									<div class="widget widget_links clearfix">
+
+										<h4>Blogroll</h4>
+
+										<ul>
+											<li><a href="https://codex.wordpress.org/">Documentation</a></li>
+											<li><a href="https://wordpress.org/support/forum/requests-and-feedback">Feedback</a></li>
+											<li><a href="https://wordpress.org/extend/plugins/">Plugins</a></li>
+											<li><a href="https://wordpress.org/support/">Support Forums</a></li>
+											<li><a href="https://wordpress.org/extend/themes/">Themes</a></li>
+											<li><a href="https://wordpress.org/news/">Canvas Blog</a></li>
+											<li><a href="https://planet.wordpress.org/">Canvas Planet</a></li>
+										</ul>
+
+									</div>
+
+								</div>
+
+								<div class="col-md-4">
+
+									<div class="widget clearfix">
+										<h4>Recent Posts</h4>
+
+										<div class="posts-sm row col-mb-30" id="post-list-footer">
+											<div class="entry col-12">
+												<div class="grid-inner row">
+													<div class="col">
+														<div class="entry-title">
+															<h4><a href="#">Lorem ipsum dolor sit amet, consectetur</a></h4>
+														</div>
+														<div class="entry-meta">
+															<ul>
+																<li>10th July 2021</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="entry col-12">
+												<div class="grid-inner row">
+													<div class="col">
+														<div class="entry-title">
+															<h4><a href="#">Elit Assumenda vel amet dolorum quasi</a></h4>
+														</div>
+														<div class="entry-meta">
+															<ul>
+																<li>10th July 2021</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="entry col-12">
+												<div class="grid-inner row">
+													<div class="col">
+														<div class="entry-title">
+															<h4><a href="#">Debitis nihil placeat, illum est nisi</a></h4>
+														</div>
+														<div class="entry-meta">
+															<ul>
+																<li>10th July 2021</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-lg-4">
+
+							<div class="row col-mb-50">
+								<div class="col-md-4 col-lg-12">
+									<div class="widget clearfix" style="margin-bottom: -20px;">
+
+										<div class="row">
+											<div class="col-lg-6 bottommargin-sm">
+												<div class="counter counter-small"><span data-from="50" data-to="15065421" data-refresh-interval="80" data-speed="3000" data-comma="true"></span></div>
+												<h5 class="mb-0">Total Downloads</h5>
+											</div>
+
+											<div class="col-lg-6 bottommargin-sm">
+												<div class="counter counter-small"><span data-from="100" data-to="18465" data-refresh-interval="50" data-speed="2000" data-comma="true"></span></div>
+												<h5 class="mb-0">Clients</h5>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="col-md-5 col-lg-12">
+									<div class="widget subscribe-widget clearfix">
+										<h5><strong>Subscribe</strong> to Our Newsletter to get Important News, Amazing Offers &amp; Inside Scoops:</h5>
+										<div class="widget-subscribe-form-result"></div>
+										<form id="widget-subscribe-form" action="include/subscribe.php" method="post" class="mb-0">
+											<div class="input-group mx-auto">
+												<div class="input-group-text"><i class="icon-email2"></i></div>
+												<input type="email" id="widget-subscribe-form-email" name="widget-subscribe-form-email" class="form-control required email" placeholder="Enter your Email">
+												<button class="btn btn-success" type="submit">Subscribe</button>
+											</div>
+										</form>
+									</div>
+								</div>
+
+								<div class="col-md-3 col-lg-12">
+									<div class="widget clearfix" style="margin-bottom: -20px;">
+
+										<div class="row">
+											<div class="col-6 col-md-12 col-lg-6 clearfix bottommargin-sm">
+												<a href="#" class="social-icon si-dark si-colored si-facebook mb-0" style="margin-right: 10px;">
+													<i class="icon-facebook"></i>
+													<i class="icon-facebook"></i>
+												</a>
+												<a href="#"><small style="display: block; margin-top: 3px;"><strong>Like us</strong><br>on Facebook</small></a>
+											</div>
+											<div class="col-6 col-md-12 col-lg-6 clearfix">
+												<a href="#" class="social-icon si-dark si-colored si-rss mb-0" style="margin-right: 10px;">
+													<i class="icon-rss"></i>
+													<i class="icon-rss"></i>
+												</a>
+												<a href="#"><small style="display: block; margin-top: 3px;"><strong>Subscribe</strong><br>to RSS Feeds</small></a>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div><!-- .footer-widgets-wrap end -->
+
+			</div>
+
+			<!-- Copyrights
+			============================================= -->
+			<div id="copyrights">
+				<div class="container">
+
+					<div class="row col-mb-30">
+
+						<div class="col-md-6 text-center text-md-start">
+							Copyrights &copy; 2020 All Rights Reserved by Canvas Inc.<br>
+							<div class="copyright-links"><a href="#">Terms of Use</a> / <a href="#">Privacy Policy</a></div>
+						</div>
+
+						<div class="col-md-6 text-center text-md-end">
+							<div class="d-flex justify-content-center justify-content-md-end">
+								<a href="#" class="social-icon si-small si-borderless si-facebook">
+									<i class="icon-facebook"></i>
+									<i class="icon-facebook"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-twitter">
+									<i class="icon-twitter"></i>
+									<i class="icon-twitter"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-gplus">
+									<i class="icon-gplus"></i>
+									<i class="icon-gplus"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-pinterest">
+									<i class="icon-pinterest"></i>
+									<i class="icon-pinterest"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-vimeo">
+									<i class="icon-vimeo"></i>
+									<i class="icon-vimeo"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-github">
+									<i class="icon-github"></i>
+									<i class="icon-github"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-yahoo">
+									<i class="icon-yahoo"></i>
+									<i class="icon-yahoo"></i>
+								</a>
+
+								<a href="#" class="social-icon si-small si-borderless si-linkedin">
+									<i class="icon-linkedin"></i>
+									<i class="icon-linkedin"></i>
+								</a>
+							</div>
+
+							<div class="clear"></div>
+
+							<i class="icon-envelope2"></i> info@canvas.com <span class="middot">&middot;</span> <i class="icon-headphones"></i> +1-11-6541-6369 <span class="middot">&middot;</span> <i class="icon-skype2"></i> CanvasOnSkype
+						</div>
+
+					</div>
+
+				</div>
+			</div><!-- #copyrights end -->
+		</footer><!-- #footer end -->
+
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- JavaScripts
+	============================================= -->
+	<script src="{{ asset('assets/js/jquery.js') }}"></script>
+	<script src="{{ asset('assets/js/plugins.min.js') }}"></script>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="{{ asset('assets/js/functions.js') }}"></script>
+
 </body>
-
 </html>

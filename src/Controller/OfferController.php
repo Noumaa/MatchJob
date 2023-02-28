@@ -2,20 +2,16 @@
 namespace App\Controller;
 
 use App\Entity\Offer;
-use App\Entity\User;
 use App\Form\OfferType;
-use App\Repository\OfferRepository;
-use DateInterval;
-use DateTime;
 use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class OfferController extends AbstractController
 {
@@ -34,11 +30,10 @@ class OfferController extends AbstractController
         ]);
     }
 
-    
 
     #[IsGranted("ROLE_BUSINESS")]
     #[Route('pro/deposer-offre', name: 'app_createOffer')]
-    public function add(Request $request, ManagerRegistry $doctrine)
+    public function add(Request $request, ManagerRegistry $doctrine): Response
     {
         /*
             Cette fonction a pour but d'enregistrer dans la base de données
@@ -81,7 +76,7 @@ class OfferController extends AbstractController
         */
         if($this->getUser() == $oneOffer->getUser())
         {
-            if($oneOffer->IsArchived() == false)
+            if(!$oneOffer->IsArchived())
             {
                 $entityManager = $doctrine->getManager();
                 $form = $this->createForm(OfferType::class, $oneOffer);
