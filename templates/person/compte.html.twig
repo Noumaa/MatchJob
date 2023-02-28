@@ -12,7 +12,7 @@
             {# Photo de profil #}
             <picture>
             
-                <img src="{{ asset("assets/img/pp/" ~ app.user.profilePicture) }}" alt="Photo de profil" class="{% if "ROLE_BUSINESS" in app.user.roles %}rounded{% else %}rounded-circle{% endif %} mb-3 img-fluid shadow d-block mx-auto">
+                <img src="{{ asset("assets/images/pp/" ~ app.user.profilePicture) }}" alt="Photo de profil" class="{% if "ROLE_BUSINESS" in app.user.roles %}rounded{% else %}rounded-circle{% endif %} mb-3 img-fluid shadow d-block mx-auto">
             </picture>
 
             <div class="mb-3 d-grid gap-2">
