@@ -4,20 +4,38 @@
 
 {% block home %}
 
-<!-- 404 Start -->
-<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container text-center">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
-                <h1 class="display-1">404</h1>
-                <h1 class="mb-4">Page non trouvée</h1>
-                <p class="mb-4">Nous sommes désolés, la page que vous avez tenté d'accéder n'existe pas ou plus ! Peut-être que vous trouverez votre bonheur sur notre page d'acceuil ?</p>
-                <a class="btn btn-primary py-3 px-5" href="{{ path("app_home") }}">Retour à l'accueil</a>
+    <section id="slider" class="slider-element min-vh-60 min-vh-md-100 dark error404-wrap include-header">
+        <div class="slider-inner">
+
+            <div class="vertical-middle">
+                <div class="container text-center py-5 py-md-0">
+
+                    <div class="error404">404</div>
+
+                    <div class="heading-block border-bottom-0">
+                        <h4>Ooopps.! The Page you were looking for, couldn't be found.</h4>
+                        <span>Try the search below to find matching pages:</span>
+                    </div>
+
+                    <form action="#" method="get" class="mx-auto mb-0">
+                        <div class="input-group input-group-lg">
+                            <input type="text" class="form-control" placeholder="Search for Pages...">
+                            <button class="btn btn-danger" type="button"><i class="icon-line-search"></i></button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
+
+            <div class="video-wrap">
+                <video poster="{{ asset('assets/images/videos/explore-poster.jpg')}}" preload="auto" loop autoplay muted>
+                    <source src='{{ asset('assets/images/videos/explore.mp4') }}' type='video/mp4' />
+                    <source src='{{ asset('assets/images/videos/explore.webm') }}' type='video/webm' />
+                </video>
+                <div class="video-overlay" style="background-color: rgba(0,0,0,0.3);"></div>
+            </div>
+
         </div>
-    </div>
-</div>
-<!-- 404 End -->
+    </section>
 
 {% endblock %}

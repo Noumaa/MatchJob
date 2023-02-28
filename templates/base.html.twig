@@ -16,6 +16,8 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}" type="text/css" />
 
+	<link rel="stylesheet" href="{{ asset('assets/css/colors.css') }}" type="text/css" />
+	<link rel="stylesheet" href="{{ asset('assets/css/fonts.css') }}" type="text/css" />
 	<link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -35,7 +37,7 @@
 
 		<!-- Header
 		============================================= -->
-		<header id="header" class="transparent-header floating-header">
+		<header id="header" class="full-header" data-menu-padding="27" data-sticky-menu-padding="19">
 			<div id="header-wrap">
 				<div class="container">
 					<div class="header-row">
@@ -63,24 +65,24 @@
 
 						<!-- Primary Navigation
 						============================================= -->
-						<nav class="primary-menu">
+						<nav class="primary-menu style-5">
 
 							<ul class="menu-container">
 								<li class="menu-item">
-									<a class="menu-link" href="{{ path('app_home') }}"><div>Accueil</div></a>
+									<a class="menu-link" href="{{ path('app_home') }}"><div><i class="icon-home2"></i>Accueil</div></a>
 								</li>
 								<li class="menu-item">
-									<a class="menu-link" href="{{ path('app_listOffer') }}"><div>Offres</div></a>
+									<a class="menu-link" href="{{ path('app_listOffer') }}"><div><i class="icon-briefcase"></i>Offres</div></a>
 									<ul class="sub-menu-container">
 										<li class="menu-item">
-											<a class="menu-link" href="{{ path('app_profile') }}"><div><i class="icon-stack"></i>Mes offres</div></a>
+											<a class="menu-link" href="{{ path('app_profile') }}"><div><i class="icon-folder-close-alt"></i>Mes offres</div></a>
 										</li>
 									</ul>
 								</li>
 								<li class="menu-item">
 									{% if is_granted('ROLE_USER') %}
-									<a class="menu-link button button-3d button-rounded gradient-purple-blue" href="{{ path('app_profile') }}">
-										<div>Mon espace</div>
+									<a class="menu-link" href="{{ path('app_profile') }}">
+										<div><i class="icon-user-alt"></i>Mon espace</div>
 									</a>
 									<ul class="sub-menu-container">
 										<li class="menu-item">
@@ -88,7 +90,7 @@
 										</li>
 									</ul>
 									{% else %}
-										<a class="menu-link button button-3d button-rounded gradient-purple-blue" href="{{ path('app_register') }}">
+										<a class="menu-link button button-3d button-rounded gradient-purple-blue" href="{{ path('app_login') }}">
 											<div>S'enregistrer</div>
 										</a>
 									{% endif %}
