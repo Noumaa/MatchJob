@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Demands;
+use App\Entity\Offer;
 use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,15 +22,38 @@ class UserController extends AbstractController
     public function profile(ManagerRegistry $doctrine): Response
     {        
         $demands = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $this->getUser()->getId()]);
+        //dd($demands);
         if(!in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
         {
             
-            return $this->render('user/compte.html.twig',
+            return $this->render('person/compte.html.twig',
             [
                 'demands' => $demands,
             ]);
         }
-        //return $this->render('user/compte.html.twig');
+
+        //Récupération des offres d'emplois
+        $offers = $doctrine->getRepository(Offer::class)->findBy(["user" => $this->getUser()->getId()]);
+
+        $demands =  [];
+
+        foreach($offers as $offer)
+        {
+            $demands[] = $doctrine->getRepository(Demands::class)->findBy(["Offer" => $offer->getId()]);
+        }
+    
+        $users = [];
+
+        for($i = 0 ; $i<count($demands)+1 ; $i++)
+        {
+            $users[] = $demands[0][$i]->getIndividual();
+        }
+
+        return $this->render('business/compte.html.twig',
+        [
+            'offers' => $offers,
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -74,8 +98,14 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
         }
-
-        return $this->render('user/editer.html.twig', [
+        
+        if(in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
+        {
+            return $this->render('business/editer.html.twig', [
+                'form' => $form->createView()
+            ]);
+        }
+        return $this->render('person/editer.html.twig', [
             'form' => $form->createView()
         ]);
     }
