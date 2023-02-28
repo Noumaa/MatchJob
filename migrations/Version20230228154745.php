@@ -10,11 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-<<<<<<<< HEAD:migrations/Version20230203182249.php
-final class Version20230203182249 extends AbstractMigration
-========
-final class Version20230203205054 extends AbstractMigration
->>>>>>>> dev:migrations/Version20230203205054.php
+final class Version20230228154745 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,12 +20,12 @@ final class Version20230203205054 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-<<<<<<<< HEAD:migrations/Version20230203182249.php
-        $this->addSql('CREATE TABLE demand_status (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, label VARCHAR(255) NOT NULL)');
-========
         $this->addSql('CREATE TABLE course (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, resume_id INTEGER NOT NULL, label VARCHAR(255) NOT NULL, location VARCHAR(255) DEFAULT NULL, started_at DATE NOT NULL, ended_at DATE DEFAULT NULL, CONSTRAINT FK_169E6FB9D262AF09 FOREIGN KEY (resume_id) REFERENCES resume (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_169E6FB9D262AF09 ON course (resume_id)');
->>>>>>>> dev:migrations/Version20230203205054.php
+        $this->addSql('CREATE TABLE demand_status (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, label VARCHAR(255) NOT NULL)');
+        $this->addSql('CREATE TABLE demand_status_change (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, demand_id INTEGER NOT NULL, demand_status_id INTEGER NOT NULL, date_add DATETIME NOT NULL, date_update DATETIME NOT NULL, CONSTRAINT FK_896E38915D022E59 FOREIGN KEY (demand_id) REFERENCES demands (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_896E38917CBF1EEE FOREIGN KEY (demand_status_id) REFERENCES demand_status (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('CREATE INDEX IDX_896E38915D022E59 ON demand_status_change (demand_id)');
+        $this->addSql('CREATE INDEX IDX_896E38917CBF1EEE ON demand_status_change (demand_status_id)');
         $this->addSql('CREATE TABLE demands (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, individual_id INTEGER DEFAULT NULL, offer_id INTEGER NOT NULL, date_add DATETIME NOT NULL, date_update DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, CONSTRAINT FK_D24062F4AE271C0D FOREIGN KEY (individual_id) REFERENCES user (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_D24062F453C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_D24062F4AE271C0D ON demands (individual_id)');
         $this->addSql('CREATE INDEX IDX_D24062F453C674EE ON demands (offer_id)');
@@ -57,11 +53,9 @@ final class Version20230203205054 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-<<<<<<<< HEAD:migrations/Version20230203182249.php
-        $this->addSql('DROP TABLE demand_status');
-========
         $this->addSql('DROP TABLE course');
->>>>>>>> dev:migrations/Version20230203205054.php
+        $this->addSql('DROP TABLE demand_status');
+        $this->addSql('DROP TABLE demand_status_change');
         $this->addSql('DROP TABLE demands');
         $this->addSql('DROP TABLE experience');
         $this->addSql('DROP TABLE offer');

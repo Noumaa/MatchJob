@@ -41,14 +41,13 @@ class UserController extends AbstractController
         {
             $demands[] = $doctrine->getRepository(Demands::class)->findBy(["Offer" => $offer->getId()]);
         }
-    
         $users = [];
 
-        for($i = 0 ; $i<count($demands)+1 ; $i++)
+        for($i = 0 ; $i<count($demands) ; $i++)
         {
             $users[] = $demands[0][$i]->getIndividual();
         }
-
+        
         return $this->render('business/compte.html.twig',
         [
             'offers' => $offers,
