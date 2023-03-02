@@ -30,7 +30,7 @@ class OfferCrudController extends AbstractCrudController
 //            Field::new('duration'),
             Field::new('startAt', "Débute le"),
             Field::new('endAt', "Termine le"),
-            Field::new('createdAt', "Créée le"),
+            Field::new('createdAt', "Créée le")->hideOnForm(),
 //            AssociationField::new('user'), FIXME: NOT IN FORM
             Field::new('isArchived', "Supprimée ?"),
 //            AssociationField::new('demands'),
