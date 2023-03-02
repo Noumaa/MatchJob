@@ -69,12 +69,10 @@ yarn-error.log
 
 # Custom
 .idea/
+.vscode/
 
 .php-version
 var/data.db
 
-**/public/assets/img/pp/**
-!**/public/assets/img/pp/.default.png
-
-.vscode/
-.idea/
+**/public/assets/images/pp/**
+!**/public/assets/images/pp/.default.png
