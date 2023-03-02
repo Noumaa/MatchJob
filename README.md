@@ -27,7 +27,7 @@
 <!-- Status -->
 
 <h4 align="center"> 
-	🚧  Matchjob 🚀 En cours de développement ..  🚧
+	🚀 Matchjob 🚧 En cours de développement ..
 </h4> 
 
 <hr>
@@ -35,7 +35,7 @@
 <p align="center">
   <a href="#dart-a-propos">A propos</a> &#xa0; | &#xa0; 
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
-  <a href="#sparkles-a-faire">Features</a> &#xa0; | &#xa0;
+  <a href="#sparkles-a-faire">A faire</a> &#xa0; | &#xa0;
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-dépendances">Dépendances</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-installation">Installation</a> &#xa0; | &#xa0;
