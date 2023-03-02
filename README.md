@@ -70,7 +70,8 @@ Les outils suivants ont été beaucoup sollicités :
 ## :white_check_mark: Dépendances ##
 
 L'utilisation de [PHP](https://www.php.net/) est requise, version 8.1 minimum.  
-Les extensions `cURL`, `intl` et `openSSL` sont également requises.
+Les extensions `cURL`, `intl` et `openSSL` sont également requises.  
+*N'oubliez pas d'activer l'extension de votre SGBD, si vous ne prévoyez pas de mettre le serveur en production, activez simplement `pdo_sqlite`*
 
 ## :checkered_flag: Installation ##
 
