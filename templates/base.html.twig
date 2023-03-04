@@ -38,12 +38,13 @@
 		<!-- Header
 		============================================= -->
 		<header id="header" class="full-header" data-menu-padding="27" data-sticky-menu-padding="19">
+
 			<div id="header-wrap">
 				<div class="container">
 					<div class="header-row">
 
 						<!-- Logo
-						============================================= -->
+                        ============================================= -->
 						<div id="logo">
 							<a href="{{ path('app_home') }}" class="standard-logo" data-dark-logo="images/logo-dark.png"><img src="{{ asset('assets/images/matchjob.png') }}" alt="MatchJob Logo"></a>
 							<a href="{{ path('app_home') }}" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img src="{{ asset('assets/images/logo@2x.png') }}" alt="MatchJob Logo"></a>
@@ -52,7 +53,7 @@
 						<div class="header-misc">
 
 							<!-- Top Search
-							============================================= -->
+                            ============================================= -->
 							<div id="top-search" class="header-misc-icon">
 								<a href="#" id="top-search-trigger"><i class="icon-line-search"></i><i class="icon-line-cross"></i></a>
 							</div><!-- #top-search end -->
@@ -64,31 +65,34 @@
 						</div>
 
 						<!-- Primary Navigation
-						============================================= -->
+                        ============================================= -->
 						<nav class="primary-menu style-5">
 
 							<ul class="menu-container">
 								<li class="menu-item">
 									<a class="menu-link" href="{{ path('app_home') }}"><div><i class="icon-home2"></i>Accueil</div></a>
 								</li>
+
 								<li class="menu-item">
 									<a class="menu-link" href="{{ path('app_listOffer') }}"><div><i class="icon-briefcase"></i>Offres</div></a>
-									<ul class="sub-menu-container">
-										<li class="menu-item">
-											<a class="menu-link" href="{{ path('app_profile') }}"><div><i class="icon-folder-close-alt"></i>Mes offres</div></a>
-										</li>
-									</ul>
 								</li>
+
 								<li class="menu-item">
 									{% if is_granted('ROLE_USER') %}
-									<a class="menu-link" href="{{ path('app_profile') }}">
-										<div><i class="icon-user-alt"></i>Mon espace</div>
-									</a>
-									<ul class="sub-menu-container">
-										<li class="menu-item">
-											<a class="menu-link" href="{{ path('app_logout') }}"><div><i class="icon-line2-logout"></i>Déconnexion</div></a>
-										</li>
-									</ul>
+										{% if is_granted('ROLE_BUSINESS') %}
+											<a class="menu-link" href="{{ path('app_business_dashboard') }}">
+												<div><i class="icon-user-alt"></i>Dashboard</div>
+											</a>
+										{% else %}
+											<a class="menu-link" href="{{ path('app_profile') }}">
+												<div><i class="icon-user-alt"></i>Mon espace</div>
+											</a>
+										{% endif %}
+										<ul class="sub-menu-container">
+											<li class="menu-item">
+												<a class="menu-link" href="{{ path('app_logout') }}"><div><i class="icon-line2-logout"></i>Déconnexion</div></a>
+											</li>
+										</ul>
 									{% else %}
 										<a class="menu-link button button-3d button-rounded gradient-purple-blue" href="{{ path('app_login') }}">
 											<div>S'enregistrer</div>
@@ -100,13 +104,16 @@
 						</nav><!-- #primary-menu end -->
 
 						<form class="top-search-form" action="#" method="get">
-							<input type="text" name="q" class="form-control" value="" placeholder="Type &amp; Hit Enter.." autocomplete="off">
+							<input type="text" name="q" class="form-control" value="" placeholder="Cherchez &amp; trouvez.." autocomplete="off">
 						</form>
 
 					</div>
 				</div>
 			</div>
 			<div class="header-wrap-clone"></div>
+
+			{% block extrahead %}{% endblock %}
+
 		</header><!-- #header end -->
 
 		{% block home %}{% endblock home %}
