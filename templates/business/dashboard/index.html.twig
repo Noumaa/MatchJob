@@ -2,13 +2,6 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{#
-Deuxième navbar
-    - Déposer une offre
-    - Édition profil
-    - Réglages
-#}
-
 {# Nombre d'offre #}
 {# Nombre de réponse #}
 {# Nombre de vue #}
@@ -42,10 +35,12 @@ Deuxième navbar
             </div>
 
             <div class="col-lg-2 customcard">
-                {{ app.user.offers.count }} offre{{ app.user.offers.count > 1 ? 's' : '' }} publiée{{ app.user.offers.count > 1 ? 's' : '' }}
+                0 demande reçue
             </div>
 
-            <div class="col-lg-2 customcard"></div>
+            <div class="col-lg-2 customcard">
+                0 vues au total
+            </div>
 
         </div>
     </div>
