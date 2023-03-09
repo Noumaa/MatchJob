@@ -23,7 +23,7 @@
                             <span class="fw-bold">{{ notif.label }}</span>
                             <span class="text-muted">{{ notif.createdAt|date }}</span>
                         </div>
-                        {{ notif.content }}
+                        {{ notif.content|raw }}
                     </div>
                 </li>
 
@@ -31,6 +31,10 @@
                     xmlHttp.open("GET", "{{ path('app_notifications_read', { 'id': notif.id }) }}", false);
                     xmlHttp.send(null);
                 </script>
+
+            {% else %}
+
+                <h1 class="text-muted">Vous n'avez pas de notifications..</h1>
 
             {% endfor %}
         </ul>
