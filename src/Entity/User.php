@@ -98,14 +98,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->demands = new ArrayCollection();
     }
 
-
     #[ORM\PrePersist]
     public function prePersist()
     {
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    
     public function getId(): ?int
     {
         return $this->id;

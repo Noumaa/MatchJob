@@ -15,13 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OfferController extends AbstractController
 {
-    #[Route('/offres', name: 'app_listOffer')]
+    #[Route('/offres', name: 'app_offer_list')]
     public function list(ManagerRegistry $doctrine) : Response
     {
-        /*
-            Cette fonction retourne l'ensemble des offres
-            Etat : fonctionnelle
-        */
         $Offers = $doctrine->getRepository(Offer::class)->findBy(['isArchived' => 0]);
 
         return $this->render('offer/list.html.twig', 
@@ -32,48 +28,54 @@ class OfferController extends AbstractController
 
 
     #[IsGranted("ROLE_BUSINESS")]
-    #[Route('pro/deposer-offre', name: 'app_createOffer')]
+    #[Route('pro/offres/deposer', name: 'app_offer_create')]
     public function add(Request $request, ManagerRegistry $doctrine): Response
-    {
-        /*
-            Cette fonction a pour but d'enregistrer dans la base de données
-            une offre déposé par une entreprise
-
-            Etat : non fonctionnelle
-        */
-       
+    {       
         $entityManager = $doctrine->getManager();
         $offer = new Offer();
 
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
         
-        if($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted() && $form->isValid())
         {
             $offer->setUser($this->getUser());
             $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
-            $offer->setCreatedAt(new DateTimeImmutable());
-            $offer = $form->getData();
             
             $entityManager->persist($offer);
             $entityManager->flush();
-            return $this->redirectToRoute("app_listOffer");
+
+            return $this->redirectToRoute("app_offer_detail", [ "id" => $offer->getId() ]);
         }
+
         return $this->render('offer/create.html.twig', 
         [
             'Offer' => $form->createView(),
         ]);
-
     }
 
-    #[Route('pro/offres/modifier/{id}', name: 'app_editOffer')]
+
+    #[Route('/offres/{id}', name: 'app_offer_detail')]
+    public function detail(ManagerRegistry $doctrine, Offer $oneOffer): Response
+    {
+        $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
+        $duration = $oneOffer->getDuration();
+        $years = $duration->format('%Y années');
+        $month = $duration->format('%M mois');
+        $days = $duration->format('%D jours');
+        $dateInterval = $days . " " . $month . " " . $years . " ";
+        return $this->render('offer/detail.html.twig',
+            [
+                'oneOffer' => $oneOffer,
+                'duration' => $dateInterval,
+            ]);
+    }
+
+
+    #[IsGranted("ROLE_BUSINESS")]
+    #[Route('pro/offres/{id}/modifier', name: 'app_offer_edit')]
     public function edit(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
-        /*
-            Cette fonction a pour but de modifier une offre
-
-            Etat : fonctionnelle
-        */
         if($this->getUser() == $oneOffer->getUser())
         {
             if(!$oneOffer->IsArchived())
@@ -88,7 +90,7 @@ class OfferController extends AbstractController
                     $oneOffer->setCreatedAt(new DateTimeImmutable());
                     $oneOffer = $form->getData();
                     $entityManager->flush();
-                    return $this->redirectToRoute("app_detailOffer",
+                    return $this->redirectToRoute("app_offer_detail",
                     [
                         'id' => $oneOffer->getId()
                     ]);
@@ -99,47 +101,22 @@ class OfferController extends AbstractController
                 ]);
             }
         }
-        return $this->redirectToRoute("app_listOffer");
+        return $this->redirectToRoute("app_offer_list");
     }
 
+    
     #[IsGranted("ROLE_BUSINESS")]
-    #[Route('/pro/offres/supprimer/{id}', name: 'app_deleteOffer')]
+    #[Route('/pro/offres/{id}/supprimer', name: 'app_offer_delete')]
     public function delete(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
-        /*
-            Cette fonction a pour but de supprimer une offre de la base de donnée
-
-            Etat : fonctionnelle
-        */
         if($oneOffer->getUser() == $this->getUser())
         {
             $manager = $doctrine->getManager();
             $oneOffer->setIsArchived(true);
             $manager->persist($oneOffer);
             $manager->flush();
-            return $this->redirectToRoute('app_listOffer');
+            return $this->redirectToRoute('app_offer_list');
         }
-        return $this->redirectToRoute('app_listOffer');
-        
-        
+        return $this->redirectToRoute('app_offer_list');
     }
-
-    #[Route('/offres/detail/{id}', name: 'app_detailOffer')]
-    public function detail(ManagerRegistry $doctrine, Offer $oneOffer): Response
-    {
-        $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
-        $duration = $oneOffer->getDuration();
-        $years = $duration->format('%Y années');
-        $month = $duration->format('%M mois');
-        $days = $duration->format('%D jours');
-        $dateInterval = $days . " " . $month . " " . $years . " ";
-        return $this->render('offer/detail.html.twig', 
-        [
-            'oneOffer' => $oneOffer,
-            'duration' => $dateInterval,
-        ]);
-    }
-
-    
-
 }
