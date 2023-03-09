@@ -34,7 +34,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $persons = [
-            ["nouma", "vallée"],
+            ["nouma", "vallee"],
             ["felix", "arthur"],
             ["rayan", "nanas"],
             ["valentin", "bueno"],
@@ -69,6 +69,8 @@ class UserFixtures extends Fixture
 
             $user->addRole("ROLE_PERSON");
 
+            if ($persons[$i][0] == "nouma") $user->addRole("ROLE_ADMIN");
+
             $manager->persist($user);
         }
 
@@ -88,7 +90,10 @@ class UserFixtures extends Fixture
             $password = $this->hasher->hashPassword($user, $businesses[$i]);
             $user->setPassword($password);
 
-            $user->addRole("ROLE_BUSINESS"); 
+            $user->addRole("ROLE_BUSINESS");
+
+            if ($persons[$i][0] == "felix") $user->addRole("ROLE_ADMIN");
+
             self::$users[] = $user;
             $manager->persist($user);
         }
