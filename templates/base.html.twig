@@ -79,34 +79,17 @@
 
 								<li class="menu-item">
 									{% if is_granted('ROLE_USER') %}
-										{% if is_granted('ROLE_BUSINESS') %}
-											<a class="menu-link position-relative" href="{{ path('app_business_dashboard') }}">
-												<div class="position-relative">
-													<i class="icon-user-alt"></i>
-													Dashboard
-
-													{% set notifications = [] %}
-
-													{% for notif in app.user.notifications %}
-														{% if notif.readAt is null %}
-															{% set notifications = notifications|merge([notif]) %}
-														{% endif %}
-													{% endfor %}
-
-													{% if notifications is not empty %}
-														<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-															{{ notifications|length }}
-															<span class="visually-hidden">notifications</span>
-														</span>
-													{% endif %}
-												</div>
-											</a>
-										{% else %}
-											<a class="menu-link" href="{{ path('app_profile') }}">
-												<div><i class="icon-user-alt"></i>Mon espace</div>
-											</a>
-										{% endif %}
+										<a class="menu-link position-relative" href="{{ path('app_dashboard') }}">
+											<div class="position-relative">
+												<i class="icon-user-alt"></i>
+												Dashboard
+												{% include '_notification-badge.html.twig' %}
+											</div>
+										</a>
 										<ul class="sub-menu-container">
+											<li class="menu-item">
+												<a class="menu-link" href="{{ path('app_notifications') }}"><div><i class="icon-bell2"></i>Notifications</div></a>
+											</li>
 											<li class="menu-item">
 												<a class="menu-link" href="{{ path('app_logout') }}"><div><i class="icon-line2-logout"></i>Déconnexion</div></a>
 											</li>

@@ -14,31 +14,34 @@ class Notification
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $content = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $sendedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $readAt = null;
-
-    #[ORM\ManyToOne]
-    private ?User $sender = null;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\ManyToOne]
+    private ?Demands $demand = null;
+
+    #[ORM\Column]
+    private ?int $type = null;
+
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function updateDates(): void
     {
-        if ($this->getCreatedAt() === null) {
-            $this->setCreatedAt(new \DateTimeImmutable('now'));
+        if ($this->getSendedAt() === null) {
+            $this->setSendedAt(new \DateTimeImmutable('now'));
         }
     }
 
@@ -71,14 +74,14 @@ class Notification
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getSendedAt(): ?\DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->sendedAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setSendedAt(\DateTimeImmutable $sendedAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->sendedAt = $sendedAt;
 
         return $this;
     }
@@ -95,18 +98,6 @@ class Notification
         return $this;
     }
 
-    public function getSender(): ?User
-    {
-        return $this->sender;
-    }
-
-    public function setSender(?User $sender): self
-    {
-        $this->sender = $sender;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -115,6 +106,30 @@ class Notification
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDemand(): ?Demands
+    {
+        return $this->demand;
+    }
+
+    public function setDemand(?Demands $demand): self
+    {
+        $this->demand = $demand;
+
+        return $this;
+    }
+
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

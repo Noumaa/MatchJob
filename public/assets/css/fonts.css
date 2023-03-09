@@ -36,7 +36,7 @@ label,
 .widget-filter-links li a,
 .nav-tree li a,
 .wedding-head,
-.font-primary { font-family: 'A-OTF Shin Go Pro R', 'Poppins', sans-serif !important; }
+.font-primary { font-family: 'Poppins', sans-serif !important; }
 
 
 .entry-link span,
@@ -52,3 +52,6 @@ label,
 .wedding-head .last-name span,
 .font-secondary { font-family: 'PT Serif', serif !important; }
 
+.font-trimary {
+    font-family: 'A-OTF Shin Go Pro R', 'Poppins', 'PT Serif', sans-serif !important;
+}

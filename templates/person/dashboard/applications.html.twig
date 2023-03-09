@@ -1,0 +1,31 @@
+{% extends 'person/base.html.twig' %}
+
+{% block title %}Candidatures{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <ul class="list-group list-group-flush">
+            {% for application in app.user.demands %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+
+                    <div class="ms-2 me-auto">
+                        <div>
+                            <span class="fw-bold">Poste de {{ application.offer.label }}</span>
+                            <span class="text-muted">{{ application.dateAdd|date }}</span>
+                        </div>
+                        Lorem ipsum dshquidsgq uidhsqiou dhsioq kdopqsk dopsqj dsqjd ilqs
+                    </div>
+
+                </li>
+
+            {% else %}
+
+                <h1 class="text-muted">Vous n'avez pas postulé..</h1>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
