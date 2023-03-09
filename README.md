@@ -27,20 +27,20 @@
 <!-- Status -->
 
 <h4 align="center"> 
-	🚧  Matchjob 🚀 En cours de développement ..  🚧
+	🚀 Matchjob 🚧 En cours de développement ..
 </h4> 
 
 <hr>
 
 <p align="center">
-  <a href="#dart-about">A propos</a> &#xa0; | &#xa0; 
+  <a href="#dart-a-propos">A propos</a> &#xa0; | &#xa0; 
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
+  <a href="#sparkles-a-faire">A faire</a> &#xa0; | &#xa0;
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
-  <a href="#white_check_mark-requirements">Dépendences</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-starting">Installation</a> &#xa0; | &#xa0;
-  <a href="#memo-license">Licence</a> &#xa0; | &#xa0;
-  <a href="https://github.com/Noumaa" target="_blank">Félix A.</a> &#xa0; | &#xa0;
-  <a href="https://github.com/AFelix20100" target="_blank">Nouma V.</a>
+  <a href="#white_check_mark-dépendances">Dépendances</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-installation">Installation</a> &#xa0; | &#xa0;
+  <a href="https://github.com/Noumaa" target="_blank">Nouma V.</a> &#xa0; | &#xa0;
+  <a href="https://github.com/AFelix20100" target="_blank">Félix A.</a>
 </p>
 
 <br>
@@ -67,9 +67,11 @@ Les outils suivants ont été beaucoup sollicités :
 - [Symfony](https://symfony.com/)
 - [Bootstrap](https://getbootstrap.com/)
 
-<!-- ## :white_check_mark: Dépendances ##
+## :white_check_mark: Dépendances ##
 
-Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Node](https://nodejs.org/en/) installed. -->
+L'utilisation de [PHP](https://www.php.net/) est requise, version 8.1.11 minimum.  
+Les extensions `cURL`, `intl` et `openSSL` sont également requises.  
+*N'oubliez pas d'activer l'extension de votre SGBD, si vous ne prévoyez pas de mettre le serveur en production, activez simplement `pdo_sqlite`*
 
 ## :checkered_flag: Installation ##
 
@@ -87,11 +89,19 @@ $ composer install
 $ php bin/console make:migration
 $ php bin/console doctrine:migrations:migrate
 
+# Charger les jeux de données
+$ php bin/console doctrine:fixtures:load
+
 # Lancer le serveur !
 $ symfony server:start # Requiert Symfony CLI
 
 # Le serveur se sera initialisé sur <http://localhost:8000>
 ```
+
+### Remarques
+
+- Lancer un serveur en utilisant Symfony CLI ne sera pas suffisant lors d'un déploiement. Pour plus d'informations rendez-vous sur la documentation du serveur de votre choix (Apache, nginx, etc).
+- Par défaut, MatchJob génère une base de données SQLite à des fins de développement. Lors d'un déploiement il est préférable d'installer un "vrai" SGBDR tel que MySQL, PostgreSQL, etc. [Plus d'informations](https://symfony.com/doc/current/doctrine.html#configuring-the-database).
 
 <!-- ## :memo: Licence ##
 
