@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Demands;
+use App\Entity\Notification;
 use App\Entity\Offer;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,21 +27,29 @@ class DemandController extends AbstractController
             if ($d->getIndividual() === $user) $demands[] = $d;
         }
 
-        if (!empty($demands)) {
-            $messageFalse = "Vous avez déjà déposé votre candidature !";
-            return $this->render('offer/detail.html.twig',
-                [
-                    'oneOffer' => $offer,
-                    'messageFalse' => $messageFalse,
-                ]);
-        }
+//        if (!empty($demands)) {
+//            $messageFalse = "Vous avez déjà déposé votre candidature !";
+//            return $this->render('offer/detail.html.twig',
+//                [
+//                    'oneOffer' => $offer,
+//                    'messageFalse' => $messageFalse,
+//                ]);
+//        }
 
         $demand = new Demands();
-
         $demand->setOffer($offer);
         $demand->setIndividual($user);
 
         $entityManager->persist($demand);
+
+        $notification = new Notification();
+        $notification->setSender($user);
+        $notification->setLabel('Quelqu\'un a postulé pour votre annonce !');
+        $notification->setContent('<strong>' . $user->getFirstName() . ' ' . $user->getLastName() . '</strong> a fait une demande pour <strong>' . $offer->getLabel() . '</strong>.');
+        $notification->setUser($offer->getUser());
+
+        $entityManager->persist($notification);
+
         $entityManager->flush();
 
         $messageTrue = "La candidature a bien été déposé.";

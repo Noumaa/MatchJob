@@ -3631,9 +3631,9 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
 	font-family: 'Poppins', sans-serif;
 }
 
-.menu-link span {
-	display: none;
-}
+/*.menu-link span {*/
+/*	display: none;*/
+/*}*/
 
 .menu-link i {
 	position: relative;

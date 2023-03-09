@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Demands;
+use App\Entity\Notification;
 use App\Entity\Offer;
 use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
@@ -17,6 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/compte')]
 class UserController extends AbstractController
 {
+    #[Route('/notifications', name: 'app_notifications')]
+    #[IsGranted('ROLE_USER')]
+    public function notifications(ManagerRegistry $doctrine): Response
+    {
+        return $this->render('user/notification.html.twig');
+    }
+
+
+    #[Route('/notifications/{id}', name: 'app_notifications_read')]
+    #[IsGranted('ROLE_USER')]
+    public function readNotification(ManagerRegistry $doctrine, Notification $notification): Response
+    {
+        $notification->setReadAt(new \DateTimeImmutable('now'));
+        $doctrine->getManager()->flush();
+
+        $response = new Response();
+        $response->setStatusCode(200);
+        return $response;
+    }
+
+
     #[Route('', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
     public function profile(ManagerRegistry $doctrine): Response
@@ -54,6 +76,7 @@ class UserController extends AbstractController
             'users' => $users,
         ]);
     }
+
 
     /**
      * Cette fonction gère le formulaire d'édition de l'utilisateur.

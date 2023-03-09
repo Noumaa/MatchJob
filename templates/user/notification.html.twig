@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+
+    <script>
+        const xmlHttp = new XMLHttpRequest();
+    </script>
+
+    <div class="container">
+        <ul class="list-group list-group-flush">
+            {% for notif in app.user.notifications %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+
+                    <div class="ms-2 me-auto">
+                        <div>
+                            {% if notif.readAt is null %}
+                                <i class="icon-exclamation-circle text-warning"></i>
+                            {% endif %}
+
+                            <span class="fw-bold">{{ notif.label }}</span>
+                            <span class="text-muted">{{ notif.createdAt|date }}</span>
+                        </div>
+                        {{ notif.content }}
+                    </div>
+                </li>
+
+                <script>
+                    xmlHttp.open("GET", "{{ path('app_notifications_read', { 'id': notif.id }) }}", false);
+                    xmlHttp.send(null);
+                </script>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
