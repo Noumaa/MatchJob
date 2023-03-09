@@ -10,7 +10,7 @@
 
     <div class="container">
         <ul class="list-group list-group-flush">
-            {% for notif in app.user.notifications %}
+            {% for _, notif in notifs %}
 
                 <li class="list-group-item d-flex justify-content-between align-items-start">
 
@@ -27,10 +27,12 @@
                     </div>
                 </li>
 
-                <script>
-                    xmlHttp.open("GET", "{{ path('app_notifications_read', { 'id': notif.id }) }}", false);
-                    xmlHttp.send(null);
-                </script>
+                {% if notif.readAt is null %}
+                    <script>
+                        xmlHttp.open("GET", "{{ path('app_notifications_read', { 'id': notif.id }) }}", false);
+                        xmlHttp.send(null);
+                    </script>
+                {% endif %}
 
             {% else %}
 

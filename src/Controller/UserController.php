@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Demands;
 use App\Entity\Notification;
 use App\Entity\Offer;
+use App\Entity\User;
 use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,7 +23,11 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function notifications(ManagerRegistry $doctrine): Response
     {
-        return $this->render('user/notification.html.twig');
+        $notifs = $doctrine->getRepository(Notification::class)->findBy(['user' => $this->getUser()], ['createdAt' => 'DESC']);
+
+        return $this->render('user/notification.html.twig', [
+            'notifs' => $notifs
+        ]);
     }
 
 
