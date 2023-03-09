@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Offer
 {
     #[ORM\Id]
@@ -35,6 +36,9 @@ class Offer
     private ?\DateTimeInterface $endAt = null;
 
     #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'offers')]
@@ -44,12 +48,22 @@ class Offer
     #[ORM\Column]
     private ?bool $isArchived = false;
 
-    #[ORM\OneToMany(mappedBy: 'idOffer', targetEntity: Demands::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Offer', targetEntity: Demands::class, orphanRemoval: true)]
     private Collection $demands;
 
     public function __construct()
     {
         $this->demands = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateDates(): void
+    {
+        $this->setUpdatedAt(new \DateTimeImmutable('now'));
+        if ($this->getCreatedAt() === null) {
+            $this->setCreatedAt(new \DateTimeImmutable('now'));
+        }
     }
 
     public function getId(): ?int
@@ -125,6 +139,18 @@ class Offer
     public function setEndAt(?\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

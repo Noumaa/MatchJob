@@ -27,7 +27,7 @@
 		<div class="container-xxl py-5">
 			<div class="container">
 			<div class="mt-2 ml-2">
-				<a class="btn btn-primary py-3 px-5" href={{path('app_createOffer')}}>Déposer une offre</a>
+				<a class="btn btn-primary py-3 px-5" href={{path('app_offer_create')}}>Déposer une offre</a>
 			</div>
 				<h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Les offres</h1>
 				<div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
@@ -74,7 +74,7 @@
 												<a class="btn btn-light btn-square me-3" href="">
 													<i class="far fa-heart text-primary"></i>
 												</a>
-												<a class="btn btn-primary" href="{{path('app_detailOffer',{id:oneOffer.id})}}">Voir l'offre</a>
+												<a class="btn btn-primary" href="{{path('app_offer_detail',{id:oneOffer.id})}}">Voir l'offre</a>
 											</div>
 											<small class="text-truncate">
 												<i class="far fa-calendar-alt text-primary me-2"></i>Déposé le : {{oneOffer.createdAt | date("m/d/Y")}}</small>

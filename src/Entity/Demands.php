@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 #[ORM\Entity(repositoryClass: DemandsRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['Individual', 'Offer'], message: 'Vous avez déjà déposé votre candidature !')]
 class Demands
 {
@@ -41,6 +42,16 @@ class Demands
     public function __construct()
     {
         $this->demandStatusChanges = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateDates(): void
+    {
+        $this->setDateUpdate(new \DateTime('now'));
+        if ($this->getDateAdd() === null) {
+            $this->setDateAdd(new \DateTime('now'));
+        }
     }
 
     public function getId(): ?int
@@ -77,7 +88,6 @@ class Demands
         return $this->date_add;
     }
 
-    #[ORM\PrePersist]
     public function setDateAdd(\DateTimeInterface $date_add): self
     {
         $this->date_add = $date_add;
@@ -90,7 +100,6 @@ class Demands
         return $this->date_update;
     }
 
-    #[ORM\PreUpdate]
     public function setDateUpdate(\DateTimeInterface $date_update): self
     {
         $this->date_update = $date_update;

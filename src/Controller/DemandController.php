@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Demands;
+use App\Entity\Notification;
 use App\Entity\Offer;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,41 +15,48 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DemandController extends AbstractController
 {
-    #[IsGranted("ROLE_USER")]
-    #[Route('/deposer-candidature/{id}', name: 'app_newDemand')]
-    public function apply(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
-    { 
+    #[IsGranted("ROLE_PERSON")]
+    #[Route('/offres/{id}/postuler', name: 'app_apply')]
+    public function apply(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
+    {
         $entityManager = $doctrine->getManager();
-        if(in_array("ROLE_BUSINESS", $this->getUser()->getRoles()))
-        {
-            return $this->redirectToRoute("app_listOffer");
-        }
         $user = $this->getUser();
-        $NbDemandsOneOffer = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $user->getId(), "Offer" => $oneOffer->getId()]);
-        if(empty($NbDemandsOneOffer))
-        {
-            $demand = new Demands();
-            $demand->setOffer($oneOffer);
-            $demand->setIndividual($user);
-            $demand->setDateAdd(new DateTimeImmutable());
-            $demand->setDateUpdate(new DateTimeImmutable());
-            $entityManager->persist($demand);
-            $entityManager->flush();
-            $messageTrue = "La candidature a bien été déposé.";
-            return $this->render('offer/detail.html.twig', 
+
+        $demands = [];
+        foreach ($offer->getDemands() as $d) {
+            if ($d->getIndividual() === $user) $demands[] = $d;
+        }
+
+//        if (!empty($demands)) {
+//            $messageFalse = "Vous avez déjà déposé votre candidature !";
+//            return $this->render('offer/detail.html.twig',
+//                [
+//                    'oneOffer' => $offer,
+//                    'messageFalse' => $messageFalse,
+//                ]);
+//        }
+
+        $demand = new Demands();
+        $demand->setOffer($offer);
+        $demand->setIndividual($user);
+
+        $entityManager->persist($demand);
+
+        $notification = new Notification();
+        $notification->setSender($user);
+        $notification->setLabel('Quelqu\'un a postulé pour votre annonce !');
+        $notification->setContent('<strong>' . $user->getFirstName() . ' ' . $user->getLastName() . '</strong> a fait une demande pour <strong>' . $offer->getLabel() . '</strong>.');
+        $notification->setUser($offer->getUser());
+
+        $entityManager->persist($notification);
+
+        $entityManager->flush();
+
+        $messageTrue = "La candidature a bien été déposé.";
+        return $this->render('offer/detail.html.twig',
             [
                 'messageTrue' => $messageTrue,
-                'oneOffer' => $oneOffer,
+                'oneOffer' => $offer,
             ]);
-        }
-        else
-        {
-            $messageFalse = "Vous avez déjà déposé votre candidature !";
-            return $this->render('offer/detail.html.twig', 
-            [
-                'oneOffer' => $oneOffer,
-                'messageFalse' => $messageFalse,
-            ]);
-        }
     }
 }

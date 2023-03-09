@@ -51,26 +51,24 @@
             <section class="col-6 mt-5">
                 <h5>Les candidatures</h5>
                 <div class="demands-list overflow-auto h-100">
-                    <ul class="list-group">
-                      <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            {% if offers is defined %}
-                                {% for offer in offers %}
-                                <h2 class="accordion-header" id="flush-headingOne"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne"><span class="me-2 badge bg-primary rounded-pill">{{users | length}}</span>{{offer.label}}</button></h2>
-                                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                    {% for user in users %}
-                                        <div class="accordion-body">Nom : {{user.firstName}} <br> Prénom : {{user.lastName}} <br> E-mail : {{user.email}}</div><br><hr>
-                                    {% endfor %}
-                                        
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+                {% if offers is defined %}
+                    <div class="accordion" data-collapsible="true">
+                    {% for offer in offers %}
+                        <div class="accordion-header">
+                            <div class="accordion-icon">
+                                <i class="accordion-closed icon-ok-circle"></i>
+                                <i class="accordion-open icon-remove-circle"></i>
+                            </div>
+                            <div class="accordion-title">{{offer.label}}</div>
                         </div>
-                        
-                    </ul>
+                        {% for user in users %}
+                            <div class="accordion-content">Nom : {{user.firstName}} <br> Prénom : {{user.lastName}} <br> E-mail : {{user.email}}<br><hr></div>
+                        {% endfor %}
+                    {% endfor %}
+                    </div>
+                {% endif %}
                 </div>
             </section>
-
             <section class="col-6 mt-5">
                 <h5>Mes documents</h5>
                 {# <div class="demands-list">

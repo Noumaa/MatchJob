@@ -11,7 +11,7 @@ class DemandStatusFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $OfferStatus = array("Déposé", "En attente", "En cours d'étude", "En attente d'informations", "Approuvé", "Rejeté", "Accepté");
+        $OfferStatus = array("En attente", "Rejeté", "Accepté");
         for($i = 0 ; $i<sizeof($OfferStatus) ; $i++)
         {
             $DemandStatus = new DemandStatus();
