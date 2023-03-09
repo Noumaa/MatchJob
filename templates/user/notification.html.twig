@@ -20,10 +20,24 @@
                                 <i class="icon-exclamation-circle text-warning"></i>
                             {% endif %}
 
-                            <span class="fw-bold">{{ notif.label }}</span>
-                            <span class="text-muted">{{ notif.createdAt|date }}</span>
+                            <span class="fw-bold">
+                                {% if notif.label is not null %}
+                                    {{ notif.label }}
+                                {% else %}
+                                    {% if notif.type == 1 %}
+                                        Quelqu'un a postulé pour votre annonce !
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                            <span class="text-muted">{{ notif.sendedAt|date }}</span>
                         </div>
-                        {{ notif.content|raw }}
+                        {% if notif.content is not null %}
+                            {{ notif.content }}
+                        {% else %}
+                            {% if notif.type == 1 %}
+                                <strong>{{ notif.demand.individual.fullName }}</strong> a fait une demande pour <strong>{{ notif.demand.offer.label }}</strong>.
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </li>
 

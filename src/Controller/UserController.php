@@ -22,7 +22,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function notifications(ManagerRegistry $doctrine): Response
     {
-        $notifs = $doctrine->getRepository(Notification::class)->findBy(['user' => $this->getUser()], ['createdAt' => 'DESC']);
+        $notifs = $doctrine->getRepository(Notification::class)->findBy(['user' => $this->getUser()], ['sendedAt' => 'DESC']);
 
         return $this->render('user/notification.html.twig', [
             'notifs' => $notifs

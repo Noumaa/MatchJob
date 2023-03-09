@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Demands;
 use App\Entity\Notification;
 use App\Entity\Offer;
+use App\Service\Notifications\NotificationBuilder;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,7 +18,7 @@ class DemandController extends AbstractController
 {
     #[IsGranted("ROLE_PERSON")]
     #[Route('/offres/{id}/postuler', name: 'app_apply')]
-    public function apply(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
+    public function apply(Request $request, ManagerRegistry $doctrine, NotificationBuilder $notification, Offer $offer): Response
     {
         $entityManager = $doctrine->getManager();
         $user = $this->getUser();
@@ -42,15 +43,10 @@ class DemandController extends AbstractController
 
         $entityManager->persist($demand);
 
-        $notification = new Notification();
-        $notification->setSender($user);
-        $notification->setLabel('Quelqu\'un a postulé pour votre annonce !');
-        $notification->setContent('<strong>' . $user->getFirstName() . ' ' . $user->getLastName() . '</strong> a fait une demande pour <strong>' . $offer->getLabel() . '</strong>.');
-        $notification->setUser($offer->getUser());
-
-        $entityManager->persist($notification);
-
-        $entityManager->flush();
+        $notification
+            ->setType(\App\Service\Notifications\Notification::BusinessNewApplication)
+            ->setDemand($demand)
+            ->sendTo(array($offer->getUser()));
 
         $messageTrue = "La candidature a bien été déposé.";
         return $this->render('offer/detail.html.twig',
