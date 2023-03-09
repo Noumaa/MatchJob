@@ -127,7 +127,14 @@ class OfferController extends AbstractController
     #[Route('/offres/detail/{id}', name: 'app_detailOffer')]
     public function detail(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
+        //Incrémentation des vues
+        $manager = $doctrine->getManager();
         $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
+        $oneOffer->setViews($oneOffer->getViews()+1);
+        $manager->persist($oneOffer);
+        $manager->flush();
+        
+        //Affichage de l'offre en détails
         $duration = $oneOffer->getDuration();
         $years = $duration->format('%Y années');
         $month = $duration->format('%M mois');
