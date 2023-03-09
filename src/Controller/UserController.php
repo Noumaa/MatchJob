@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/compte')]
 class UserController extends AbstractController
 {
     #[Route('/notifications', name: 'app_notifications')]
@@ -44,42 +43,22 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('', name: 'app_profile')]
+    #[Route('/dashboard', name: 'app_dashboard')]
     #[IsGranted('ROLE_USER')]
-    public function profile(ManagerRegistry $doctrine): Response
-    {        
-        $demands = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $this->getUser()->getId()]);
-        //dd($demands);
-        if(!in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
-        {
-            
-            return $this->render('person/compte.html.twig',
-            [
-                'demands' => $demands,
-            ]);
+    public function dashboard(ManagerRegistry $doctrine): Response
+    {
+        if (in_array('ROLE_BUSINESS', $this->getUser()->getRoles())) {
+            return $this->redirectToRoute('app_business_dashboard');
         }
 
-        //Récupération des offres d'emplois
-        $offers = $doctrine->getRepository(Offer::class)->findBy(["user" => $this->getUser()->getId()]);
+        return $this->render('person/dashboard/index.html.twig');
+    }
 
-        $demands =  [];
-
-        foreach($offers as $offer)
-        {
-            $demands[] = $doctrine->getRepository(Demands::class)->findBy(["Offer" => $offer->getId()]);
-        }
-        $users = [];
-
-        for($i = 0 ; $i<count($demands) ; $i++)
-        {
-            $users[] = $demands[0][$i]->getIndividual();
-        }
-        
-        return $this->render('business/compte.html.twig',
-        [
-            'offers' => $offers,
-            'users' => $users,
-        ]);
+    #[Route('/applications', name: 'app_applications')]
+    #[IsGranted('ROLE_PERSON')]
+    public function applications(): Response
+    {
+        return $this->render('person/dashboard/applications.html.twig');
     }
 
 

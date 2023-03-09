@@ -1,0 +1,14 @@
+{% set notifications = [] %}
+
+{% for notif in app.user.notifications %}
+    {% if notif.readAt is null %}
+        {% set notifications = notifications|merge([notif]) %}
+    {% endif %}
+{% endfor %}
+
+{% if notifications is not empty %}
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        {{ notifications|length }}
+        <span class="visually-hidden">notifications</span>
+    </span>
+{% endif %}
