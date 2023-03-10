@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
-{% block title %}Détails | MatchJob
-{% endblock %}
+
+{% block title %}{{ oneOffer.label }} / {{ oneOffer.user.name }}{% endblock %}
+
 {% block body %}
 	<style>
 		.example-wrapper {
