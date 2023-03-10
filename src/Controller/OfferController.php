@@ -3,9 +3,10 @@ namespace App\Controller;
 
 use App\Entity\Offer;
 use App\Form\OfferType;
+use App\Service\Applications\Applications;
 use DateTimeImmutable;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +57,7 @@ class OfferController extends AbstractController
 
 
     #[Route('/offres/{id}', name: 'app_offer_detail')]
-    public function detail(ManagerRegistry $doctrine, Offer $oneOffer): Response
+    public function detail(Request $request, ManagerRegistry $doctrine, Applications $applications, Offer $oneOffer): Response
     {
         $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
         $duration = $oneOffer->getDuration();
@@ -64,10 +65,29 @@ class OfferController extends AbstractController
         $month = $duration->format('%M mois');
         $days = $duration->format('%D jours');
         $dateInterval = $days . " " . $month . " " . $years . " ";
+
+        if ($request->isMethod('POST'))
+        {
+            $success = $applications->create($oneOffer, $this->getUser());
+
+            if ($success)
+            {
+                $message = "<strong>Confirmé !</strong> La candidature a bien été déposé.";
+                $messageType = 'success';
+            }
+            else
+            {
+                $message = "<strong>Erreur !</strong> Vous avez déjà déposé votre candidature !";
+                $messageType = 'danger';
+            }
+        }
+
         return $this->render('offer/detail.html.twig',
             [
                 'oneOffer' => $oneOffer,
                 'duration' => $dateInterval,
+                'message' => $message ?? null,
+                'messageType' => $messageType ?? null,
             ]);
     }
 

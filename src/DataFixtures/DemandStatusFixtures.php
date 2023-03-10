@@ -11,13 +11,15 @@ class DemandStatusFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $OfferStatus = array("En attente", "Rejeté", "Accepté");
-        for($i = 0 ; $i<sizeof($OfferStatus) ; $i++)
+        $statuses = \App\Service\Applications\ApplicationStatus::cases();
+
+        foreach ($statuses as $status)
         {
             $DemandStatus = new DemandStatus();
-            $DemandStatus->setLabel($OfferStatus[$i]);
+            $DemandStatus->setLabel($status->value);
             $manager->persist($DemandStatus);
         }
+
         $manager->flush();
     }
     public function getDependencies()

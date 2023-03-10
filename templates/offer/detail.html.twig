@@ -1,52 +1,32 @@
 {% extends 'base.html.twig' %}
-{% block title %}Détails | MatchJob
-{% endblock %}
-{% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
-	{# {{ form_start(oneOffer) }}
-	
-	    {{ form_label(oneOffer.label) }}
-	
-	{{ form_end(oneOffer) }} #}
 
+{% block title %}{{ oneOffer.label }} / {{ oneOffer.user.name }}{% endblock %}
 
-	<!-- Header End -->
-	<div class="container-xxl py-5 bg-dark page-header mb-5">
-		<div class="container my-5 pt-5 pb-4">
-			<h1 class="display-3 text-white mb-3 animated slideInDown">{{oneOffer.label}}</h1>
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb text-uppercase">
-					<li class="breadcrumb-item">
-						<a href="{{path('app_home')}}">Home</a>
-					</li>
-					<li class="breadcrumb-item">
-						<a href="{{path('app_offer_list')}}">Offres</a>
-					</li>
-					<li class="breadcrumb-item text-white active" aria-current="page">Detail</li>
-				</ol>
-			</nav>
+{% block home %}
+	<!-- Page Title
+	============================================= -->
+	<section id="page-title">
+
+		<div class="container clearfix">
+			<h1>{{ oneOffer.label }}</h1>
 		</div>
-	</div>
-	<!-- Header End -->
 
+	</section><!-- #page-title end -->
+{% endblock %}
+
+{% block body %}
 
 	<!-- Job Detail Start -->
-	<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+	<div class="container-xxl">
+		{% if message is not null %}
+			<div class="alert alert-{{ messageType }} alert-dismissible fade show" role="alert">
+				{{ message|raw }}
+			</div>
+		{% endif %}
 		<div class="container">
 			<div class="row gy-5 gx-4">
 				<div class="col-lg-8">
-					<div class="d-flex align-items-center mb-5">
+					<div class="d-flex align-items-center mb-4">
 						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/img/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
 						<div class="text-start ps-4">
 							<h3 class="mb-3">{{oneOffer.label}}</h3>
@@ -59,6 +39,11 @@
 								€/h</span>
 						</div>
 					</div>
+					{% if app.user %}
+						<div class="d-flex mb-5">
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Déposer sa candidature</button>
+						</div>
+					{% endif %}
 
 					<div class="mb-5">
 						<h4 class="mb-3">Description</h4>
@@ -120,8 +105,6 @@
 							{{oneOffer.user.siret}}</p>
 					</div>
 				</div>
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary col-lg-3 col-sm-12" data-bs-toggle="modal" data-bs-target="#exampleModal">Déposer sa candidature</button>
 
 				<!-- Modal -->
 				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,7 +119,11 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-						<button type="button" class="btn btn-primary"><a style="color:white" href="{{path('app_apply',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
+						<form method="post">
+							<button type="submit" class="btn btn-primary">
+								Déposer sa candidature
+							</button>
+						</form>
 					</div>
 					</div>
 				</div>
@@ -145,18 +132,6 @@
 				{# <div class="col-12">
 					<button class="btn btn-primary w-20"><a style="color:white" href="{{path('app_apply',{id:oneOffer.id})}}">Déposer sa candidature</a></button>
 				</div> #}
-				{% if messageTrue is defined %}
-					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						<strong>Confirmé !</strong> {{messageTrue}}
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					</div>
-				{% endif %}
-				{% if messageFalse is defined %}
-					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<strong>Erreur !</strong> {{messageFalse}}
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					</div>
-				{% endif %}
 
 			</div>
 		</div>

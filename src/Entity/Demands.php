@@ -27,11 +27,11 @@ class Demands
     private ?Offer $Offer = null;
 
 
-    #[ORM\Column(type:"datetime", name:"date_add")]
+    #[ORM\Column(name: "date_add", type: "datetime")]
     private ?\DateTimeInterface $date_add = null;
 
     
-    #[ORM\Column(type:"datetime", options:["default" => "CURRENT_TIMESTAMP"], name:"date_update")]
+    #[ORM\Column(name: "date_update", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
     
     private ?\DateTimeInterface $date_update = null;
 

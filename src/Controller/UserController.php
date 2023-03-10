@@ -54,11 +54,15 @@ class UserController extends AbstractController
         return $this->render('person/dashboard/index.html.twig');
     }
 
-    #[Route('/applications', name: 'app_applications')]
+    #[Route('/dashboard/candidatures', name: 'app_applications')]
     #[IsGranted('ROLE_PERSON')]
-    public function applications(): Response
+    public function applications(ManagerRegistry $doctrine): Response
     {
-        return $this->render('person/dashboard/applications.html.twig');
+        $applications = $doctrine->getRepository(Demands::class)->findBy(['Individual' => $this->getUser()], ['date_add' => 'DESC']);
+
+        return $this->render('person/dashboard/applications.html.twig', [
+            'applications' => $applications
+        ]);
     }
 
 
