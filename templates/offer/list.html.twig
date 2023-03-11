@@ -55,7 +55,7 @@
 
 									<div class="row g-4">
 										<div class="col-sm-12 col-md-8 d-flex align-items-center">
-											<img class="flex-shrink-0 img-fluid border rounded" src="{{ asset("assets/images/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
+											<a href="{{path('app_profile',{id:oneOffer.user.id})}}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ asset("assets/images/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;"></a>
 											<div class="text-start ps-4">
 												<h5 class="mb-3">{{oneOffer.label}} • {{ oneOffer.user.name }}</h5>
 												{# <span class="text-truncate me-3">

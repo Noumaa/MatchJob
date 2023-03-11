@@ -29,6 +29,28 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/compte', name: 'app_profile')]
+    #[IsGranted('ROLE_PERSON')]
+    public function profile(ManagerRegistry $doctrine): Response
+    {
+        $demands = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $this->getUser()->getId()]);
+        
+        return $this->render('person/compte.html.twig',
+        [
+            'demands' => $demands,
+        ]);
+    }
+
+
+    #[Route('/entreprise/{id}', name: 'app_profile')]
+    public function business(ManagerRegistry $doctrine, User $user): Response
+    {        
+        return $this->render('business/compte.html.twig',
+        [
+            'business' => $user,
+        ]);
+    }
+
 
     #[Route('/notifications/{id}', name: 'app_notifications_read')]
     #[IsGranted('ROLE_USER')]
@@ -77,7 +99,7 @@ class UserController extends AbstractController
      * 
      * @return Response - a response object that redirects the user to the profile page or returns a view for the edit form
      */
-    #[Route('/editer', name: 'app_profile_edit')]
+    #[Route('/compte/editer', name: 'app_profile_edit')]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
