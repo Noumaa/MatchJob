@@ -29,26 +29,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_profile')]
-    public function profile(ManagerRegistry $doctrine, User $user): Response
-    {
-        if (in_array('ROLE_PERSON', $user->getRoles())) {
-
-            $demands = $user->getDemands();
-
-            return $this->render('person/compte.html.twig',
-                [
-                    'demands' => $demands,
-                ]);
-
-        }
-
-        return $this->render('business/compte.html.twig',
-            [
-                'business' => $user,
-            ]);
-    }
-
 
     #[Route('/notifications/{id}', name: 'app_notifications_read')]
     #[IsGranted('ROLE_USER')]
@@ -138,5 +118,25 @@ class UserController extends AbstractController
         return $this->render('person/editer.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/{id}/', name: 'app_profile')]
+    public function profile(ManagerRegistry $doctrine, User $user): Response
+    {
+        if (in_array('ROLE_PERSON', $user->getRoles())) {
+
+            $demands = $user->getDemands();
+
+            return $this->render('person/compte.html.twig',
+                [
+                    'demands' => $demands,
+                ]);
+
+        }
+
+        return $this->render('business/compte.html.twig',
+            [
+                'business' => $user,
+            ]);
     }
 }
