@@ -29,26 +29,24 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/compte', name: 'app_profile')]
-    #[IsGranted('ROLE_PERSON')]
-    public function profile(ManagerRegistry $doctrine): Response
+    #[Route('/{id}', name: 'app_profile')]
+    public function profile(ManagerRegistry $doctrine, User $user): Response
     {
-        $demands = $doctrine->getRepository(Demands::class)->findBy(["Individual" => $this->getUser()->getId()]);
-        
-        return $this->render('person/compte.html.twig',
-        [
-            'demands' => $demands,
-        ]);
-    }
+        if (in_array('ROLE_PERSON', $user->getRoles())) {
 
+            $demands = $user->getDemands();
 
-    #[Route('/entreprise/{id}', name: 'app_profile')]
-    public function business(ManagerRegistry $doctrine, User $user): Response
-    {        
+            return $this->render('person/compte.html.twig',
+                [
+                    'demands' => $demands,
+                ]);
+
+        }
+
         return $this->render('business/compte.html.twig',
-        [
-            'business' => $user,
-        ]);
+            [
+                'business' => $user,
+            ]);
     }
 
 
@@ -133,7 +131,7 @@ class UserController extends AbstractController
         
         if(in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
         {
-            return $this->render('business/editer.html.twig', [
+            return $this->render('business/dashboard/editer.html.twig', [
                 'form' => $form->createView()
             ]);
         }

@@ -74,5 +74,5 @@ yarn-error.log
 .php-version
 var/data.db
 
-**/public/assets/images/pp/**
+**/public/assets/images/pp/*
 !**/public/assets/images/pp/.default.png
