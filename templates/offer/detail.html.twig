@@ -27,7 +27,7 @@
 			<div class="row gy-5 gx-4">
 				<div class="col-lg-8">
 					<div class="d-flex align-items-center mb-4">
-						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/img/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
+						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/images/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
 						<div class="text-start ps-4">
 							<h3 class="mb-3">{{oneOffer.label}}</h3>
 							<span class="text-truncate me-3">
@@ -39,10 +39,13 @@
 								€/h</span>
 						</div>
 					</div>
+					
 					{% if app.user %}
 						<div class="d-flex mb-5">
 							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Déposer sa candidature</button>
 						</div>
+					{% else %}
+						<h3>Connectez-vous pour postuler à cette offre.</h3>
 					{% endif %}
 
 					<div class="mb-5">

@@ -9,30 +9,35 @@
 {% block body %}
 
 	<div class="container p-0">
-		<div
-			class="border border-black rounded-5">
+		<div class="border border-black rounded-5">
 			{# Bannière #}
-			<div class="border border-black rouded-bottom rounded-5">
-				<div class="container">
-					<img src="https://upload.wikimedia.org/wikipedia/fr/thumb/3/37/Logo_Intermarch%C3%A9.svg/1280px-Logo_Intermarch%C3%A9.svg.png" alt="">
+			<div class="container">
+				<div class="d-flex justify-content-center">
+					<img class="w-50 img-fluid" src="{{ asset('assets/images/pp/' ~ app.user.bannerPicture) }}" alt="">
 				</div>
 			</div>
 
-			<div class="rounded-top rounded-5">
+			<div class="border border-black rounded-top rounded-5">
 				<div
-					class="row mx-auto">
+					class="row jsutify-content-center">
 					{# Bio #}
 					<div class="col-2">
 						<img class="rounded img-fluid" src="{{ asset('assets/images/pp/' ~ app.user.profilePicture) }}" alt="">
 					</div>
 					<div class="col">
                         <div class="my-2">
-                            <h2 class="mb-0">Intermarché</h2>
+                            <h2 class="mb-0">{{business.name}}</h2>
                         </div>
                         <div class="hstack gap-5 text-muted">
                             <div>
                                 <i class="bi bi-award-fill"></i>
-                                <span class="">Vérifié</span>
+                                <span class="">
+								{% if business.verified %}
+									Vérifié
+								{% else %}
+									Pas Vérifié
+								</span>
+								{% endif %}
                             </div>
                             <div>
                                 <i class="bi bi-bar-chart-fill"></i>
@@ -40,7 +45,7 @@
                             </div>
                             <div>
                                 <i class="bi bi-calendar-check-fill"></i>
-                                janvier 2022
+                                {{business.createdAt |date("M/Y")}}
                             </div>
                         </div>
 
@@ -50,28 +55,32 @@
 					</div>
 				</div>
 
-				<div
-					class="row mx-auto">
+				<div class="row container">
 					{# A propos #}
-					<div class="col-lg-3 col-sm-12">
-						<div class="mx-2 my-2 justify-content-center">
-							<div class="card card shadow">
-								<div class="card-body">
-									<h3>A propos de nous :</h3>
-									<p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid facilis ipsum excepturi veritatis voluptatem eum voluptas, beatae omnis, perspiciatis, dicta quas quasi optio libero totam incidunt. Deserunt hic aspernatur similique.</p>
-								</div>
+					<div class="col-lg-4 col-sm-12">
+						<div class="card card shadow p-2">
+							<div class="card-body">
+								<h3>A propos de nous :</h3>
+								<p class="card-text">
+									<li>Siret : {{business.siret}}</li>
+									<li>Adresse : {{business.address}}</li>
+									<li>Code postale : {{business.zipCode}}</li>
+									<li>Ville : {{business.city}}</li>
+									<li>Pays : {{business.country}}</li>
+									<li>Numéro : {{business.phone}}</li>
+								</p>
 							</div>
 						</div>
 					</div>
 
 					{# Offres #}
-					<div class="d-flex col-lg-9 col-sm-12 flex-wrap align-content-start justify-content-left">
-                            {% for i in 1..6 %}
-                                <div class="card col-lg-4 col-sm-12 my-2 shadow">
+					<div class="d-flex col-lg-8 col-sm-12 flex-wrap m-0 p-0">
+                            {% for offer in offers %}
+                                <div class="card col-lg-3 col-sm-12 shadow">
                                     <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <h5 class="card-title">{{offer.label}}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">{{offer.moneyPerHour}} € /h</h6>
+                                        <p class="card-text">{{ offer.description|length > 100 ? offer.description|slice(0, 100) ~ '...' : offer.description  }}</p>
                                     </div>
                                 </div>
                             {% endfor %}

@@ -52,6 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePicture = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bannerPicture = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -95,6 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
 
+    
     public function __construct()
     {
         $this->offers = new ArrayCollection();
@@ -253,6 +257,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfilePicture(string $profilePicture): self
     {
         $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getBannerPicture(): ?string
+    {
+        return $this->bannerPicture == null ? ".default-banner.png" : $this->bannerPicture;
+    }
+
+    public function setBannerPicture(?string $bannerPicture): self
+    {
+        $this->bannerPicture = $bannerPicture;
 
         return $this;
     }
@@ -457,4 +473,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
 }
