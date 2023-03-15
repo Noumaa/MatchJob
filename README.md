@@ -69,11 +69,13 @@ Les outils suivants ont été beaucoup sollicités :
 
 ## :white_check_mark: Dépendances ##
 
-L'utilisation de [PHP](https://www.php.net/) est requise, version 8.1.11 minimum.  
-Les extensions `cURL`, `intl` et `openSSL` sont également requises.  
-*N'oubliez pas d'activer l'extension de votre SGBD, si vous ne prévoyez pas de mettre le serveur en production, activez simplement `pdo_sqlite`*
+- [PHP](https://www.php.net/) 8.1.11
+- [Composer](#)
+- [MariaDB](#) 8.10
 
 ## :checkered_flag: Installation ##
+
+Vous devez avoir installé les dependances, et configuré un utilisateur et sa base de données sur MariaDB.
 
 ```bash
 # Cloner le dépôt
@@ -81,27 +83,31 @@ $ git clone https://github.com/Noumaa/matchjob
 
 # Se rendre au bon endroit (c'est mieux)
 $ cd matchjob
+```
 
+Configurez ensuite le DSN, permettant la connection de l'app avec le serveur MariaDB.  
+Pour ce faire rendez-vous dans le fichier `.env`.
+
+```bash
 # Installer les dépendences
 $ composer install
 
 # Faire les migrations (pour la base de données)
-$ php bin/console make:migration
 $ php bin/console doctrine:migrations:migrate
 
-# Charger les jeux de données
+# Charger les jeux de données à des fins de test !
+# /!\ Possible seulement dans un
+#     environnement de développement.
 $ php bin/console doctrine:fixtures:load
 
 # Lancer le serveur !
+# /!\ En production, préférez utiliser
+#     un serveur web profesionnel
+#     comme apache ou nginx.
 $ symfony server:start # Requiert Symfony CLI
 
-# Le serveur se sera initialisé sur <http://localhost:8000>
+# Le serveur sera initialisé sur <http://localhost:8000>
 ```
-
-### Remarques
-
-- Lancer un serveur en utilisant Symfony CLI ne sera pas suffisant lors d'un déploiement. Pour plus d'informations rendez-vous sur la documentation du serveur de votre choix (Apache, nginx, etc).
-- Par défaut, MatchJob génère une base de données SQLite à des fins de développement. Lors d'un déploiement il est préférable d'installer un "vrai" SGBDR tel que MySQL, PostgreSQL, etc. [Plus d'informations](https://symfony.com/doc/current/doctrine.html#configuring-the-database).
 
 <!-- ## :memo: Licence ##
 
