@@ -51,6 +51,9 @@ class Offer
     #[ORM\OneToMany(mappedBy: 'Offer', targetEntity: Demands::class, orphanRemoval: true)]
     private Collection $demands;
 
+    #[ORM\Column]
+    private ?int $views = 0;
+
     public function __construct()
     {
         $this->demands = new ArrayCollection();
@@ -217,6 +220,18 @@ class Offer
                 $demand->setIdOffer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
 
         return $this;
     }

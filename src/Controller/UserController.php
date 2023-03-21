@@ -54,11 +54,15 @@ class UserController extends AbstractController
         return $this->render('person/dashboard/index.html.twig');
     }
 
-    #[Route('/applications', name: 'app_applications')]
+    #[Route('/dashboard/candidatures', name: 'app_applications')]
     #[IsGranted('ROLE_PERSON')]
-    public function applications(): Response
+    public function applications(ManagerRegistry $doctrine): Response
     {
-        return $this->render('person/dashboard/applications.html.twig');
+        $applications = $doctrine->getRepository(Demands::class)->findBy(['Individual' => $this->getUser()], ['date_add' => 'DESC']);
+
+        return $this->render('person/dashboard/applications.html.twig', [
+            'applications' => $applications
+        ]);
     }
 
 
@@ -73,7 +77,7 @@ class UserController extends AbstractController
      * 
      * @return Response - a response object that redirects the user to the profile page or returns a view for the edit form
      */
-    #[Route('/editer', name: 'app_profile_edit')]
+    #[Route('/compte/editer', name: 'app_profile_edit')]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -107,12 +111,32 @@ class UserController extends AbstractController
         
         if(in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
         {
-            return $this->render('business/editer.html.twig', [
+            return $this->render('business/dashboard/editer.html.twig', [
                 'form' => $form->createView()
             ]);
         }
         return $this->render('person/editer.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/{id}/', name: 'app_profile')]
+    public function profile(ManagerRegistry $doctrine, User $user): Response
+    {
+        if (in_array('ROLE_PERSON', $user->getRoles())) {
+
+            $demands = $user->getDemands();
+
+            return $this->render('person/compte.html.twig',
+                [
+                    'demands' => $demands,
+                ]);
+
+        }
+
+        return $this->render('business/compte.html.twig',
+            [
+                'business' => $user,
+            ]);
     }
 }

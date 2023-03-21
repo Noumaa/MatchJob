@@ -18,7 +18,7 @@ class DemandStatus
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\OneToMany(mappedBy: 'DemandStatus', targetEntity: DemandStatusChange::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'ApplicationStatus', targetEntity: DemandStatusChange::class, orphanRemoval: true)]
     private Collection $demandStatusChanges;
 
     public function __construct()

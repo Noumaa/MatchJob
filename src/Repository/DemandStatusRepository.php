@@ -40,7 +40,7 @@ class DemandStatusRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return DemandStatus[] Returns an array of DemandStatus objects
+//     * @return ApplicationStatus[] Returns an array of ApplicationStatus objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class DemandStatusRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?DemandStatus
+//    public function findOneBySomeField($value): ?ApplicationStatus
 //    {
 //        return $this->createQueryBuilder('d')
 //            ->andWhere('d.exampleField = :val')

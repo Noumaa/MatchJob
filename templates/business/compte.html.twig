@@ -2,94 +2,85 @@
 
 {# TODO féminin #}
 
-{% block title %}Mon profil{% endblock %}
+{% block title %}
+	{{ business.name }}
+{% endblock %}
 
 {% block body %}
 
-<div class="container p-0">
-    <div class="row mx-auto bg-primary text-white p-5">
-        <div class="col-md-2 col-4">
-            {# Photo de profil #}
-            <picture>
-            
-                <img src="{{ asset("assets/img/pp/" ~ app.user.profilePicture) }}" alt="Photo de profil" class="{% if "ROLE_BUSINESS" in app.user.roles %}rounded{% else %}rounded-circle{% endif %} mb-3 img-fluid shadow d-block mx-auto">
-            </picture>
+	<div class="container p-0">
+		<div
+			class="border border-black rounded-5">
+			{# Bannière #}
+			<div class="border border-black rouded-bottom rounded-5">
+				<div class="container">
+					<img src="https://upload.wikimedia.org/wikipedia/fr/thumb/3/37/Logo_Intermarch%C3%A9.svg/1280px-Logo_Intermarch%C3%A9.svg.png" alt="">
+				</div>
+			</div>
 
-            <div class="mb-3 d-grid gap-2">
-                <a class="btn btn-light text-black-50" href="{{ path("app_profile_edit") }}">
-                    <i class="bi bi-pencil-square"></i>
-                    Modifier le profil
-                </a>
-            </div>
-        </div>
-
-        <div class="col-md-10 col-8 ps-5 ">
-            <h1 class="ps-5 mb-3 display-3 text-white">{{app.user.firstName}} {{app.user.lastName}}</h1>
-
-            {# Bio #}
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iste quod dolorem eligendi fuga, hic perspiciatis tenetur ipsa asperiores, ullam, cupiditate possimus! Omnis animi natus quis nulla, beatae velit magnam sint!</p>
-        
-            {# Infos #}
-            <ul class="un-dot p-0 text-black-50">
-                <li>
-                    <i class="bi bi-balloon"></i> est né(e) le {{ app.user.dateOfBirth|date("d F Y", false) }}
-                </li>
-                <li>
-                    <i class="bi bi-geo-alt"></i> vient de {{ app.user.city }}
-                </li>
-                <li>
-                    <i class="bi bi-calendar-check"></i> à rejoint le {{ app.user.createdAt|date("F Y", false) }}
-                </li>
-            </ul>
-
-            {# Toutes les données #}
-        </div>
-    </div>
-
-    <div class="content px-5">
-        <div class="row">
-            <section class="col-6 mt-5">
-                <h5>Les candidatures</h5>
-                <div class="demands-list overflow-auto h-100">
-                {% if offers is defined %}
-                    <div class="accordion" data-collapsible="true">
-                    {% for offer in offers %}
-                        <div class="accordion-header">
-                            <div class="accordion-icon">
-                                <i class="accordion-closed icon-ok-circle"></i>
-                                <i class="accordion-open icon-remove-circle"></i>
-                            </div>
-                            <div class="accordion-title">{{offer.label}}</div>
+			<div class="rounded-top rounded-5">
+				<div
+					class="row mx-auto">
+					{# Bio #}
+					<div class="col-2">
+						<img class="rounded img-fluid" src="{{ asset('assets/images/pp/' ~ app.user.profilePicture) }}" alt="">
+					</div>
+					<div class="col">
+                        <div class="my-2">
+                            <h2 class="mb-0">Intermarché</h2>
                         </div>
-                        {% for user in users %}
-                            <div class="accordion-content">Nom : {{user.firstName}} <br> Prénom : {{user.lastName}} <br> E-mail : {{user.email}}<br><hr></div>
-                        {% endfor %}
-                    {% endfor %}
-                    </div>
-                {% endif %}
-                </div>
-            </section>
-            <section class="col-6 mt-5">
-                <h5>Mes documents</h5>
-                {# <div class="demands-list">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
-                            <label class="form-check-label" for="firstCheckbox">CV</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckbox">
-                            <label class="form-check-label" for="secondCheckbox">Lettre de motivation</label>
-                        </li>
-                        <li class="list-group-item">
-                            <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckbox">
-                            <label class="form-check-label" for="thirdCheckbox">Attestation TOEIC</label>
-                        </li>
-                    </ul>
-                </div> #}
-            </section>
-        </div>
-    </div>
-</div>
+                        <div class="hstack gap-5 text-muted">
+                            <div>
+                                <i class="bi bi-award-fill"></i>
+                                <span class="">Vérifié</span>
+                            </div>
+                            <div>
+                                <i class="bi bi-bar-chart-fill"></i>
+                                89%
+                            </div>
+                            <div>
+                                <i class="bi bi-calendar-check-fill"></i>
+                                janvier 2022
+                            </div>
+                        </div>
+
+						<div class="mt-2">
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis magnam nisi, repellat et voluptate nesciunt earum possimus dicta repudiandae dolorem dolore impedit deserunt non recusandae asperiores! Sequi suscipit animi tenetur.</p>
+						</div>
+					</div>
+				</div>
+
+				<div
+					class="row mx-auto">
+					{# A propos #}
+					<div class="col-lg-3 col-sm-12">
+						<div class="mx-2 my-2 justify-content-center">
+							<div class="card card shadow">
+								<div class="card-body">
+									<h3>A propos de nous :</h3>
+									<p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid facilis ipsum excepturi veritatis voluptatem eum voluptas, beatae omnis, perspiciatis, dicta quas quasi optio libero totam incidunt. Deserunt hic aspernatur similique.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{# Offres #}
+					<div class="d-flex col-lg-9 col-sm-12 flex-wrap align-content-start justify-content-left">
+                            {% for i in 1..6 %}
+                                <div class="card col-lg-4 col-sm-12 my-2 shadow">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 
 {% endblock %}
+

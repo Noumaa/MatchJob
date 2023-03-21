@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'business/base.html.twig' %}
 
 {% block title %}Mon profil{% endblock %}
 
 {% block body %}
+
+    <a href="{{ path('app_profile', {'id': app.user.id}) }}">Profil</a>
 
 {{ form_start(form) }}
 

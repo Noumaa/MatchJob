@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DemandStatusChangeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class DemandStatusChange
 {
     #[ORM\Id]
@@ -23,10 +24,13 @@ class DemandStatusChange
     private ?DemandStatus $DemandStatus = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_add = null;
+    private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_update = null;
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        if ($this->date == null) $this->date = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -45,26 +49,14 @@ class DemandStatusChange
         return $this;
     }
 
-    public function getDateAdd(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->date_add;
+        return $this->date;
     }
 
-    public function setDateAdd(\DateTimeInterface $date_add): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->date_add = $date_add;
-
-        return $this;
-    }
-
-    public function getDateUpdate(): ?\DateTimeInterface
-    {
-        return $this->date_update;
-    }
-
-    public function setDateUpdate(\DateTimeInterface $date_update): self
-    {
-        $this->date_update = $date_update;
+        $this->date = $date;
 
         return $this;
     }
