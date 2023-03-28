@@ -1,0 +1,124 @@
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: Update APT cache
+      apt: update_cache=yes
+      ignore_errors: yes
+
+    - name: Install Ansible's MySQL dependency
+      apt: name=python3-mysqldb state=latest
+
+    - name: Install common dependencies
+      apt:
+        name:
+          - lsb-release
+          - ca-certificates
+          - apt-transport-https
+          - software-properties-common
+          - unzip
+          - curl
+
+    - name: Add PHP repository
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+
+    - name: Install PHP and it's extensions
+      apt:
+        name:
+          - php8.1
+          - php8.1-cli
+          - php8.1-common
+          - php8.1-mysql
+          - php8.1-mbstring
+          - php8.1-xml
+          - php8.1-dom
+          - php8.1-intl
+        state: latest
+
+    - name: Install Composer
+      shell: '{{ item }}'
+      loop:
+        - curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
+        - HASH=`curl -sS https://composer.github.io/installer.sig`
+        - php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+        - php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+    - name: Install MariaDB
+      apt: name=mariadb-server state=latest
+
+    - name: Create MatchJob database
+      mysql_db:
+        name: matchjob
+        state: present
+
+    - name: Create MatchJob user
+      mysql_user:
+        name: matchjob
+        password: matchjob123
+        state: present
+        priv: "matchjob.*:ALL"
+
+    - name: Restart MariaDB
+      service: name=mysql state=restarted
+
+    - name: Install Git
+      apt: name=git state=latest
+
+    - name: Clone MatchJob's repository
+      git:
+        repo: https://github.com/Noumaa/MatchJob.git
+        dest: /var/www/matchjob
+      ignore_errors: yes
+
+    - name: Set up permissions on var/
+      shell: chown -R www-data:www-data /var/www/matchjob/var
+      shell: chmod -R 775 /var/www/matchjob/var 
+
+    - name: Composer install
+      shell:
+        cmd: composer install
+        chdir: /var/www/matchjob
+      environment:
+        COMPOSER_ALLOW_SUPERUSER: "1"
+      ignore_errors: yes
+
+    - name: Setting up prod environment
+      lineinfile:
+        dest: /var/www/matchjob/.env
+        regexp: "APP_ENV="
+        line: "APP_ENV=prod"
+
+    - name: Configure database connection
+      lineinfile:
+        dest: /var/www/matchjob/.env
+        regexp: "DATABASE_URL="
+        line: "DATABASE_URL=\"mysql://matchjob:matchjob123@127.0.0.1:3306/matchjob\""
+
+    - name: Migrate database
+      shell:
+        cmd: php bin/console d:m:m
+        chdir: /var/www/matchjob
+
+    - name: Install Apache
+      apt: name=apache2 state=latest
+
+    - name: Enable Apache's mod_rewrite module
+      apache2_module:
+        state: present
+        name: rewrite
+
+    - name: Set up Apache virtual host
+      template:
+        src: "files/matchjob.conf"
+        dest: "/etc/apache2/sites-available/matchjob.conf"
+
+    - name: Disable default Apache site
+      shell: /usr/sbin/a2dissite 000-default
+
+    - name: Enable MatchJob site
+      shell: /usr/sbin/a2ensite matchjob
+
+    - name: Restart Apache
+      service: name=apache2 state=restarted
