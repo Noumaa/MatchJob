@@ -18,12 +18,12 @@ class DemandStatus
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\OneToMany(mappedBy: 'ApplicationStatus', targetEntity: DemandStatusChange::class, orphanRemoval: true)]
-    private Collection $demandStatusChanges;
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Demands::class)]
+    private Collection $demands;
 
     public function __construct()
     {
-        $this->demandStatusChanges = new ArrayCollection();
+        $this->demands = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,29 +44,29 @@ class DemandStatus
     }
 
     /**
-     * @return Collection<int, DemandStatusChange>
+     * @return Collection<int, Demands>
      */
-    public function getDemandStatusChanges(): Collection
+    public function getDemands(): Collection
     {
-        return $this->demandStatusChanges;
+        return $this->demands;
     }
 
-    public function addDemandStatusChange(DemandStatusChange $demandStatusChange): self
+    public function addDemand(Demands $demand): self
     {
-        if (!$this->demandStatusChanges->contains($demandStatusChange)) {
-            $this->demandStatusChanges->add($demandStatusChange);
-            $demandStatusChange->setDemandStatus($this);
+        if (!$this->demands->contains($demand)) {
+            $this->demands->add($demand);
+            $demand->setStatus($this);
         }
 
         return $this;
     }
 
-    public function removeDemandStatusChange(DemandStatusChange $demandStatusChange): self
+    public function removeDemand(Demands $demand): self
     {
-        if ($this->demandStatusChanges->removeElement($demandStatusChange)) {
+        if ($this->demands->removeElement($demand)) {
             // set the owning side to null (unless already changed)
-            if ($demandStatusChange->getDemandStatus() === $this) {
-                $demandStatusChange->setDemandStatus(null);
+            if ($demand->getStatus() === $this) {
+                $demand->setStatus(null);
             }
         }
 

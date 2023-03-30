@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Business;
 
 use App\Entity\Offer;
 use App\Form\OfferType;
@@ -27,11 +27,48 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/offres/{id}', name: 'app_offer_detail')]
+    public function detail(Request $request, ManagerRegistry $doctrine, Applications $applications, Offer $oneOffer): Response
+    {
+        $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
+        $duration = $oneOffer->getDuration();
+        $years = $duration->format('%Y années');
+        $month = $duration->format('%M mois');
+        $days = $duration->format('%D jours');
+        $dateInterval = $days . " " . $month . " " . $years . " ";
+
+        if ($request->isMethod('POST'))
+        {
+            if ($this->isGranted("ROLE_USER"))
+            {
+                $success = $applications->create($oneOffer, $this->getUser());
+
+                if ($success)
+                {
+                    $message = "<strong>Confirmé !</strong> La candidature a bien été déposé.";
+                    $messageType = 'success';
+                }
+                else
+                {
+                    $message = "<strong>Erreur !</strong> Vous avez déjà déposé votre candidature !";
+                    $messageType = 'danger';
+                }
+            }
+        }
+
+        return $this->render('offer/detail.html.twig',
+            [
+                'oneOffer' => $oneOffer,
+                'duration' => $dateInterval,
+                'message' => $message ?? null,
+                'messageType' => $messageType ?? null,
+            ]);
+    }
 
     #[IsGranted("ROLE_BUSINESS")]
     #[Route('pro/offres/deposer', name: 'app_offer_create')]
     public function add(Request $request, ManagerRegistry $doctrine): Response
-    {       
+    {
         $entityManager = $doctrine->getManager();
         $offer = new Offer();
 
@@ -49,54 +86,24 @@ class OfferController extends AbstractController
             return $this->redirectToRoute("app_offer_detail", [ "id" => $offer->getId() ]);
         }
 
-        return $this->render('offer/create.html.twig', 
+        return $this->render('business/offer/create.html.twig',
         [
             'Offer' => $form->createView(),
         ]);
     }
 
-
-    #[Route('/offres/{id}', name: 'app_offer_detail')]
-    public function detail(Request $request, ManagerRegistry $doctrine, Applications $applications, Offer $oneOffer): Response
+    #[IsGranted("ROLE_BUSINESS")]
+    #[Route('pro/mes-offres', name: 'app_business_offer_list')]
+    public function myOffers(Request $request, ManagerRegistry $doctrine): Response
     {
-        $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
-        $duration = $oneOffer->getDuration();
-        $years = $duration->format('%Y années');
-        $month = $duration->format('%M mois');
-        $days = $duration->format('%D jours');
-        $dateInterval = $days . " " . $month . " " . $years . " ";
-
-        if ($request->isMethod('POST'))
-        {
-            $success = $applications->create($oneOffer, $this->getUser());
-
-            if ($success)
-            {
-                $message = "<strong>Confirmé !</strong> La candidature a bien été déposé.";
-                $messageType = 'success';
-            }
-            else
-            {
-                $message = "<strong>Erreur !</strong> Vous avez déjà déposé votre candidature !";
-                $messageType = 'danger';
-            }
-        }
-
-        return $this->render('offer/detail.html.twig',
-            [
-                'oneOffer' => $oneOffer,
-                'duration' => $dateInterval,
-                'message' => $message ?? null,
-                'messageType' => $messageType ?? null,
-            ]);
+        return $this->render('business/offer/list.html.twig');
     }
-
 
     #[IsGranted("ROLE_BUSINESS")]
     #[Route('pro/offres/{id}/modifier', name: 'app_offer_edit')]
     public function edit(Request $request, ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
-        if($this->getUser() == $oneOffer->getUser())
+        if($this->getUser() === $oneOffer->getUser())
         {
             if(!$oneOffer->IsArchived())
             {
@@ -124,12 +131,11 @@ class OfferController extends AbstractController
         return $this->redirectToRoute("app_offer_list");
     }
 
-    
     #[IsGranted("ROLE_BUSINESS")]
     #[Route('/pro/offres/{id}/supprimer', name: 'app_offer_delete')]
     public function delete(ManagerRegistry $doctrine, Offer $oneOffer): Response
     {
-        if($oneOffer->getUser() == $this->getUser())
+        if($oneOffer->getUser() === $this->getUser())
         {
             $manager = $doctrine->getManager();
             $oneOffer->setIsArchived(true);

@@ -89,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\OneToMany(mappedBy: 'Individual', targetEntity: Demands::class)]
+    #[ORM\OneToMany(mappedBy: 'applicant', targetEntity: Demands::class)]
     private Collection $demands;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
@@ -410,7 +410,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->demands->contains($demand)) {
             $this->demands->add($demand);
-            $demand->setIndividual($this);
+            $demand->setApplicant($this);
         }
 
         return $this;
@@ -420,8 +420,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->demands->removeElement($demand)) {
             // set the owning side to null (unless already changed)
-            if ($demand->getIndividual() === $this) {
-                $demand->setIndividual(null);
+            if ($demand->getApplicant() === $this) {
+                $demand->setApplicant(null);
             }
         }
 

@@ -17,11 +17,11 @@ class DemandStatusChange
 
     #[ORM\ManyToOne(inversedBy: 'demandStatusChanges')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Demands $Demand = null;
+    private ?Demands $demand = null;
 
     #[ORM\ManyToOne(inversedBy: 'demandStatusChanges')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?DemandStatus $DemandStatus = null;
+    private ?DemandStatus $demandStatus = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -39,12 +39,12 @@ class DemandStatusChange
 
     public function getDemand(): ?Demands
     {
-        return $this->Demand;
+        return $this->demand;
     }
 
-    public function setDemand(?Demands $Demand): self
+    public function setDemand(?Demands $demand): self
     {
-        $this->Demand = $Demand;
+        $this->demand = $demand;
 
         return $this;
     }
@@ -63,12 +63,12 @@ class DemandStatusChange
 
     public function getDemandStatus(): ?DemandStatus
     {
-        return $this->DemandStatus;
+        return $this->demandStatus;
     }
 
-    public function setDemandStatus(?DemandStatus $DemandStatus): self
+    public function setDemandStatus(?DemandStatus $demandStatus): self
     {
-        $this->DemandStatus = $DemandStatus;
+        $this->demandStatus = $demandStatus;
 
         return $this;
     }

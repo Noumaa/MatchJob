@@ -3,6 +3,7 @@
 namespace App\Service\Applications;
 
 use App\Entity\Demands;
+use App\Entity\DemandStatus;
 use App\Entity\DemandStatusChange;
 use App\Entity\Offer;
 use App\Entity\User;
@@ -22,16 +23,20 @@ class Applications
         $this->notification = $notification;
     }
 
-    private function getStatus(ApplicationStatus $status): \App\Entity\DemandStatus
+    public function getStatus(ApplicationStatus $status): DemandStatus
     {
-        return $this->entityManager->getRepository(\App\Entity\DemandStatus::class)->findOneBy(['label' => $status->value]);
+        return $this->entityManager
+            ->getRepository(DemandStatus::class)
+            ->findOneBy([
+                'label' => $status->value
+            ]);
     }
 
-    public function create(Offer $offer, User $applier): bool
+    public function create(Offer $offer, User $applicant): bool
     {
         $demands = [];
         foreach ($offer->getDemands() as $d) {
-            if ($d->getIndividual() === $applier) $demands[] = $d;
+            if ($d->getApplicant() === $applicant) $demands[] = $d;
         }
 
 //        if (!empty($demands)) {
@@ -43,13 +48,16 @@ class Applications
 //                ]);
 //        }
 
+        $status = $this->getStatus(ApplicationStatus::WAITING);
+
         $demand = new Demands();
         $demand->setOffer($offer);
-        $demand->setIndividual($applier);
+        $demand->setApplicant($applicant);
+        $demand->setStatus($status);
 
         $statusChange = new DemandStatusChange();
         $statusChange->setDemand($demand);
-        $statusChange->setDemandStatus($this->getStatus(ApplicationStatus::WAITING));
+        $statusChange->setDemandStatus($status);
 
         $this->entityManager->persist($demand);
         $this->entityManager->persist($statusChange);

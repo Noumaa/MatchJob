@@ -12,8 +12,8 @@
 
                     <div class="ms-2 me-auto">
                         <div>
-                            {% if application.demandStatusChanges.last %}<span class="badge bg-warning">{{ application.demandStatusChanges.last.demandStatus.label }}</span>{% endif %} <span class="fw-bold">Poste de {{ application.offer.label }}</span>
-                            <span class="text-muted">{{ application.dateAdd|date }}</span>
+                            <span class="badge bg-warning">{{ application.status.label }}</span> <span class="fw-bold">Poste de {{ application.offer.label }}</span>
+                            <span class="text-muted">{{ application.updatedAt|date }}</span>
                         </div>
                         Lorem ipsum dshquidsgq uidhsqiou dhsioq kdopqsk dopsqj dsqjd ilqs
                     </div>
