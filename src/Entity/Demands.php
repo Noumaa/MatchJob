@@ -26,12 +26,10 @@ class Demands
     #[ORM\JoinColumn(nullable: false)]
     private ?Offer $offer = null;
 
-
-    #[ORM\Column(name: "date_add", type: "datetime")]
+    #[ORM\Column(name: "createdAt", type: "datetime")]
     private ?\DateTimeInterface $createdAt = null;
 
-    
-    #[ORM\Column(name: "date_update", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(name: "updatedAt", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'demands')]
