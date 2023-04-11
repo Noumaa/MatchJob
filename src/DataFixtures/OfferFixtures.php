@@ -3,11 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Offer;
-use App\Entity\User;
-use App\DataFixtures\UserFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 class OfferFixtures extends Fixture implements DependentFixtureInterface
 {

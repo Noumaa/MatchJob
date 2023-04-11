@@ -2,7 +2,7 @@
 
 namespace App\Service\Applications;
 
-use App\Entity\Demands;
+use App\Entity\Application;
 use App\Entity\DemandStatus;
 use App\Entity\DemandStatusChange;
 use App\Entity\Offer;
@@ -35,7 +35,7 @@ class Applications
     public function create(Offer $offer, User $applicant): bool
     {
         $demands = [];
-        foreach ($offer->getDemands() as $d) {
+        foreach ($offer->getApplications() as $d) {
             if ($d->getApplicant() === $applicant) $demands[] = $d;
         }
 
@@ -50,7 +50,7 @@ class Applications
 
         $status = $this->getStatus(ApplicationStatus::WAITING);
 
-        $demand = new Demands();
+        $demand = new Application();
         $demand->setOffer($offer);
         $demand->setApplicant($applicant);
         $demand->setStatus($status);

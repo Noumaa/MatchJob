@@ -2,27 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\DemandsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
-#[ORM\Entity(repositoryClass: DemandsRepository::class)]
+#[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(fields: ['applicant', 'offer'], message: 'Vous avez déjà déposé votre candidature !')]
-class Demands
+class Application
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'demands')]
+    #[ORM\ManyToOne(inversedBy: 'applications')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $applicant = null;
 
-    #[ORM\ManyToOne(inversedBy: 'demands')]
+    #[ORM\ManyToOne(inversedBy: 'applications')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Offer $offer = null;
 

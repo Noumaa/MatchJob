@@ -31,7 +31,7 @@ class Notification
     private ?User $user = null;
 
     #[ORM\ManyToOne]
-    private ?Demands $demand = null;
+    private ?Application $demand = null;
 
     #[ORM\Column]
     private ?int $type = null;
@@ -110,12 +110,12 @@ class Notification
         return $this;
     }
 
-    public function getDemand(): ?Demands
+    public function getDemand(): ?Application
     {
         return $this->demand;
     }
 
-    public function setDemand(?Demands $demand): self
+    public function setDemand(?Application $demand): self
     {
         $this->demand = $demand;
 

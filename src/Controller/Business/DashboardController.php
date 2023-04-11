@@ -2,11 +2,8 @@
 
 namespace App\Controller\Business;
 
-use App\Entity\Demands;
 use App\Entity\Offer;
-use App\Entity\User;
 use App\Form\User\Edit\BusinessEditFormType;
-use App\Form\User\Edit\PersonEditFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

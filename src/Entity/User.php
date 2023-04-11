@@ -6,11 +6,11 @@ use App\Entity\Resume\Resume;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -89,8 +89,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\OneToMany(mappedBy: 'applicant', targetEntity: Demands::class)]
-    private Collection $demands;
+    #[ORM\OneToMany(mappedBy: 'applicant', targetEntity: Application::class)]
+    private Collection $applications;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
@@ -98,7 +98,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->offers = new ArrayCollection();
-        $this->demands = new ArrayCollection();
+        $this->applications = new ArrayCollection();
         $this->notifications = new ArrayCollection();
     }
 
@@ -399,29 +399,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Demands>
+     * @return Collection<int, Application>
      */
-    public function getDemands(): Collection
+    public function getApplications(): Collection
     {
-        return $this->demands;
+        return $this->applications;
     }
 
-    public function addDemand(Demands $demand): self
+    public function addApplication(Application $application): self
     {
-        if (!$this->demands->contains($demand)) {
-            $this->demands->add($demand);
-            $demand->setApplicant($this);
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setApplicant($this);
         }
 
         return $this;
     }
 
-    public function removeDemand(Demands $demand): self
+    public function removeApplication(Application $application): self
     {
-        if ($this->demands->removeElement($demand)) {
+        if ($this->applications->removeElement($application)) {
             // set the owning side to null (unless already changed)
-            if ($demand->getApplicant() === $this) {
-                $demand->setApplicant(null);
+            if ($application->getApplicant() === $this) {
+                $application->setApplicant(null);
             }
         }
 

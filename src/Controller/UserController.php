@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Demands;
+use App\Entity\Application;
 use App\Entity\Notification;
-use App\Entity\Offer;
 use App\Entity\User;
 use App\Form\User\Edit\BusinessEditFormType;
 use App\Form\User\Edit\PersonEditFormType;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,7 +57,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_PERSON')]
     public function applications(ManagerRegistry $doctrine): Response
     {
-        $applications = $doctrine->getRepository(Demands::class)->findBy(['applicant' => $this->getUser()], ['updatedAt' => 'DESC']);
+        $applications = $doctrine->getRepository(Application::class)->findBy(['applicant' => $this->getUser()], ['updatedAt' => 'DESC']);
 
         return $this->render('person/dashboard/applications.html.twig', [
             'applications' => $applications
@@ -125,7 +124,7 @@ class UserController extends AbstractController
     {
         if (in_array('ROLE_PERSON', $user->getRoles())) {
 
-            $demands = $user->getDemands();
+            $demands = $user->getApplications();
 
             return $this->render('person/compte.html.twig',
                 [

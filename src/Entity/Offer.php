@@ -48,15 +48,15 @@ class Offer
     #[ORM\Column]
     private ?bool $isArchived = false;
 
-    #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Demands::class, orphanRemoval: true)]
-    private Collection $demands;
+    #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Application::class, orphanRemoval: true)]
+    private Collection $applications;
 
     #[ORM\Column]
     private ?int $views = 0;
 
     public function __construct()
     {
-        $this->demands = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -195,29 +195,29 @@ class Offer
     }
 
     /**
-     * @return Collection<int, Demands>
+     * @return Collection<int, Application>
      */
-    public function getDemands(): Collection
+    public function getApplications(): Collection
     {
-        return $this->demands;
+        return $this->applications;
     }
 
-    public function addDemand(Demands $demand): self
+    public function addApplication(Application $application): self
     {
-        if (!$this->demands->contains($demand)) {
-            $this->demands->add($demand);
-            $demand->setIdOffer($this);
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setIdOffer($this);
         }
 
         return $this;
     }
 
-    public function removeDemand(Demands $demand): self
+    public function removeApplication(Application $application): self
     {
-        if ($this->demands->removeElement($demand)) {
+        if ($this->applications->removeElement($application)) {
             // set the owning side to null (unless already changed)
-            if ($demand->getIdOffer() === $this) {
-                $demand->setIdOffer(null);
+            if ($application->getIdOffer() === $this) {
+                $application->setIdOffer(null);
             }
         }
 

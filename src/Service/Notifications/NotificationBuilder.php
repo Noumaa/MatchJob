@@ -2,7 +2,7 @@
 
 namespace App\Service\Notifications;
 
-use App\Entity\Demands;
+use App\Entity\Application;
 use Doctrine\Persistence\ManagerRegistry;
 
 class NotificationBuilder {
@@ -12,7 +12,7 @@ class NotificationBuilder {
     private Notification $type;
     private ?string $label;
     private ?string $content;
-    private ?Demands $demand;
+    private ?Application $demand;
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -71,17 +71,17 @@ class NotificationBuilder {
     }
 
     /**
-     * @return Demands|null
+     * @return Application|null
      */
-    public function getDemand(): ?Demands
+    public function getDemand(): ?Application
     {
         return $this->demand;
     }
 
     /**
-     * @param Demands|null $demand
+     * @param Application|null $demand
      */
-    public function setDemand(?Demands $demand): NotificationBuilder
+    public function setDemand(?Application $demand): NotificationBuilder
     {
         $this->demand = $demand;
         return $this;
