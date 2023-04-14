@@ -35,7 +35,7 @@
                             {{ notif.content }}
                         {% else %}
                             {% if notif.type == 1 %}
-                                <strong>{{ notif.demand.individual.fullName }}</strong> a fait une demande pour <strong>{{ notif.demand.offer.label }}</strong>.
+                                <strong>{{ notif.demand.applicant.fullName }}</strong> a fait une demande pour <strong>{{ notif.demand.offer.label }}</strong>.
                             {% endif %}
                         {% endif %}
                     </div>

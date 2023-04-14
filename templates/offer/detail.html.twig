@@ -39,13 +39,30 @@
 								€/h</span>
 						</div>
 					</div>
-					
-					{% if app.user %}
+
+					{# POSTULER #}
+					{% if is_granted("ROLE_PERSON") %}
+
 						<div class="d-flex mb-5">
 							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Déposer sa candidature</button>
 						</div>
-					{% else %}
-						<h3>Connectez-vous pour postuler à cette offre.</h3>
+
+					{# CANDIDATS #}
+					{% elseif is_granted("ROLE_BUSINESS") and oneOffer.user == app.user %}
+
+						<div>
+							<ul>
+								{% for application in oneOffer.demands %}
+									<li>
+										<span class="badge bg-warning">{{ application.status.label }}</span>
+										{{ application.applicant.fullName }}
+									</li>
+								{% else %}
+									<p>Personne n'a postulé, pour l'instant.</p>
+								{% endfor %}
+							</ul>
+						</div>
+
 					{% endif %}
 
 					<div class="mb-5">

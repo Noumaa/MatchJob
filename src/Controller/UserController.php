@@ -58,7 +58,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_PERSON')]
     public function applications(ManagerRegistry $doctrine): Response
     {
-        $applications = $doctrine->getRepository(Demands::class)->findBy(['Individual' => $this->getUser()], ['date_add' => 'DESC']);
+        $applications = $doctrine->getRepository(Demands::class)->findBy(['applicant' => $this->getUser()], ['updatedAt' => 'DESC']);
 
         return $this->render('person/dashboard/applications.html.twig', [
             'applications' => $applications

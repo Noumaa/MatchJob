@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: DemandsRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(fields: ['Individual', 'Offer'], message: 'Vous avez déjà déposé votre candidature !')]
+#[UniqueEntity(fields: ['applicant', 'offer'], message: 'Vous avez déjà déposé votre candidature !')]
 class Demands
 {
     #[ORM\Id]
@@ -20,37 +20,29 @@ class Demands
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'demands')]
-    private ?User $Individual = null;
+    private ?User $applicant = null;
 
     #[ORM\ManyToOne(inversedBy: 'demands')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Offer $Offer = null;
+    private ?Offer $offer = null;
 
+    #[ORM\Column(name: "createdAt", type: "datetime")]
+    private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column(name: "date_add", type: "datetime")]
-    private ?\DateTimeInterface $date_add = null;
+    #[ORM\Column(name: "updatedAt", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $updatedAt = null;
 
-    
-    #[ORM\Column(name: "date_update", type: "datetime", options: ["default" => "CURRENT_TIMESTAMP"])]
-    
-    private ?\DateTimeInterface $date_update = null;
-
-    #[ORM\OneToMany(mappedBy: 'Demand', targetEntity: DemandStatusChange::class, orphanRemoval: true)]
-    private Collection $demandStatusChanges;
-
-
-    public function __construct()
-    {
-        $this->demandStatusChanges = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'demands')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?DemandStatus $status = null;
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function updateDates(): void
     {
-        $this->setDateUpdate(new \DateTime('now'));
-        if ($this->getDateAdd() === null) {
-            $this->setDateAdd(new \DateTime('now'));
+        $this->setUpdatedAt(new \DateTime('now'));
+        if ($this->getCreatedAt() === null) {
+            $this->setCreatedAt(new \DateTime('now'));
         }
     }
 
@@ -59,80 +51,62 @@ class Demands
         return $this->id;
     }
 
-    public function getIndividual(): ?User
+    public function getApplicant(): ?User
     {
-        return $this->Individual;
+        return $this->applicant;
     }
 
-    public function setIndividual(?User $Individual): self
+    public function setApplicant(?User $applicant): self
     {
-        $this->Individual = $Individual;
+        $this->applicant = $applicant;
 
         return $this;
     }
 
     public function getOffer(): ?Offer
     {
-        return $this->Offer;
+        return $this->offer;
     }
 
-    public function setOffer(?Offer $Offer): self
+    public function setOffer(?Offer $offer): self
     {
-        $this->Offer = $Offer;
+        $this->offer = $offer;
 
         return $this;
     }
 
-    public function getDateAdd(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->date_add;
+        return $this->createdAt;
     }
 
-    public function setDateAdd(\DateTimeInterface $date_add): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->date_add = $date_add;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getDateUpdate(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->date_update;
+        return $this->updatedAt;
     }
 
-    public function setDateUpdate(\DateTimeInterface $date_update): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->date_update = $date_update;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, DemandStatusChange>
-     */
-    public function getDemandStatusChanges(): Collection
+    public function getStatus(): ?DemandStatus
     {
-        return $this->demandStatusChanges;
+        return $this->status;
     }
 
-    public function addDemandStatusChange(DemandStatusChange $demandStatusChange): self
+    public function setStatus(?DemandStatus $status): self
     {
-        if (!$this->demandStatusChanges->contains($demandStatusChange)) {
-            $this->demandStatusChanges->add($demandStatusChange);
-            $demandStatusChange->setDemand($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDemandStatusChange(DemandStatusChange $demandStatusChange): self
-    {
-        if ($this->demandStatusChanges->removeElement($demandStatusChange)) {
-            // set the owning side to null (unless already changed)
-            if ($demandStatusChange->getDemand() === $this) {
-                $demandStatusChange->setDemand(null);
-            }
-        }
+        $this->status = $status;
 
         return $this;
     }

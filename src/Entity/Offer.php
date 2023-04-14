@@ -48,7 +48,7 @@ class Offer
     #[ORM\Column]
     private ?bool $isArchived = false;
 
-    #[ORM\OneToMany(mappedBy: 'Offer', targetEntity: Demands::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Demands::class, orphanRemoval: true)]
     private Collection $demands;
 
     #[ORM\Column]
