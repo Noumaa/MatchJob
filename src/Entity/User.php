@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * Coordonnées
+     */
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
@@ -47,7 +50,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $region = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $department = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $phone = null;
+
+    /**
+     * Design attributes
+     */
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePicture = null;
@@ -99,6 +112,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $notifications;
 
     
+
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
@@ -470,6 +485,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $notification->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(string $department): self
+    {
+        $this->department = $department;
 
         return $this;
     }

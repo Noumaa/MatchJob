@@ -14,6 +14,8 @@ class LocationFormType extends AbstractType
             ->add('address')
             ->add('zipCode')
             ->add('city')
+            ->add('region')
+            ->add('department')
             ->add('country')
         ;
     }
