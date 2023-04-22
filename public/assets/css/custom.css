@@ -38,10 +38,11 @@
 	background: linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1))
 	}
 	
-	.bg-indigo {
-	background-color: #4835d4;
+	.bg-indigo 
+	{
+		background-color: #046E8F;
 	}
-	@media (min-width: 992px) {
+	/* @media (min-width: 992px) {
 	.card-registration-2 .bg-indigo {
 	border-top-right-radius: 15px;
 	border-bottom-right-radius: 15px;
@@ -52,4 +53,4 @@
 	border-bottom-left-radius: 15px;
 	border-bottom-right-radius: 15px;
 	}
-	}
+	} */
