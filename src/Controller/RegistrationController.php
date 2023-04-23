@@ -107,7 +107,7 @@ class RegistrationController extends AbstractController
                 $form->get('user')->get('plainPassword')->getData()
             )
         );
-
+        $user->setCountry("France");
         $manager->persist($user);
         $manager->flush();
 

@@ -17,10 +17,10 @@ class LocationFormType extends AbstractType
             ->add('city')
             ->add('region')
             ->add('department')
-            ->add('country',TextType::class,
-            [   
-                'empty_data' => 'France',
-            ])
+            // ->add('country',TextType::class,
+            // [   
+            //     'empty_data' => 'France',
+            // ])
         ;
     }
 
