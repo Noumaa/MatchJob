@@ -3,57 +3,39 @@
 {% block title %}Déposer une offre{% endblock %}
 
 {% block body %}
+
 	{{form_start(Offer)}}
 	{{ form_errors(Offer.startAt) }}
-	<div class="container mt-5">
-		<div class="card shadow-lg bg-body">
-			<div class="card-body">
-				<div class="row justify-content-center">
-					<div class="row">
-						<div class="col-3">
-							<div class="row">
-								{{ form_label(Offer.label,"Nom de l'offre")}}
-								{{ form_widget(Offer.label,{ 'attr': {"type":"text", "class":"form-control"}})}}
-							</div>
-						</div>
-						<div class="col-3">
-							<div class="row">
-								{{ form_label(Offer.moneyPerHour, "Salaire de l'heure")}}
-								{{ form_widget(Offer.moneyPerHour,{ 'attr': {"class":"form-control"}})}}
-							</div>
-						</div>
-						<div class="col-3">
-							<div class="row">
-								{{ form_label(Offer.startAt, "Date de début")}}
-								{{ form_widget(Offer.startAt,{'attr': {'type':'date',"class":"form-control"}})}}
-							</div>
-						</div>
-						<div class="col-3">
-							<div class="row">
-								{{ form_label(Offer.endAt, "Date de fin")}}
-								{{ form_widget(Offer.endAt,{ 'attr': {"class":"form-control"}})}}
-							</div>
-						</div>
-					</div>
-				</div>
-                <div class="col">
-						{{ form_label(Offer.description)}}
-						<div class="form-floating">
-							{{ form_widget(Offer.description,{'id':"floatingTextarea2", 'name':'textarea', 'placeholder':"Description de l'emploi",'attr': {"class":"form-control",'style':"height: 200px"}})}}
-							<label for="floatingTextarea2">Description de l'emploi</label>
-						</div>
-					</div>
-                <div class="row justify-content-center mt-5">
-                    <button type="submit" class="col-3 btn btn-success">Déposer l'offre d'emploi</button>
-                </div>                
+	<div class="container px-5 my-5 col-lg-6 col-sm-12">
+        <div class="form-floating mb-3">
+			{{ form_widget(Offer.label,{ 'attr': {"class":"form-control", "id":"nomDeLoffre", "type":"text", "placeholder":"Nom de l'offre"}})}}
+			{{ form_label(Offer.label, "Nom de l'offre")}}
+        </div>
+		<div class="row">
+			<div class="form-floating mb-3 col-lg-2 col-sm-12">
+				{{ form_widget(Offer.moneyPerHour,{ 'attr': {"class":"form-control", "id":"moneyPerHour", "type":"text", "placeholder":"Salaire de l'heure"}})}}
+				<label style="left:auto;" for="moneyPerHour">{{ form_label(Offer.moneyPerHour, "Salaire/h")}}</label>
+			</div>
+			<div class="form-floating mb-3 col-lg-5 col-sm-12">
+				{{ form_widget(Offer.startAt,{ 'attr': {"class":"form-control", "id":"startAt", "type":"text", "placeholder":"Date de début"}})}}
+				{{ form_label(Offer.startAt, "Date de début")}}
+			</div>
+			<div class="form-floating mb-3 col-lg-5 col-sm-12">
+				{{ form_widget(Offer.endAt,{ 'attr': {"class":"form-control", "id":"endAt", "type":"text", "placeholder":"Date de fin"}})}}
+				{{ form_label(Offer.endAt, "Date de fin")}}
 			</div>
 		</div>
-	</div>
+        
+        <div class="form-floating mb-3">
+            {{ form_widget(Offer.description,{'attr': {"class":"form-control", "id":"moneyPerHour", "type":"text", "placeholder":"Description de l'emploi"}})}}
+			{{ form_label(Offer.description,"Description de l'emploi")}}
+        </div>
+       
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Déposer l'offre d'emploi</button>
+        </div>
+</div>
+{{form_end(Offer)}}
 
-
-	{# {{ form_row(OfferControllerNew.startDate,{label:"Date de début"})}}
-								{{ form_row(OfferControllerNew.endDate,{label:"Date de fin"})}} #}
-	
-	{{form_end(Offer)}}
 {% endblock %}
 
