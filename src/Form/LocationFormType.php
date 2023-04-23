@@ -17,16 +17,17 @@ class LocationFormType extends AbstractType
             ->add('city')
             ->add('region')
             ->add('department')
-            // ->add('country',TextType::class,
-            // [   
-            //     'empty_data' => 'France',
-            // ])
+            ->add('country',TextType::class,
+            [   
+                'empty_data' => 'France',
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class' => User::class,
             'inherit_data' => true,
         ]);
     }

@@ -99,7 +99,7 @@
 
 											<div class="mb-4 pb-2 text-white">
 												<div class="form-outline form-white">
-													{{ form_widget(registrationForm.user.location.address, {'attr': {'class': 'form-control', "id":"adress-choice", "name":"adress-choice", "list":"adress-suggestions", "oninput":"searchAddress()"}}) }}
+													{{ form_widget(registrationForm.user.location.address, {"id":"adress-choice",'attr': {'class': 'form-control', "list":"adress-suggestions", "oninput":"searchAddress()"}}) }}
 													<label class="form-label" for="form3Examplea2">{{ form_label(registrationForm.user.location.address, "Saisissez une adresse", {'label_attr': {'class': 'text-white'}})}}</label>
                                                     <datalist id="adress-suggestions"></datalist>
 												</div>
@@ -109,7 +109,7 @@
 												<div class="col-md-5 mb-4 pb-2">
 
 													<div class="form-outline form-white">
-														{{ form_widget(registrationForm.user.location.zipCode, {'attr': {'class': 'form-control', "id":"adress-cp", "name":"adress-cp",'disabled':'disabled'}}) }}
+														{{ form_widget(registrationForm.user.location.zipCode, {"id":"adress-cp", 'attr': {'class': 'form-control', "id":"adress-cp", "name":"adress-cp",'readonly':'readonly'}}) }}
 														<label class="form-label" for="form3Examplea4">{{ form_label(registrationForm.user.location.zipCode, "Code Postal", {'label_attr': {'class': 'text-white'}})}}</label>
 													</div>
 
@@ -117,7 +117,7 @@
 												<div class="col-md-7 mb-4 pb-2 text-white">
 
 													<div class="form-outline form-white">
-														{{ form_widget(registrationForm.user.location.city, {'attr': {'class': 'form-control', "id":"adress-city", "name":"adress-city", 'disabled':'disabled'}}) }}
+														{{ form_widget(registrationForm.user.location.city, {"id":"adress-city", 'attr': {'class': 'form-control', "id":"adress-city", "name":"adress-city", 'readonly':'readonly'}}) }}
 														<label class="form-label" for="form3Examplea5">{{ form_label(registrationForm.user.location.city, "Ville", {'label_attr': {'class': 'text-white'}})}}</label>
 													</div>
 
@@ -127,13 +127,13 @@
 											<div class="row text-white">
 												<div class="col-md-5 mb-4 pb-2">
 													<div class="form-outline form-white">
-														{{ form_widget(registrationForm.user.location.region, {'attr': {'class': 'form-control', "id":"adress-region", "name":"adress-region", 'disabled':'disabled'}}) }}
+														{{ form_widget(registrationForm.user.location.region, {"id":"adress-region", 'attr': {'class': 'form-control', "id":"adress-region", "name":"adress-region", 'readonly':'readonly'}}) }}
 														<label class="form-label" for="form3Examplea4">{{ form_label(registrationForm.user.location.region, "Région", {'label_attr': {'class': 'text-white'}})}}</label>
 													</div>
 												</div>
 												<div class="col-md-7 mb-4 pb-2 text-white">
 													<div class="form-outline form-white">
-														{{ form_widget(registrationForm.user.location.department, {'attr': {'class': 'form-control', "id":"adress-department", "name":"adress-department", 'disabled':'disabled'}}) }}
+														{{ form_widget(registrationForm.user.location.department, {"id":"adress-department", 'attr': {'class': 'form-control', "id":"adress-department", "name":"adress-department", 'readonly':'readonly'}}) }}
 														<label class="form-label" for="form3Examplea5">{{ form_label(registrationForm.user.location.department, "Département", {'label_attr': {'class': 'text-white'}})}}</label>
 													</div>
 												</div>

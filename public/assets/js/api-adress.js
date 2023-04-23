@@ -1,12 +1,11 @@
-const input = document.getElementById("adress-choice");
-const datalist = document.getElementById("adress-suggestions");
-const value = input.value;
-const num = document.getElementById("adress-num");
-const rue = document.getElementById("adress-rue");
-const cp = document.getElementById("adress-cp");
-const departement = document.getElementById("adress-departement");
+var input = document.getElementById("adress-choice");
+var datalist = document.getElementById("adress-suggestions");
+var cp = document.getElementById("adress-cp");
+var city = document.getElementById("adress-city");
+var region = document.getElementById("adress-region");
+var departement = document.getElementById("adress-department");
 // Utilisation de la fonction debounce pour limiter les appels à l'API
-const debounceSearchAddress = debounce(searchAddress, 2000);
+var debounceSearchAddress = debounce(searchAddress, 2000);
 // Ajout d'un écouteur d'événement sur l'input pour appeler la fonction debounceSearchAddress à chaque fois que l'utilisateur tape une lettre
 input.addEventListener("input", debounceSearchAddress);
 
@@ -50,11 +49,10 @@ function addValueInput(event) {
   for (var i = 0; i < options.length; i++) {
     if (options[i].value === selectedAddress) 
     {
-      console.log(options[i].attributes)
-      num.value = options[i].attributes[1].nodeValue;
-      rue.value = options[i].attributes[2].nodeValue;
-      cp.value = options[i].attributes[3].nodeValue;
-      departement.value = options[i].attributes[4].nodeValue;
+      cp.value = options[i].attributes[1].nodeValue;
+      city.value = options[i].attributes[2].nodeValue;
+      region.value = options[i].attributes[4].nodeValue;
+      departement.value = options[i].attributes[3].nodeValue;
     }
   }
 }
@@ -66,13 +64,14 @@ function addValueInput(event) {
  * @param {HTMLInputElement} input - L'élément HTML de l'input contenant la valeur à chercher.
  * @param {HTMLDataListElement} datalist - L'élément HTML de la liste de suggestions.
  */
-function searchAddress(value, input, datalist) {
-  if (value.length < 5) { // vérifier la longueur de la valeur ici
+function searchAddress() 
+{
+  if (input.value.length < 5) { // vérifier la longueur de la valeur ici
     return;
   }
 
   input.addEventListener("input", debounceSearchAddress); // définir l'écouteur d'événement ici
-  let url = `https://api-adresse.data.gouv.fr/search/?q=${value}&type=housenumber&limit=15&autocomplete=1`
+  let url = `https://api-adresse.data.gouv.fr/search/?q=${input.value}&type=housenumber&limit=15&autocomplete=1`
   fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -88,11 +87,11 @@ function searchAddress(value, input, datalist) {
         data.features.forEach(feature => {
           const option = document.createElement('option');
           option.value = feature.properties.label;
-          option.setAttribute("housenumber", feature.properties.housenumber);
-          option.setAttribute("street", feature.properties.street);
           option.setAttribute("postcode", feature.properties.postcode);
+          option.setAttribute("city", feature.properties.city);
           let context = feature.properties.context.split(", ");
           option.setAttribute("departement", context[1]);
+          option.setAttribute("region", context[2]);
 
           datalist.appendChild(option);
         });
