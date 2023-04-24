@@ -26,10 +26,13 @@
 		<!-- Jobs Start -->
 		<div class="container-xxl py-5">
 			<div class="container">
-			{% if "ROLE_BUSINESS" in app.user.roles %}
-				<div class="mt-2 ml-2">
-					<a class="btn btn-primary py-3 px-5" href={{path('app_offer_create')}}>Déposer une offre</a>
-				</div>
+			{% if app.user %}
+				{% if "ROLE_BUSINESS" in app.user.roles %}
+					<div class="mt-2 ml-2">
+						<a class="btn btn-primary py-3 px-5" href={{path('app_offer_create')}}>Déposer une offre</a>
+						<a class="btn btn-primary py-3 px-5" href={{path('app_resume_download')}}>télécharger cv</a>
+					</div>
+				{% endif %}
 			{% endif %}
 				<h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Les offres</h1>
 				<div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
