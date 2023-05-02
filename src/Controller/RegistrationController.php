@@ -75,7 +75,6 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(PersonFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->register($user, $form, $userPasswordHasher, $entityManager);
@@ -83,7 +82,7 @@ class RegistrationController extends AbstractController
             $user->addRole("ROLE_PERSON");
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_homee');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -108,7 +107,7 @@ class RegistrationController extends AbstractController
                 $form->get('user')->get('plainPassword')->getData()
             )
         );
-
+        $user->setCountry("France");
         $manager->persist($user);
         $manager->flush();
 

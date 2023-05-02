@@ -58,6 +58,8 @@ class UserFixtures extends Fixture
             $user->setAddress("5 rue de la Fayette");
             $user->setZipCode("28000");
             $user->setCity("Chartres");
+            $user->setRegion("Eure-et-Loir");
+            $user->setDepartment("Centre-Val de Loire");
             $user->setCountry("France");
             $user->setPhone(("0610101010"));
             $user->setDateOfBirth(new \DateTime());
@@ -82,6 +84,8 @@ class UserFixtures extends Fixture
             $user->setAddress("17 rue Z.A. Le Vallier");
             $user->setZipCode("28000");
             $user->setCity("Chartres");
+            $user->setRegion("Eure-et-Loir");
+            $user->setDepartment("Centre-Val de Loire");
             $user->setCountry("France");
             $user->setPhone(("0610101010"));
             $user->setSiret("DSQDSQDQSDFQ48565456");

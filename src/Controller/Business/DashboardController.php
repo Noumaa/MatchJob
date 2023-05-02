@@ -75,4 +75,15 @@ class DashboardController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/pro/profil-public', name: 'app_business_profile_public')]
+    public function profilePublic(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $business = $this->getUser();
+        $offers = $entityManager->getRepository(Offer::class)->findBy(["user" => $business->getId()]);
+        return $this->render('business/compte.html.twig',[
+            "business" => $business,
+            "offers" => $offers,
+        ]);
+    }
 }

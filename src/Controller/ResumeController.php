@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Fpdf\Fpdf;
 use App\Entity\Resume\Course;
 use App\Entity\Resume\Experience;
 use App\Entity\Resume\Resume;
@@ -133,4 +134,33 @@ class ResumeController extends AbstractController
 
         return $this->redirectToRoute("app_resume_edit");
     }
+
+    #[IsGranted("ROLE_USER")]
+    #[Route('/telecharger-son-cv', name: 'app_resume_download')]
+    public function generatePdf(): Response
+    {
+        $data = "ARTHUR Félix";
+        // Récupérer le contenu HTML du template bootstrap
+        $html = $this->renderView('resume/template.html.twig', [
+            'data' => $data,
+        ]);
+
+        // Générer le PDF avec FPDF
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','',12);
+
+        $pdf->writeHTML($html);
+        // Récupérer le contenu du PDF en tant que chaîne de caractères
+        $pdfContent = $pdf->Output('S');
+
+        // Créer une réponse HTTP contenant le contenu du PDF
+        $response = new Response($pdfContent);
+
+        // Ajouter l'en-tête Content-Disposition pour forcer le téléchargement du PDF
+        $response->headers->set('Content-Disposition', 'attachment; filename="mon-pdf.pdf"');
+
+        return $response;
+    }
+
 }
