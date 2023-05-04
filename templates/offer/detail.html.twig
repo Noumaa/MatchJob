@@ -27,7 +27,7 @@
 			<div class="row gy-5 gx-4">
 				<div class="col-lg-8">
 					<div class="d-flex align-items-center mb-4">
-						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/img/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
+						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/images/pp/" ~ oneOffer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
 						<div class="text-start ps-4">
 							<h3 class="mb-3">{{oneOffer.label}}</h3>
 							<span class="text-truncate me-3">
@@ -115,6 +115,8 @@
 							<strong>Adresse :</strong><br>{{oneOffer.user.address}}</p>
 						<p class="m-0">{{oneOffer.user.city}},
 							{{oneOffer.user.zipCode}}</p>
+						<p class="m-0">{{oneOffer.user.region}}</p>
+						<p class="m-0">{{oneOffer.user.department}}</p>
 						<p class="m-0">{{oneOffer.user.country}}</p>
 						<p class="m-0">
 							<strong>Numéro de téléphone :</strong>

@@ -34,6 +34,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    /**
+     * Coordonnées
+     */
     #[ORM\Column(length: 255)]
     private ?string $address = null;
 
@@ -47,10 +50,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $country = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $region = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $department = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $phone = null;
+
+    /**
+     * Design attributes
+     */
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePicture = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bannerPicture = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -94,6 +110,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
+
+    
+
 
     public function __construct()
     {
@@ -253,6 +272,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfilePicture(string $profilePicture): self
     {
         $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getBannerPicture(): ?string
+    {
+        return $this->bannerPicture == null ? ".default-banner.png" : $this->bannerPicture;
+    }
+
+    public function setBannerPicture(?string $bannerPicture): self
+    {
+        $this->bannerPicture = $bannerPicture;
 
         return $this;
     }
@@ -457,4 +488,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(string $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
 }

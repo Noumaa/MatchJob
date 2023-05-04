@@ -5,6 +5,7 @@ namespace App\Form\User;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -42,7 +43,7 @@ class PersonFormType extends AbstractType
                 ],
             ])
 
-            ->add('dateOfBirth', DateType::class, [
+            ->add('dateOfBirth', BirthdayType::class, [
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Vous devez renseigner votre date de naissance',

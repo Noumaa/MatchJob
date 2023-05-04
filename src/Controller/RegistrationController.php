@@ -75,7 +75,6 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(PersonFormType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->register($user, $form, $userPasswordHasher, $entityManager);
@@ -108,7 +107,7 @@ class RegistrationController extends AbstractController
                 $form->get('user')->get('plainPassword')->getData()
             )
         );
-
+        $user->setCountry("France");
         $manager->persist($user);
         $manager->flush();
 
