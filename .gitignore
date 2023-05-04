@@ -60,19 +60,9 @@
 /var/
 ###< symfony/framework-bundle ###
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
-
 # Custom
 .idea/
 .vscode/
-
-.php-version
-var/data.db
 
 **/public/assets/images/pp/*
 !**/public/assets/images/pp/.default.png

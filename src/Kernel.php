@@ -8,12 +8,4 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
-    
-    public function boot()
-    {
-        parent::boot();
-        // FIXME
-        date_default_timezone_set("Europe/Madrid");
-        //locale_set_default("fr");
-    }
 }
