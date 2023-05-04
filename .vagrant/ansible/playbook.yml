@@ -1,0 +1,38 @@
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: Update APT cache
+      apt: update_cache=yes
+      ignore_errors: yes
+
+    - name: Install Ansible's MySQL dependency
+      apt: name=python3-mysqldb state=latest
+
+    - name: Install common dependencies
+      apt:
+        name:
+          - lsb-release
+          - ca-certificates
+          - apt-transport-https
+          - software-properties-common
+          - unzip
+          - curl
+
+    - name: Install MariaDB
+      apt: name=mariadb-server state=latest
+
+    - name: Create MatchJob database
+      mysql_db:
+        name: matchjob
+        state: present
+
+    - name: Create MatchJob user
+      mysql_user:
+        name: matchjob
+        password: matchjob123
+        state: present
+        priv: "matchjob.*:ALL"
+
+    - name: Restart MariaDB
+      service: name=mysql state=restarted

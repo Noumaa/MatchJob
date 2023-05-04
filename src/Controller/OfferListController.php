@@ -11,6 +11,7 @@ class OfferListController extends AbstractController
     #[Route('/offres', name: 'app_offer_list')]
     public function index(): Response
     {
+        // TODO
         return $this->render('offer/list.html.twig');
     }
 }
