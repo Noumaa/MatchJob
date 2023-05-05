@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Authentication;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +12,7 @@ class LoginController extends AbstractController
     #[Route(path: '/connexion', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // TODO check is user verified (https://symfony.com/doc/current/security/user_checkers.html)
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 

@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+
+        <h1>Inscription
+            <a href="{{ path("app_login") }}">
+                <span class="fs-6 badge rounded-pill bg-secondary">Connexion</span>
+            </a>
+        </h1>
+
+        <p class="text-muted">Vous représentez une société ? Vous souhaitez déposer des offres d'emploi ?
+            <a href="{{ path("app_register_business") }}">
+                <span class="badge rounded-pill bg-primary">Passez au pro</span>
+            </a>
+        </p>
+
+        <div class="container">
+
+            {{ form_start(registrationForm) }}
+                <div class="container h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-12">
+                            <div class="card card-registration card-registration-2 shadow p-3 mb-5 bg-white" style="border-radius: 15px;">
+                                <div class="card-body p-0">
+                                    <div class="row g-0">
+                                        <div class="col-lg-6 col-sm-12 rounded-start rounded-3 p-5">
+                                            <h3 class="fw-bold mb-5">Informations générales</h3>
+                                            {{ form_errors(registrationForm) }}
+                                            <div class="row">
+                                                <div class="col-md-6 mb-4 pb-2">
+
+                                                    <div class="form-outline">
+                                                        {{ form_widget(registrationForm.firstName, {'attr': {'class': 'form-control'}}) }}
+                                                        <label class="form-label" for="form3Examplev2">{{ form_label(registrationForm.firstName, 'Prénom') }}</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 mb-4 pb-2">
+
+                                                    <div class="form-outline">
+                                                        {{ form_widget(registrationForm.lastName, {'attr': {'class': 'form-control'}}) }}
+                                                        <label class="form-label" for="form3Examplev3">{{ form_label(registrationForm.lastName, 'Nom') }}</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4 pb-2">
+                                                <div class="form-outline">
+                                                    {{ form_widget(registrationForm.user.email, {'attr': {'class': 'form-control'}}) }}
+                                                    <label class="form-label" for="form3Examplev4">{{ form_label(registrationForm.user, "Adresse mail") }}</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-4 pb-2">
+                                                <div class="col-6 form-outline">
+                                                    {{ form_widget(registrationForm.dateOfBirth, {'attr': {'class': 'form-control'}}) }}
+                                                    <label class="form-label" for="form3Examplev5">{{ form_label(registrationForm.dateOfBirth, "Date de naissance")}}</label>
+                                                </div>
+
+                                                <div class="col-6 form-outline">
+                                                    {{ form_widget(registrationForm.user.phone, {'attr': {'class': 'form-control'}}) }}
+                                                    <label class="form-label" for="form3Examplev5">{{ form_label(registrationForm.user.phone, "N° de téléphone")}}</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4 pb-2">
+                                                <div class="form-outline">
+                                                    {{ form_widget(registrationForm.user.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                                                    <label class="form-label" for="form3Examplev4">{{ form_label(registrationForm.user.plainPassword, "Mot de passe")}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-12 rounded-end rounded-3 bg-indigo text-white p-5">
+                                            <h3 class="fw-bold mb-5 text-white">Coordonnées</h3>
+
+                                            <div class="mb-4 pb-2 text-white">
+                                                <div class="form-outline form-white">
+                                                    {{ form_widget(registrationForm.user.location.address, {"id":"adress-choice",'attr': {'class': 'form-control', "list":"adress-suggestions", "oninput":"searchAddress()"}}) }}
+                                                    <label class="form-label" for="form3Examplea2">{{ form_label(registrationForm.user.location.address, "Saisissez une adresse", {'label_attr': {'class': 'text-white'}})}}</label>
+                                                    <datalist id="adress-suggestions"></datalist>
+                                                </div>
+                                            </div>
+
+                                            <div class="row text-white">
+                                                <div class="col-md-5 mb-4 pb-2">
+
+                                                    <div class="form-outline form-white">
+                                                        {{ form_widget(registrationForm.user.location.zipCode, {"id":"adress-cp", 'attr': {'class': 'form-control', "id":"adress-cp", "name":"adress-cp",'readonly':'readonly'}}) }}
+                                                        <label class="form-label" for="form3Examplea4">{{ form_label(registrationForm.user.location.zipCode, "Code Postal", {'label_attr': {'class': 'text-white'}})}}</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-7 mb-4 pb-2 text-white">
+
+                                                    <div class="form-outline form-white">
+                                                        {{ form_widget(registrationForm.user.location.city, {"id":"adress-city", 'attr': {'class': 'form-control', "id":"adress-city", "name":"adress-city", 'readonly':'readonly'}}) }}
+                                                        <label class="form-label" for="form3Examplea5">{{ form_label(registrationForm.user.location.city, "Ville", {'label_attr': {'class': 'text-white'}})}}</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row text-white">
+                                                <div class="col-md-5 mb-4 pb-2">
+                                                    <div class="form-outline form-white">
+                                                        {{ form_widget(registrationForm.user.location.region, {"id":"adress-region", 'attr': {'class': 'form-control', "id":"adress-region", "name":"adress-region", 'readonly':'readonly'}}) }}
+                                                        <label class="form-label" for="form3Examplea4">{{ form_label(registrationForm.user.location.region, "Région", {'label_attr': {'class': 'text-white'}})}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 mb-4 pb-2 text-white">
+                                                    <div class="form-outline form-white">
+                                                        {{ form_widget(registrationForm.user.location.department, {"id":"adress-department", 'attr': {'class': 'form-control', "id":"adress-department", "name":"adress-department", 'readonly':'readonly'}}) }}
+                                                        <label class="form-label" for="form3Examplea5">{{ form_label(registrationForm.user.location.department, "Département", {'label_attr': {'class': 'text-white'}})}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-check d-flex justify-content-start mb-4 pb-3">
+                                                {{ form_widget(registrationForm.user.agreeTerms, {'attr': {'class': 'form-check-input me-3','type':"checkbox"}}) }}
+                                                <label class="form-check-label text-white" for="form2Example3">J'ai lu et j'accepte les <a href="#!" class="text-white"><u>Conditions Générales d'Utilisation</u></a> de MatchJob.</label>
+                                            </div>
+                                        </div>
+
+                                        <center>
+                                            <button type="submit" class="col-2 btn btn-success btn my-2" data-mdb-ripple-color="dark">S'inscrire</button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(registrationForm) }}
+        </div>
+
+    </div>
+
+    <script src="{{ asset('assets/js/api-adress.js') }}"></script>
+{% endblock %}
