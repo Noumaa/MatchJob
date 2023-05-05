@@ -144,5 +144,7 @@
 
     </div>
 
-    <script src="{{ asset('assets/js/api-adress.js') }}"></script>
+    {% block extrascript %}
+        <script src="{{ asset('assets/js/api-address.js') }}"></script>
+    {% endblock %}
 {% endblock %}
