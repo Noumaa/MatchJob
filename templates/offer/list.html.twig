@@ -60,7 +60,7 @@
 
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <a href="{{path('app_profile', {id:offer.user.id})}}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ asset("assets/images/pp/" ~ offer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;"></a>
+                                            <a href="{# {{path('app_profile', {id:offer.user.id})}} #}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ asset("assets/images/pp/" ~ offer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;"></a>
                                             <div class="text-start ps-4">
                                                 <h5 class="mb-3">{{offer.label}} • {{ offer.user.name }}</h5>
                                                 {# <span class="text-truncate me-3">
