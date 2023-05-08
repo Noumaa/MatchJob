@@ -125,6 +125,16 @@
 
 		{% block home %}{% endblock home %}
 
+		{% for flashMessage in app.session.flashbag.get('success') %}
+
+			<div class="alert alert-info alert-dismissible fade show mx-5 mt-5" role="alert">
+				<img src="https://em-content.zobj.net/thumbs/160/microsoft/319/party-popper_1f389.png" width="28">
+				{{ flashMessage }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+
+		{% endfor %}
+
 		<!-- Content
 		============================================= -->
 		<section id="content">

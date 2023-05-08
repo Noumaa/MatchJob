@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
             $user->setRoles(["ROLE_BUSINESS"]);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Vous y êtes presque ! Un email de confirmation vous a été envoyé');
+            $this->addFlash('success', 'Vous y êtes presque ! Un email de confirmation vous a été envoyé.');
             return $this->redirectToRoute('app_home');
         }
 
@@ -68,7 +68,7 @@ class RegistrationController extends AbstractController
             $user->setRoles(["ROLE_PERSON"]);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Vous y êtes presque ! Un email de confirmation vous a été envoyé');
+            $this->addFlash('success', 'Vous y êtes presque ! Un email de confirmation vous a été envoyé.');
             return $this->redirectToRoute('app_home');
         }
 

@@ -67,12 +67,12 @@ class OfferController extends AbstractController
             $entityManager->persist($offer);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Félicitations, votre offre est officiellement en ligne !');
+
             return $this->redirectToRoute("app_offer_detail", [
                 "id" => $offer->getId()
             ]);
         }
-
-        $this->addFlash('success', 'Félicitations, votre offre en maintenant en ligne');
 
         return $this->render('dashboard/business/create_offer.html.twig', [
             'form' => $form->createView(),

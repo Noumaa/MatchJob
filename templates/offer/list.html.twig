@@ -3,91 +3,72 @@
 {% block title %}Offres{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px / 1.5 sans-serif;
-        }
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
-    {# {% if isBusiness %}
-        
-    {% endif %} #}
 
-    <div
-            class="container d-flex flex-row flex-wrap justify-content-center">
-
+    <div class="container d-flex flex-row flex-wrap justify-content-center">
 
         <!-- Jobs Start -->
         <div class="container-xxl py-5">
             <div class="container">
-                {% if app.user %}
-                    {% if "ROLE_BUSINESS" in app.user.roles %}
-                        <div class="mt-2 ml-2">
-                            <a class="btn btn-primary py-3 px-5" href={{path('app_offer_create')}}>Déposer une offre</a>
-                            <a class="btn btn-primary py-3 px-5" href={{path('app_resume_download')}}>télécharger cv</a>
-                        </div>
-                    {% endif %}
-                {% endif %}
                 <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Les offres</h1>
-                <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-                                <h6 class="mt-n1 mb-0">Nouveaux</h6>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                                <h6 class="mt-n1 mb-0">Temps plein</h6>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                                <h6 class="mt-n1 mb-0">Temps partiel</h6>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            {% for offer in offers %}
-                                <div class="job-item p-4 mb-4">
+                <div class="tab-class wow fadeInUp" data-wow-delay="0.3s">
+                    {% if is_granted("ROLE_BUSINESS") %}
+                        <a class="btn btn-primary px-5" href={{path('app_offer_create')}}>Déposer une offre</a>
+                        {# <a class="btn btn-primary py-3 px-5" href={{path('app_resume_download')}}>télécharger cv</a> #}
+                    {% endif %}
+                    <div class="text-center">
+                        <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                                    <h6 class="mt-n1 mb-0">Nouveaux</h6>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                                    <h6 class="mt-n1 mb-0">Temps plein</h6>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                                    <h6 class="mt-n1 mb-0">Temps partiel</h6>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane fade show p-0 active">
+                                {% for offer in offers %}
+                                    <div class="job-item p-4 mb-4">
 
-                                    <div class="row g-4">
-                                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <a href="{# {{path('app_profile', {id:offer.user.id})}} #}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ asset("assets/images/pp/" ~ offer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;"></a>
-                                            <div class="text-start ps-4">
-                                                <h5 class="mb-3">{{offer.label}} • {{ offer.user.name }}</h5>
-                                                {# <span class="text-truncate me-3">
+                                        <div class="row g-4">
+                                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                                <a href="{# {{path('app_profile', {id:offer.user.id})}} #}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ asset("assets/images/pp/" ~ offer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;"></a>
+                                                <div class="text-start ps-4">
+                                                    <h5 class="mb-3">{{offer.label}} • {{ offer.user.name }}</h5>
+                                                    {# <span class="text-truncate me-3">
 													<i class="fa fa-map-marker-alt text-primary me-2"></i>New York, USA
                                                 </span> #}
-                                                {# <span class="text-truncate me-3">
+                                                    {# <span class="text-truncate me-3">
 													<i class="far fa-clock text-primary me-2"></i>Full Time
                                                 </span> #}
-                                                <span class="text-truncate me-0">
+                                                    <span class="text-truncate me-0">
 													<i class="far fa-money-bill-alt text-primary me-2"></i>{{offer.moneyPerHour}} €/h
                                                 </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                            <div class="d-flex mb-3">
-                                                <a class="btn btn-light btn-square me-3" href="">
-                                                    <i class="bi bi-heart text-black"></i>
-                                                </a>
-                                                <a class="btn btn-primary" href="{{path('app_offer_detail',{id:offer.id})}}">Voir l'offre</a>
+                                            <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                                <div class="d-flex mb-3">
+                                                    <a class="btn btn-light btn-square me-3" href="">
+                                                        <i class="bi bi-heart text-black"></i>
+                                                    </a>
+                                                    <a class="btn btn-primary" href="{{path('app_offer_detail',{id:offer.id})}}">Voir l'offre</a>
+                                                </div>
+                                                <small class="text-truncate">
+                                                    <i class="far fa-calendar-alt text-primary me-2"></i>Déposé le : {{offer.createdAt | date("m/d/Y")}}</small>
                                             </div>
-                                            <small class="text-truncate">
-                                                <i class="far fa-calendar-alt text-primary me-2"></i>Déposé le : {{offer.createdAt | date("m/d/Y")}}</small>
                                         </div>
                                     </div>
-                                </div>
-                            {% endfor  %}
-                            <a class="btn btn-primary py-3 px-5" href="">Voir plus d'offres</a>
+                                {% endfor  %}
+                                <a class="btn btn-primary py-3 px-5" href="">Voir plus d'offres</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -96,5 +77,6 @@
         <!-- Jobs End -->
 
     </div>
+    
 {% endblock %}
 
