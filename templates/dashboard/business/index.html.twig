@@ -1,0 +1,35 @@
+{% extends 'dashboard/business/base.html.twig' %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="row d-flex">
+
+            <div class="col-12 col-lg-4 me-auto customcard">
+                <div class="d-inline-flex">
+                    {# TODO profile picture #}
+                    <img class="rounded" style="height: 100px" src="{{ asset('assets/images/pp/.default.png') }}" alt="Logo de la société">
+                    <div class="ps-4">
+                        <p class="mb-0">Bienvenue</p>
+                        <h2>{{ app.user.name }}</h2>
+                        {# <a class="link-danger" href="{{ path('app_logout') }}">Déconnexion</a> #}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2 customcard">
+                <li class="bi bi-file-earmark-post" style="list-style: none;"><span> <strong>{{ app.user.offers.count }}</strong> offre{{ app.user.offers.count > 1 ? 's' : '' }} publiée{{ app.user.offers.count > 1 ? 's' : '' }}</span></li>
+            </div>
+
+            <div class="col-2 customcard">
+                <li class="bi bi-list-ul" style="list-style: none;"><span> <strong>{{ nbr_demands }}</strong> demande{{ nbr_demands > 1 ? 's' : '' }} reçue{{ nbr_demands > 1 ? 's' : '' }}</span></li>
+            </div>
+
+            <div class="col-2   customcard">
+                <li class="bi bi-eye" style="list-style: none;"><span> <strong>{{ nbr_views }}</strong> vue{{ nbr_views > 1 ? 's' : '' }} au total</span></li>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

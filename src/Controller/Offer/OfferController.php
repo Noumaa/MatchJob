@@ -3,11 +3,13 @@
 namespace App\Controller\Offer;
 
 use App\Entity\Offer;
+use App\Form\OfferFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class OfferController extends AbstractController
 {
@@ -29,34 +31,51 @@ class OfferController extends AbstractController
 
         $duration = $offer->getDuration();
 
-        $years = $duration->format('%Y années');
-        $month = $duration->format('%M mois');
-        $days = $duration->format('%D jours');
+        if ($duration != null)
+        {
+            $years = $duration->format('%Y années');
+            $month = $duration->format('%M mois');
+            $days = $duration->format('%D jours');
 
-        $dateInterval = $days . " " . $month . " " . $years . " ";
+            $dateInterval = $days . " " . $month . " " . $years . " ";
+        }
+        else
+        {
+            $dateInterval = "Non renseigné";
+        }
 
         return $this->render('offer/detail.html.twig', [
             'offer' => $offer,
             'duration' => $dateInterval,
         ]);
+    }
 
-//        if ($request->isMethod('POST'))
-//        {
-//            if ($this->isGranted("ROLE_USER"))
-//            {
-//                $success = $applications->create($offer, $this->getUser());
-//
-//                if ($success)
-//                {
-//                    $message = "<strong>Confirmé !</strong> La candidature a bien été déposé.";
-//                    $messageType = 'success';
-//                }
-//                else
-//                {
-//                    $message = "<strong>Erreur !</strong> Vous avez déjà déposé votre candidature !";
-//                    $messageType = 'danger';
-//                }
-//            }
-//        }
+    #[Route('pro/deposer-une-offre', name: 'app_offer_create')]
+    #[IsGranted("ROLE_BUSINESS")]
+    public function create(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $offer = new Offer();
+
+        $form = $this->createForm(OfferFormType::class, $offer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $offer->setUser($this->getUser());
+
+            $entityManager->persist($offer);
+            $entityManager->flush();
+
+            return $this->redirectToRoute("app_offer_detail", [
+                "id" => $offer->getId()
+            ]);
+        }
+
+        $this->addFlash('success', 'Félicitations, votre offre en maintenant en ligne');
+
+        return $this->render('dashboard/business/create_offer.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
