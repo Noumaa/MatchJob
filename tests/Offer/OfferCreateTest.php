@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class OfferCreateTest extends WebTestCase
 {
-    public function createOffer(): void
+    public function testCreateOffer(): void
     {
         $client = static::createClient();
 
