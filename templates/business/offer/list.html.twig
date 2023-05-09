@@ -7,13 +7,39 @@
     <div class="container">
         <ul>
             {% for offer in app.user.offers %}
-                <li>
-                    <a href="{{ path('app_offer_detail', { 'id': offer.id }) }}">{{ offer.label }}</a>
-                    <br />
-                    {{ offer.description|u.truncate(128, ' ..') }}
-                </li>
+                {% if offer.isArchived == 0 %}
+                    <li>
+                        <a href="{{ path('app_offer_detail', { 'id': offer.id }) }}">{{ offer.label }} </a>
+                        <br />
+                        {{ offer.description|u.truncate(128, ' ..') }}
+                        <a class="border border-black border-1 rounded" href="{{ path('app_offer_delete', { 'id': offer.id }) }}"><i class="bi bi-trash text-danger"></i></a>
+                        <a class="border border-black border-1 rounded" href="{{ path('app_offer_edit', { 'id': offer.id }) }}"><i class="bi bi-pencil text-warning"></i></a>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
+        <div class="col-12">
+        <p>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Afficher les offres archivées</a>
+        </p>
+            <div class="row">
+                <div class="col">
+                <ul>
+                {% for offerArchived in offres_archived %}
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                        <div class="card card-body">
+                        <li>
+                            <a href="{{ path('app_offer_detail', { 'id': offerArchived.id }) }}">{{ offerArchived.label }} </a>
+                            <br />
+                            {{ offerArchived.description|u.truncate(128, ' ..') }}
+                        </li>
+                        </div>
+                    </div>
+                {% endfor %}
+                </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
