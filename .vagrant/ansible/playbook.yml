@@ -27,13 +27,18 @@
         name: matchjob
         state: present
 
+    - name: Create MatchJob test database
+      mysql_db:
+        name: matchjob_test
+        state: present
+
     - name: Create MatchJob user
       mysql_user:
         name: matchjob
         host: "%"
         password: matchjob123
         state: present
-        priv: "matchjob.*:ALL"
+        priv: "matchjob.*:ALL/matchjob_test.*:ALL"
 
     - name: Allow all host
       lineinfile:

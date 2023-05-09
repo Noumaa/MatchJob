@@ -67,3 +67,7 @@
 
 **/public/assets/images/pp/*
 !**/public/assets/images/pp/.default.png
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+###< symfony/phpunit-bridge ###
