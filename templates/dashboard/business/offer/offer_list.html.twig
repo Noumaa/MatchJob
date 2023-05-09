@@ -1,0 +1,48 @@
+{% extends 'dashboard/business/base.html.twig' %}
+
+{% block title %}Mes offres{% endblock %}
+
+{% block body %}
+
+    <div class="container px-5 my-5 col-lg-6 col-sm-12">
+        <ul class="list-group">
+            {% for offer in offers %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div class="me-3">
+                            <p class="fw-bold mb-0">{{ offer.label }}</p>
+                            <p class="mb-0">{{ offer.description|u.truncate(128, '...') }}</p>
+                        </div>
+
+                        <div class="hstack gap-2">
+                            <a class="btn btn-warning" href="{{ path('app_offer_edit', { 'id': offer.id }) }}">Modifier</a>
+                            <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete{{ offer.id }}">Supprimer</a>
+
+                            <div class="modal fade" id="confirmDelete{{ offer.id }}" tabindex="-1" aria-labelledby="confirmDeleteLabel{{ offer.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="confirmDeleteLabel{{ offer.id }}">Confirmer la suppression</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mb-2">Êtes-vous sûr de vouloir supprimer votre offre ?</p>
+                                            <p class="mb-0"><i class="bi bi-exclamation-triangle-fill text-warning"></i> <span class="fw-bold">Attention</span>, toute suppression est <span class="fw-bold">définitive</span>.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            <a href="{{ path('app_offer_delete', { 'id': offer.id }) }}" class="btn btn-danger">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+

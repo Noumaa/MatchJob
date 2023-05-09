@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class OfferController extends AbstractController
 {
     #[Route('/offres', name: 'app_offer_list')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function list(ManagerRegistry $doctrine): Response
     {
         $offers = $doctrine->getRepository(Offer::class)->findBy(['isArchived' => 0]);
 
@@ -50,6 +50,17 @@ class OfferController extends AbstractController
         ]);
     }
 
+    #[Route('/pro/offres', name: 'app_business_offer_list')]
+    #[IsGranted("ROLE_BUSINESS")]
+    public function businessList(ManagerRegistry $doctrine): Response
+    {
+        $offers = $doctrine->getRepository(Offer::class)->findBy(['user' => $this->getUser(), 'isArchived' => 0]);
+
+        return $this->render('dashboard/business/offer/offer_list.html.twig', [
+            'offers' => $offers,
+        ]);
+    }
+
     #[Route('pro/deposer-une-offre', name: 'app_offer_create')]
     #[IsGranted("ROLE_BUSINESS")]
     public function create(Request $request, ManagerRegistry $doctrine): Response
@@ -74,8 +85,71 @@ class OfferController extends AbstractController
             ]);
         }
 
-        return $this->render('dashboard/business/create_offer.html.twig', [
+        return $this->render('dashboard/business/offer/offer_create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('pro/offres/{id}', name: 'app_offer_edit')]
+    #[IsGranted("ROLE_BUSINESS")]
+    public function edit(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
+    {
+        // TODO handle not found
+        $offer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $offer->getId(), 'isArchived' => 0]);
+
+        if ($offer->getUser() != $this->getUser())
+        {
+            $this->addFlash("error", "Vous ne pouvez pas modifier une offre dont vous n'êtes pas l'auteur.");
+
+            return $this->redirectToRoute("app_offer_detail", [
+                "id" => $offer->getId()
+            ]);
+        }
+
+        $form = $this->createForm(OfferFormType::class, $offer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $doctrine->getManager();
+
+            $entityManager->persist($offer);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre offre a bien été modifiée !');
+
+            return $this->redirectToRoute("app_offer_detail", [
+                "id" => $offer->getId()
+            ]);
+        }
+
+        return $this->render('dashboard/business/offer/offer_edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('pro/offres/{id}/supprimer', name: 'app_offer_delete')]
+    #[IsGranted("ROLE_BUSINESS")]
+    public function delete(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
+    {
+        // TODO handle not found
+        $offer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $offer->getId(), 'isArchived' => 0]);
+
+        if ($offer->getUser() != $this->getUser())
+        {
+            $this->addFlash("error", "Vous ne pouvez pas supprimer une offre dont vous n'êtes pas l'auteur.");
+
+            return $this->redirectToRoute("app_offer_detail", [
+                "id" => $offer->getId()
+            ]);
+        }
+
+        $offer->setIsArchived(true);
+
+        $doctrine->getManager()->flush();
+
+        $this->addFlash('success', 'Votre offre a bien été supprimée !');
+
+        return $this->redirectToRoute('app_business_offer_list');
     }
 }

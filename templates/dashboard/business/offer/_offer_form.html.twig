@@ -1,0 +1,31 @@
+{{ form_start(form) }}
+
+    {{ form_errors(form) }}
+
+    <div class="container px-5 my-5 col-lg-6 col-sm-12">
+        <div class="form-floating mb-3">
+            {{ form_widget(form.label,{ 'attr': {"class":"form-control", "id":"nomDeLoffre", "type":"text", "placeholder":"Nom de l'offre"}})}}
+            {{ form_label(form.label, "Nom de l'offre")}}
+
+            {{ form_errors(form.label) }}
+        </div>
+
+        <div class="form-floating mb-3 col-lg-2 col-sm-12">
+            {{ form_widget(form.moneyPerHour,{ 'attr': {"class":"form-control", "id":"moneyPerHour", "type":"text", "placeholder":"Salaire de l'heure"}})}}
+            <label style="left:auto;" for="moneyPerHour">{{ form_label(form.moneyPerHour, "Salaire/h")}}</label>
+
+            {{ form_errors(form.moneyPerHour) }}
+        </div>
+
+        <div class="form-floating mb-3">
+            {{ form_widget(form.description,{ 'attr': {"class":"form-control", "id":"moneyPerHour", "style":"height: 200px", "placeholder":"Description de l'emploi"} }) }}
+            {{ form_label(form.description,"Description de l'emploi")}}
+
+            {{ form_errors(form.description) }}
+        </div>
+
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Soumettre</button>
+        </div>
+    </div>
+{{form_end(form)}}
