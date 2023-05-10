@@ -3,156 +3,120 @@
 {% block title %}{{ offer.label }} / {{ offer.user.name }}{% endblock %}
 
 {% block home %}
-	<!-- Page Title
-	============================================= -->
-	<section id="page-title">
+    <!-- Page Title
+    ============================================= -->
+    <section id="page-title">
 
-		<div class="container clearfix">
-			<h1>{{ offer.label }}</h1>
-		</div>
+        <div class="container clearfix">
+            <h1>{{ offer.label }}</h1>
+        </div>
 
-	</section><!-- #page-title end -->
+    </section><!-- #page-title end -->
 {% endblock %}
 
 {% block body %}
 
-	<!-- Job Detail Start -->
-	<div class="container-xxl">
-{#		{% if message is not null %}#}
-{#			<div class="alert alert-{{ messageType }} alert-dismissible fade show" role="alert">#}
-{#				{{ message|raw }}#}
-{#			</div>#}
-{#		{% endif %}#}
-		<div class="container">
-			<div class="row gy-5 gx-4">
-				<div class="col-lg-8">
-					<div class="d-flex align-items-center mb-4">
-						<img class="flex-shrink-0 img-fluid border rounded" src="{{asset("assets/images/pp/" ~ offer.user.profilePicture) }}" alt="" style="width: 80px; height: 80px;">
-						<div class="text-start ps-4">
-							<h3 class="mb-3">{{offer.label}}</h3>
-							<span class="text-truncate me-3">
+    <!-- Job Detail Start -->
+    <div class="container-xxl">
+        {#        {% if message is not null %} #}
+        {#            <div class="alert alert-{{ messageType }} alert-dismissible fade show" role="alert"> #}
+        {#                {{ message|raw }} #}
+        {#            </div> #}
+        {#        {% endif %} #}
+        <div class="container">
+            <div class="row gy-5 gx-4">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center mb-4">
+                        <img class="flex-shrink-0 img-fluid border rounded"
+                             src="{{ asset("assets/images/pp/" ~ offer.user.profilePicture) }}" alt=""
+                             style="width: 80px; height: 80px;">
+                        <div class="text-start ps-4">
+                            <h3 class="mb-3">{{ offer.label }}</h3>
+                            <span class="text-truncate me-3">
 								<i class="fa fa-map-marker-alt text-primary me-2"></i>New York, USA</span>
-							{# <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>Full Time</span> #}
-							<span class="text-truncate me-0">
+                            {# <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>Full Time</span> #}
+                            <span class="text-truncate me-0">
 								<i class="far fa-money-bill-alt text-primary me-2"></i>
-								{{offer.moneyPerHour}}
+								{{ offer.moneyPerHour }}
 								€/h</span>
-						</div>
-					</div>
+                        </div>
+                    </div>
 
-					{# POSTULER #}
-					{% if is_granted("ROLE_PERSON") %}
+                    {% if not is_granted("ROLE_BUSINESS") %}
+                        <a type="button" class="btn btn-primary d-grid my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Déposer sa candidature
+                        </a>
+                    {% endif %}
 
-						<div class="d-flex mb-5">
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Déposer sa candidature</button>
-						</div>
+                    <div class="mb-5">
+                        <h4 class="mb-3">Description</h4>
+                        <p>{{ offer.description }}</p>
+                    </div>
+                </div>
 
-					{# CANDIDATS #}
-					{% elseif is_granted("ROLE_BUSINESS") and offer.user == app.user %}
+                <div class="col-lg-4">
+                    <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
+                        <h4 class="mb-4">Résumé</h4>
+                        <p>
+                            <i class="fa fa-angle-right text-primary me-2"></i>
+                            Déposé le : {{ offer.createdAt | date("m/d/Y") }}
+                        </p>
+                        <p>
+                            <i class="fa fa-angle-right text-primary me-2"></i>
+                            Location: New York, USA
+                        </p>
+                    </div>
+                    <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
+                        <h4 class="mb-4">Informations sur le l'entreprise</h4>
+                        <p class="m-0">
+                            <strong>Nom de l'entreprise :
+                            </strong><br>{{ offer.user.name }}</p>
+                        <p class="m-0">
+                            <strong>Adresse :</strong><br>{{ offer.user.address }}</p>
+                        <p class="m-0">{{ offer.user.city }},
+                            {{ offer.user.zipCode }}</p>
+                        <p class="m-0">{{ offer.user.region }}</p>
+                        <p class="m-0">{{ offer.user.department }}</p>
+                        <p class="m-0">{{ offer.user.country }}</p>
+                        <p class="m-0">
+                            <strong>Numéro de téléphone :</strong>
+                            {{ offer.user.phone }}</p>
+                        <p class="m-0">
+                            <strong>SIRET :
+                            </strong>
+                            {{ offer.user.siret }}</p>
+                    </div>
+                </div>
 
-						<div>
-							<ul>
-{#								{% for application in offer.demands %}#}
-{#									<li>#}
-{#										<span class="badge bg-warning">{{ application.status.label }}</span>#}
-{#										{{ application.applicant.fullName }}#}
-{#									</li>#}
-{#								{% else %}#}
-{#									<p>Personne n'a postulé, pour l'instant.</p>#}
-{#								{% endfor %}#}
-							</ul>
-						</div>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Déposer sa candidature</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Voulez-vous vraiment déposer votre candidature ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <form method="post" action="{{ path('app_apply', { id: offer.id }) }}">
+                                    <button type="submit" class="btn btn-primary">
+                                        Déposer sa candidature
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					{% endif %}
-
-					<div class="mb-5">
-						<h4 class="mb-3">Description</h4>
-						<p>{{offer.description}}</p>
-						{# <h4 class="mb-3">Responsibility</h4>
-						                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-						                            <ul class="list-unstyled">
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-						                            </ul>
-						                            <h4 class="mb-3">Qualifications</h4>
-						                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-						                            <ul class="list-unstyled">
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-						                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-						                            </ul> #}
-					</div>
-				</div>
-
-				<div class="col-lg-4">
-					<div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
-						<h4 class="mb-4">Résumé</h4>
-						<p>
-							<i class="fa fa-angle-right text-primary me-2"></i>Déposé le :
-							{{offer.createdAt | date("m/d/Y")}}</p>
-						{# <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: 123 Position</p> #}
-						{# <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: Full Time</p> #}
-						<p>
-							<i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
-					</div>
-					<div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
-						<h4 class="mb-4">Informations sur le l'entreprise</h4>
-						<p class="m-0">
-							<strong>Nom de l'entreprise :
-							</strong><br>{{offer.user.name}}</p>
-						<p class="m-0">
-							<strong>Adresse :</strong><br>{{offer.user.address}}</p>
-						<p class="m-0">{{offer.user.city}},
-							{{offer.user.zipCode}}</p>
-						<p class="m-0">{{offer.user.region}}</p>
-						<p class="m-0">{{offer.user.department}}</p>
-						<p class="m-0">{{offer.user.country}}</p>
-						<p class="m-0">
-							<strong>Numéro de téléphone :</strong>
-							{{offer.user.phone}}</p>
-						<p class="m-0">
-							<strong>SIRET :
-							</strong>
-							{{offer.user.siret}}</p>
-					</div>
-				</div>
-
-				<!-- Modal -->
-				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">Déposer sa candidature</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<p>Voulez-vous vraiment déposer votre candidature ?</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-						<form method="post">
-							<button type="submit" class="btn btn-primary">
-								Déposer sa candidature
-							</button>
-						</form>
-					</div>
-					</div>
-				</div>
-				</div>
-
-				{# <div class="col-12">
-					<button class="btn btn-primary w-20"><a style="color:white" href="{{path('app_apply',{id:offer.id})}}">Déposer sa candidature</a></button>
-				</div> #}
-
-			</div>
-		</div>
-	</div>
-	<!-- Job Detail End -->
+            </div>
+        </div>
+    </div>
+    <!-- Job Detail End -->
 
 {% endblock %}
 
