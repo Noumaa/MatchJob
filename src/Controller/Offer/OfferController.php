@@ -44,7 +44,7 @@ class OfferController extends AbstractController
             $dateInterval = "Non renseigné";
         }
 
-        return $this->render('offer/detail.html.twig', [
+        return $this->render('offer/manage.html.twig', [
             'offer' => $offer,
             'duration' => $dateInterval,
         ]);
@@ -56,7 +56,7 @@ class OfferController extends AbstractController
     {
         $offers = $doctrine->getRepository(Offer::class)->findBy(['user' => $this->getUser(), 'isArchived' => 0]);
 
-        return $this->render('dashboard/business/offer/offer_list.html.twig', [
+        return $this->render('dashboard/business/offer/list.html.twig', [
             'offers' => $offers,
         ]);
     }
@@ -85,7 +85,7 @@ class OfferController extends AbstractController
             ]);
         }
 
-        return $this->render('dashboard/business/offer/offer_create.html.twig', [
+        return $this->render('dashboard/business/offer/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -123,7 +123,8 @@ class OfferController extends AbstractController
             ]);
         }
 
-        return $this->render('dashboard/business/offer/offer_edit.html.twig', [
+        return $this->render('dashboard/business/offer/detail/manage.html.twig', [
+            'offer' => $offer,
             'form' => $form->createView(),
         ]);
     }
