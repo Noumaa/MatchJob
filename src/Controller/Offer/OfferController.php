@@ -44,7 +44,7 @@ class OfferController extends AbstractController
             $dateInterval = "Non renseigné";
         }
 
-        return $this->render('offer/manage.html.twig', [
+        return $this->render('offer/detail.html.twig', [
             'offer' => $offer,
             'duration' => $dateInterval,
         ]);
