@@ -1,0 +1,29 @@
+{% extends 'dashboard/business/base.html.twig' %}
+
+{% block title %}{{ offer.label }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="mb-0">{{ offer.label }}</h1>
+        <hr class="mb-4">
+        <div class="row justify-content-md-center">
+            <div class="col-3">
+                <ul class="list-group">
+                    <a href="{{ path('app_offer_edit', {'id': offer.id}) }}" class="list-group-item list-group-item-action {{ active == "overview" ? "active" }}">
+                        <i class="bi bi-house"></i> Vue d'ensemble
+                    </a>
+                    <a href="{{ path('app_offer_applications', {'id': offer.id}) }}" class="list-group-item list-group-item-action {{ active == "applications" ? "active" }}">
+                        <i class="bi bi-newspaper"></i> Candidatures <span class="badge text-bg-{{ active == "applications" ? "secondary" : "primary" }}">{{ offer.applications|length }}</span>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action text-danger"><i class="bi bi-trash"></i> Supprimer</a>
+                </ul>
+            </div>
+            <div class="col-9">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

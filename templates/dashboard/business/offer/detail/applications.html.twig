@@ -1,0 +1,17 @@
+{% extends 'dashboard/business/offer/detail/base.html.twig' %}
+
+{% block title %}Candidatures{% endblock %}
+
+{% block content %}
+
+    <ul class="list-group">
+        {% for application in offer.applications %}
+            <li class="list-group-item">
+                {{ application.user.fullName }}
+            </li>
+        {% else %}
+            Rien à voir ici ..
+        {% endfor %}
+    </ul>
+
+{% endblock %}

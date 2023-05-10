@@ -24,6 +24,14 @@
         {#            </div> #}
         {#        {% endif %} #}
         <div class="container">
+
+            {% if applied %}
+                <div class="alert alert-info" role="alert">
+                    <img class="me-2" src="https://em-content.zobj.net/thumbs/160/microsoft/319/envelope_2709-fe0f.png" width="28">
+                    Votre candidature a bien été envoyée !
+                </div>
+            {% endif %}
+
             <div class="row gy-5 gx-4">
                 <div class="col-lg-8">
                     <div class="d-flex align-items-center mb-4">
@@ -43,7 +51,7 @@
                     </div>
 
                     {% if not is_granted("ROLE_BUSINESS") %}
-                        <a type="button" class="btn btn-primary d-grid my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a type="button" class="btn btn-primary {{ applied ? "disabled" : "" }} d-grid my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Déposer sa candidature
                         </a>
                     {% endif %}

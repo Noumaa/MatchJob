@@ -44,9 +44,19 @@ class OfferController extends AbstractController
             $dateInterval = "Non renseigné";
         }
 
+        $applied = false;
+        if ($this->isGranted('ROLE_USER'))
+        {
+            $applications = $this->getUser()->getApplications();
+            $applied = $applications->exists(function($key, $e) use ($offer) {
+                return $e->getOffer() == $offer;
+            });
+        }
+
         return $this->render('offer/detail.html.twig', [
             'offer' => $offer,
             'duration' => $dateInterval,
+            'applied' => $applied,
         ]);
     }
 
@@ -92,7 +102,7 @@ class OfferController extends AbstractController
 
     #[Route('pro/offres/{id}', name: 'app_offer_edit')]
     #[IsGranted("ROLE_BUSINESS")]
-    public function edit(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
+    public function overview(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
     {
         // TODO handle not found
         $offer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $offer->getId(), 'isArchived' => 0]);
@@ -123,9 +133,32 @@ class OfferController extends AbstractController
             ]);
         }
 
-        return $this->render('dashboard/business/offer/detail/manage.html.twig', [
+        return $this->render('dashboard/business/offer/detail/overview.html.twig', [
             'offer' => $offer,
+            'active' => "overview",
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('pro/offres/{id}/candidatures', name: 'app_offer_applications')]
+    #[IsGranted("ROLE_BUSINESS")]
+    public function applications(Request $request, ManagerRegistry $doctrine, Offer $offer): Response
+    {
+        // TODO handle not found
+        $offer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $offer->getId(), 'isArchived' => 0]);
+
+        if ($offer->getUser() != $this->getUser())
+        {
+            $this->addFlash("error", "Vous ne pouvez pas modifier une offre dont vous n'êtes pas l'auteur.");
+
+            return $this->redirectToRoute("app_offer_detail", [
+                "id" => $offer->getId()
+            ]);
+        }
+
+        return $this->render('dashboard/business/offer/detail/applications.html.twig', [
+            'offer' => $offer,
+            'active' => "applications",
         ]);
     }
 

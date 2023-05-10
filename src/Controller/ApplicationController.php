@@ -22,7 +22,11 @@ class ApplicationController extends AbstractController
             return $this->redirectToRoute('app_offer_list');
         }
 
-        if (!$this->getUser()->getApplications()->isEmpty())
+        $applied = $this->getUser()->getApplications()->exists(function ($key, $e) use ($offer) {
+            return $e->getOffer() == $offer;
+        });
+
+        if ($applied)
         {
             $this->addFlash("error", "Vous avez déjà postulé pour cette offre.");
         }
