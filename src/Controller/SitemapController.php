@@ -20,10 +20,21 @@ class SitemapController extends AbstractController
         $urls = [];
 
         // On ajoute les URLs "statiques"
-        $urls[] = ['loc' => $this->generateUrl('app_home')];
-        $urls[] = ['loc' => $this->generateUrl('app_register')];
-        $urls[] = ['loc' => $this->generateUrl('app_register_business')];
-        $urls[] = ['loc' => $this->generateUrl('app_login')];
+        $urls[] = [
+            'loc' => $this->generateUrl('app_home'),
+            'priority' => 1];
+        $urls[] = [
+            'loc' => $this->generateUrl('app_offer_list'),
+            'priority' => 0.8];
+        $urls[] = [
+            'loc' => $this->generateUrl('app_login'),
+            'priority' => 0.8];
+        $urls[] = [
+            'loc' => $this->generateUrl('app_register'),
+            'priority' => 0.7];
+        $urls[] = [
+            'loc' => $this->generateUrl('app_register_business'),
+            'priority' => 0.7];
 
         // On ajoute les URLs dynamiques des articles dans le tableau
         foreach ($doctrine->getRepository(Offer::class)->findAll() as $offer) {
