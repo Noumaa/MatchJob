@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: http://matchjob.xyz/sitemap.xml
