@@ -47,18 +47,23 @@
 
 ## :dart: A propos ##
 
-Trouvez l'emploi de vos rêves
+MatchJob est une plateforme permettant de trouver du travail facilement. Les entreprises peuvent déposer des offres d'emplois et les particuliers peuvent postuler. 
 
 ## :sparkles: Features ##
 
 :heavy_check_mark: S'inscrire;\
 :heavy_check_mark: Se connecter;\
-:heavy_check_mark: Fixer la page d'accueil pendant des heures !;
+:heavy_check_mark: Voir les offres;\
+:heavy_check_mark: Les personnes qui ont postulées;\
+:heavy_check_mark: Recherche d'adresse avec une API;
 
 ## :sparkles: A faire ##
 
-- [ ] A faire
-- [x] Fait
+- [x] A faire :
+- Suivi des candidatures.
+- Recherche avancé sur les offres.
+- Géolocalisation en temps réel.
+
 
 ## :rocket: Technologies ##
 
@@ -66,16 +71,25 @@ Les outils suivants ont été beaucoup sollicités :
 
 - [Symfony](https://symfony.com/)
 - [Bootstrap](https://getbootstrap.com/)
+- [API Adresse](https://adresse.data.gouv.fr/api-doc/adresse)
 
 ## :white_check_mark: Dépendances ##
 
-- [PHP](https://www.php.net/) 8.1.11
-- [Composer](#)
-- [MariaDB](#) 8.10
+- [PHP 8.1.11](https://windows.php.net/downloads/releases/archives/php-8.1.11-nts-Win32-vs16-x64.zip)
+- [Composer 2.5.7 ](https://getcomposer.org/Composer-Setup.exe)
+- [Scoop](https://scoop.sh/)
 
 ## :checkered_flag: Installation ##
 
-Vous devez avoir installé les dependances, et configuré un utilisateur et sa base de données sur MariaDB.
+Vous devez avoir installé les dependances. Vous devez également vous assurer que l'extension pdo_sqlite est décommenté dans le fichier php.ini
+```bash
+...
+;extension=pdo_pgsql
+extension=pdo_sqlite #Enlever ";" devant "extension"
+;extension=pgsql
+...
+```
+
 
 ```bash
 # Cloner le dépôt
@@ -84,9 +98,7 @@ $ git clone https://github.com/Noumaa/matchjob
 # Se rendre au bon endroit (c'est mieux)
 $ cd matchjob
 ```
-
-Configurez ensuite le DSN, permettant la connection de l'app avec le serveur MariaDB.  
-Pour ce faire rendez-vous dans le fichier `.env`.
+Installons les dépendances du projet :
 
 ```bash
 # Installer les dépendences
@@ -105,6 +117,9 @@ $ php bin/console doctrine:fixtures:load
 #     un serveur web profesionnel
 #     comme apache ou nginx.
 $ symfony server:start # Requiert Symfony CLI
+
+# Pour télécharger Symfony CLI, effectuer cette commande : 
+$ scoop install symfony-cli
 
 # Le serveur sera initialisé sur <http://localhost:8000>
 ```

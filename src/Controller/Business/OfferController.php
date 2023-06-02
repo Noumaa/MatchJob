@@ -96,7 +96,10 @@ class OfferController extends AbstractController
     #[Route('pro/mes-offres', name: 'app_business_offer_list')]
     public function myOffers(Request $request, ManagerRegistry $doctrine): Response
     {
-        return $this->render('business/offer/list.html.twig');
+        return $this->render('business/offer/list.html.twig',
+    [
+        "offres_archived" => $doctrine->getRepository(Offer::class)->findBy(["isArchived" => 1,"user" => $this->getUser()]) 
+    ]);
     }
 
     #[IsGranted("ROLE_BUSINESS")]
