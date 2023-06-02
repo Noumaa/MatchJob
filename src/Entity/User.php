@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $publicDescription = "Pas de description";
+
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
@@ -110,6 +113,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
     private Collection $notifications;
+
+    
 
     
 
@@ -509,6 +514,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDepartment(string $department): self
     {
         $this->department = $department;
+
+        return $this;
+    }
+
+    public function getPublicDescription(): ?string
+    {
+        return $this->publicDescription;
+    }
+
+    public function setPublicDescription(string $publicDescription): self
+    {
+        $this->publicDescription = $publicDescription;
 
         return $this;
     }

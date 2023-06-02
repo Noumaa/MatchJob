@@ -47,18 +47,23 @@
 
 ## :dart: A propos ##
 
-Trouvez l'emploi de vos rêves
+MatchJob est une plateforme permettant de trouver du travail facilement. Les entreprises peuvent déposer des offres d'emplois et les particuliers peuvent postuler. 
 
 ## :sparkles: Features ##
 
 :heavy_check_mark: S'inscrire;\
 :heavy_check_mark: Se connecter;\
-:heavy_check_mark: Fixer la page d'accueil pendant des heures !;
+:heavy_check_mark: Voir les offres;\
+:heavy_check_mark: Les personnes qui ont postulées;\
+:heavy_check_mark: Recherche d'adresse avec une API;
 
 ## :sparkles: A faire ##
 
-- [ ] A faire
-- [x] Fait
+- [x] A faire :
+- Suivi des candidatures.
+- Recherche avancé sur les offres.
+- Géolocalisation en temps réel.
+
 
 ## :rocket: Technologies ##
 
@@ -66,16 +71,25 @@ Les outils suivants ont été beaucoup sollicités :
 
 - [Symfony](https://symfony.com/)
 - [Bootstrap](https://getbootstrap.com/)
+- [API Adresse](https://adresse.data.gouv.fr/api-doc/adresse)
 
 ## :white_check_mark: Dépendances ##
 
-- [PHP](https://www.php.net/) 8.1.11
-- [Composer](#)
-- [MariaDB](#) 8.10
+- [PHP 8.1.11](https://www.php.net/downloads.php)
+- [Composer 2.5.7 ](https://getcomposer.org/Composer-Setup.exe)
 
 ## :checkered_flag: Installation ##
 
-Vous devez avoir installé les dependances, et configuré un utilisateur et sa base de données sur MariaDB.
+Vous devez vous assurer d'avoir installé les dépendances requises. De plus, assurez-vous que l'extension pdo_sqlite est décommentée dans le fichier php.ini si vous travaillez dans un environnement de production. Dans le cas d'un environnement de production, vous devrez plutôt décommenter les extensions pdo_mysql et décommenter la ligne pour changer de SGBD dans le .env.
+
+```bash
+...
+;extension=pdo_pgsql
+extension=pdo_sqlite #Enlever ";" devant "extension"
+;extension=pgsql
+...
+```
+
 
 ```bash
 # Cloner le dépôt
@@ -84,9 +98,7 @@ $ git clone https://github.com/Noumaa/matchjob
 # Se rendre au bon endroit (c'est mieux)
 $ cd matchjob
 ```
-
-Configurez ensuite le DSN, permettant la connection de l'app avec le serveur MariaDB.  
-Pour ce faire rendez-vous dans le fichier `.env`.
+Installons les dépendances du projet :
 
 ```bash
 # Installer les dépendences
