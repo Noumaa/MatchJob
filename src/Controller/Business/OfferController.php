@@ -5,7 +5,7 @@ use App\Entity\Offer;
 use App\Form\OfferType;
 use App\Service\Applications\Applications;
 use DateTimeImmutable;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,15 +28,28 @@ class OfferController extends AbstractController
     }
 
     #[Route('/offres/{id}', name: 'app_offer_detail')]
-    public function detail(Request $request, ManagerRegistry $doctrine, Applications $applications, Offer $oneOffer): Response
+    public function detail(EntityManagerInterface $entityManager, Request $request, ManagerRegistry $doctrine, Applications $applications, Offer $oneOffer): Response
     {
         $oneOffer = $doctrine->getRepository(Offer::class)->findOneBy(['id' => $oneOffer->getId()]);
         $duration = $oneOffer->getDuration();
-        $years = $duration->format('%Y années');
-        $month = $duration->format('%M mois');
-        $days = $duration->format('%D jours');
-        $dateInterval = $days . " " . $month . " " . $years . " ";
+        $dateInterval = 0;
+        if($duration != null)
+        {
+            $years = $duration->format('%Y années');
+            $month = $duration->format('%M mois');
+            $days = $duration->format('%D jours');
+            $dateInterval = $days . " " . $month . " " . $years . " ";
+        }
+        
+        
 
+        if(!$this->getUser() || !in_array("ROLE_BUSINESS",$this->getUser()->getRoles()))
+        {
+            $oneOffer->setViews($oneOffer->getViews() + 1);
+            $entityManager->persist($oneOffer);
+            $entityManager->flush();
+        }
+        
         if ($request->isMethod('POST'))
         {
             if ($this->isGranted("ROLE_USER"))
@@ -77,8 +90,13 @@ class OfferController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid())
         {
+            if($offer->getstartAt() != null && $offer->getEndAt())
+            {
+                $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
+            }
+
             $offer->setUser($this->getUser());
-            $offer->setDuration(date_diff($offer->getstartAt(),$offer->getEndAt()));
+            
             
             $entityManager->persist($offer);
             $entityManager->flush();
@@ -116,7 +134,10 @@ class OfferController extends AbstractController
                 if($form->isSubmitted() && $form->isValid())
                 {
                     $oneOffer->setUser($this->getUser());
-                    $oneOffer->setDuration(date_diff($oneOffer->getstartAt(),$oneOffer->getEndAt()));
+                    if($oneOffer->getstartAt() != null && $oneOffer->getEndAt())
+                    {
+                        $oneOffer->setDuration(date_diff($oneOffer->getstartAt(),$oneOffer->getEndAt()));
+                    }
                     $oneOffer->setCreatedAt(new DateTimeImmutable());
                     $oneOffer = $form->getData();
                     $entityManager->flush();
@@ -125,7 +146,7 @@ class OfferController extends AbstractController
                         'id' => $oneOffer->getId()
                     ]);
                 }
-                return $this->render('offer/create.html.twig', 
+                return $this->render('business/offer/create.html.twig', 
                 [
                     'Offer' => $form->createView(),
                 ]);
