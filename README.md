@@ -80,7 +80,7 @@ Les outils suivants ont été beaucoup sollicités :
 
 ## :checkered_flag: Installation ##
 
-Vous devez vous assurer d'avoir installé les dépendances requises. De plus, assurez-vous que l'extension pdo_sqlite est décommentée dans le fichier php.ini si vous travaillez dans un environnement de production. Dans le cas d'un environnement de production, vous devrez plutôt décommenter les extensions pdo_mysql.
+Vous devez vous assurer d'avoir installé les dépendances requises. De plus, assurez-vous que l'extension pdo_sqlite est décommentée dans le fichier php.ini si vous travaillez dans un environnement de production. Dans le cas d'un environnement de production, vous devrez plutôt décommenter les extensions pdo_mysql et décommenter la ligne pour changer de SGBD dans le .env.
 
 ```bash
 ...
