@@ -75,7 +75,7 @@ Les outils suivants ont été beaucoup sollicités :
 
 ## :white_check_mark: Dépendances ##
 
-- [PHP 8.1.11](https://windows.php.net/downloads/releases/archives/php-8.1.11-nts-Win32-vs16-x64.zip) 8.1.11
+- [PHP 8.1.11](https://windows.php.net/downloads/releases/archives/php-8.1.11-nts-Win32-vs16-x64.zip)
 - [Composer 2.5.7 ](https://getcomposer.org/Composer-Setup.exe)
 - [Scoop](https://scoop.sh/)
 
