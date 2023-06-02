@@ -6,92 +6,140 @@
 	{{ business.name }}
 {% endblock %}
 
-{% block body %}
-
-	<div class="container p-0">
-		<div class="border border-black rounded-5">
-			{# Bannière #}
-			<div class="container">
-				<div class="d-flex justify-content-center">
-					<img class="w-50 img-fluid" src="{{ asset('assets/images/pp/' ~ app.user.bannerPicture) }}" alt="">
-				</div>
-			</div>
-
-			<div class="border border-black rounded-top rounded-5">
-				<div
-					class="row jsutify-content-center">
-					{# Bio #}
-					<div class="col-2">
-						<img class="rounded img-fluid" src="{{ asset('assets/images/pp/' ~ app.user.profilePicture) }}" alt="">
-					</div>
-					<div class="col">
-                        <div class="my-2">
-                            <h2 class="mb-0">{{business.name}}</h2>
-                        </div>
-                        <div class="hstack gap-5 text-muted">
-                            <div>
-                                <i class="bi bi-award-fill"></i>
-                                <span class="">
-								{% if business.verified %}
-									Vérifié
-								{% else %}
-									Pas Vérifié
-								</span>
-								{% endif %}
-                            </div>
-                            <div>
-                                <i class="bi bi-bar-chart-fill"></i>
-                                89%
-                            </div>
-                            <div>
-                                <i class="bi bi-calendar-check-fill"></i>
-                                {{business.createdAt |date("M/Y")}}
-                            </div>
-                        </div>
-
-						<div class="mt-2">
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis magnam nisi, repellat et voluptate nesciunt earum possimus dicta repudiandae dolorem dolore impedit deserunt non recusandae asperiores! Sequi suscipit animi tenetur.</p>
+{% block body %}	
+	<section style="background-color: #eee;">
+		<div class="container py-5">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="card mb-4">
+						<div class="card-body text-center">
+							<img src="{{ asset('assets/images/pp/' ~ app.user.profilePicture) }}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+							<h5 class="my-3">{{business.name}}</h5>
+							{# <p class="text-muted mb-1">Full Stack Developer</p> #}
+							{# <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> #}
+							<div class="d-flex justify-content-center mb-2">
+								<button type="button" class="btn btn-primary">Editer le profil public</button>
+								{# <button type="button" class="btn btn-outline-primary ms-1"></button> #}
+							</div>
 						</div>
 					</div>
+					{# <div class="card mb-4 mb-lg-0">
+					          <div class="card-body p-0">
+					            <ul class="list-group list-group-flush rounded-3">
+					              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+					                <i class="fas fa-globe fa-lg text-warning"></i>
+					                <p class="mb-0">https://mdbootstrap.com</p>
+					              </li>
+					              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+					                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
+					                <p class="mb-0">mdbootstrap</p>
+					              </li>
+					              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+					                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+					                <p class="mb-0">@mdbootstrap</p>
+					              </li>
+					              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+					                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+					                <p class="mb-0">mdbootstrap</p>
+					              </li>
+					              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+					                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+					                <p class="mb-0">mdbootstrap</p>
+					              </li>
+					            </ul>
+					          </div>
+					        </div> #}
 				</div>
 
-				<div class="row container">
-					{# A propos #}
-					<div class="col-lg-4 col-sm-12">
-						<div class="card card shadow p-2">
-							<div class="card-body">
-								<h3>A propos de nous :</h3>
-								<p class="card-text">
-									<li>Siret : {{business.siret}}</li>
-									<li>Adresse : {{business.address}}</li>
-									<li>Code postale : {{business.zipCode}}</li>
-									<li>Ville : {{business.city}}</li>
-									<li>Région : {{business.region}}</li>
-									<li>Département : {{business.department}}</li>
-									<li>Pays : {{business.country}}</li>
-									<li>Numéro : {{business.phone}}</li>
-								</p>
+				<div class="col-lg-8">
+					<div class="card mb-4">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Adresse :
+									</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{business.address}}
+										|
+										{{business.city}},
+										{{business.zipCode}}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Région :
+									</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{business.region}}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Département :
+									</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{business.department}}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Pays :
+									</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{business.country}}</p>
+								</div>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-sm-3">
+									<p class="mb-0">Siret :
+									</p>
+								</div>
+								<div class="col-sm-9">
+									<p class="text-muted mb-0">{{business.siret}}</p>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					{# Offres #}
-					<div class="d-flex col-lg-8 col-sm-12 flex-wrap m-0 p-0">
-                            {% for offer in offers %}
-                                <div class="card col-lg-3 col-sm-12 shadow">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{offer.label}}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">{{offer.moneyPerHour}} € /h</h6>
-                                        <p class="card-text">{{ offer.description|length > 100 ? offer.description|slice(0, 100) ~ '...' : offer.description  }}</p>
-                                    </div>
-                                </div>
-                            {% endfor %}
+				</div>
+
+				<div class="col-lg-12">
+					<div class="row">
+						{% for offer in offers %}
+							<div class="col-md-4">
+								<div class="card mb-4 mb-md-0">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-sm-9">
+												<p class="text-muted mb-0">{{offer.label}}</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-9">
+												<p class="text-muted mb-0">Salaire de l'heure : {{offer.moneyPerHour}} €/h</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-9">
+												<p class="text-muted mb-0">{{ offer.description|length > 100 ? offer.description|slice(0, 100) ~ '...' : offer.description  }}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
 		</div>
-
-	</div>
-
+	</section>
 {% endblock %}
 
