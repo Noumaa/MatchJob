@@ -29,11 +29,13 @@ class OfferType extends AbstractType
                 // 'label' => false,
             ])
              ->add('startAt',DateType::class,[
+                'format' => 'dd-MM-yyyy',
+                'widget' => 'choice',
                 'placeholder' => 
                 [
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
                 ],
-                'format' => 'dd-MM-yyyy',
+                'required' => false,
                 ])
              
              
@@ -43,6 +45,7 @@ class OfferType extends AbstractType
                     'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
                 ],
                 'format' => 'dd-MM-yyyy',
+                'required' => false,
                 ])
             //->add('createdAt')
             //->add('user')

@@ -75,13 +75,13 @@ Les outils suivants ont été beaucoup sollicités :
 
 ## :white_check_mark: Dépendances ##
 
-- [PHP 8.1.11](https://windows.php.net/downloads/releases/archives/php-8.1.11-nts-Win32-vs16-x64.zip)
+- [PHP 8.1.11](https://www.php.net/downloads.php)
 - [Composer 2.5.7 ](https://getcomposer.org/Composer-Setup.exe)
-- [Scoop](https://scoop.sh/)
 
 ## :checkered_flag: Installation ##
 
-Vous devez avoir installé les dependances. Vous devez également vous assurer que l'extension pdo_sqlite est décommenté dans le fichier php.ini
+Vous devez vous assurer d'avoir installé les dépendances requises. De plus, assurez-vous que l'extension pdo_sqlite est décommentée dans le fichier php.ini si vous travaillez dans un environnement de production. Dans le cas d'un environnement de production, vous devrez plutôt décommenter les extensions pdo_mysql et décommenter la ligne pour changer de SGBD dans le .env.
+
 ```bash
 ...
 ;extension=pdo_pgsql
@@ -117,9 +117,6 @@ $ php bin/console doctrine:fixtures:load
 #     un serveur web profesionnel
 #     comme apache ou nginx.
 $ symfony server:start # Requiert Symfony CLI
-
-# Pour télécharger Symfony CLI, effectuer cette commande : 
-$ scoop install symfony-cli
 
 # Le serveur sera initialisé sur <http://localhost:8000>
 ```
