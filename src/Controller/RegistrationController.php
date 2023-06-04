@@ -82,7 +82,7 @@ class RegistrationController extends AbstractController
             $user->addRole("ROLE_PERSON");
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_homee');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('registration/register.html.twig', [
