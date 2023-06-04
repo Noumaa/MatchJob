@@ -40,6 +40,7 @@ class UserFixtures extends Fixture
             ["valentin", "bueno"],
             ["rose", "lafleur"],
             ["arthur", "petit"],
+            ["user", "user"],
         ];
 
         $businesses = [
@@ -48,6 +49,7 @@ class UserFixtures extends Fixture
             "ikea",
             "mcdonalds",
             "intermarche",
+            "admin",
         ];
 
         for ($i = 0; $i < sizeof($persons); $i++) {
