@@ -90,6 +90,20 @@ extension=pdo_sqlite #Enlever ";" devant "extension"
 ...
 ```
 
+## :information_source: Note : ##
+```bash
+
+# Identifiants pour se connecter : 
+
+# Compte utilisateur : 
+Identifiant : user.user@gmail.com
+Mot de passe : user
+
+# Compte admin : 
+Identifiant : contact@admin.fr
+Mot de passe : admin
+
+```
 
 ```bash
 # Cloner le dépôt
