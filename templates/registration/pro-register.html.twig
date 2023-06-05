@@ -5,21 +5,142 @@
 {% block body %}
     <h1>Inscription Pro</h1>
 
-    {{ form_start(proRegistrationForm) }}
-        {{ form_row(proRegistrationForm.email,{label:"E-mail "})}}
-        {{ form_row(proRegistrationForm.plainPassword, {label: 'Mot de passe '})}}
+    {# {{ form_start(proRegistrationForm) }}
+        {{ form_row(proRegistrationForm.user.email,{label:"E-mail "})}}
+        {{ form_row(proRegistrationForm.user.plainPassword, {label: 'Mot de passe '})}}
         {{ form_row(proRegistrationForm.name, {label: "Nom de l'entreprise "})}}
         {{ form_row(proRegistrationForm.siret, {label: "SIRET "})}}
 
-         {{ form_row(proRegistrationForm.location.adress,{label:"N° et Rue "}) }}
-         {{ form_row(proRegistrationForm.location.zipCode,{label:"Code postale "})}}
-         {{ form_row(proRegistrationForm.location.city,{label:"Ville "})}}
-         {{ form_row(proRegistrationForm.location.region,{label:"Région "}) }}
-         {{ form_row(proRegistrationForm.location.department,{label:"Département "}) }}
-         {{ form_row(proRegistrationForm.location.country,{label:"Pays "}) }}
-         {{ form_row(proRegistrationForm.location.phone,{label:"N° de téléphone "}) }}
-        {{ form_row(proRegistrationForm.agreeTerms,{label: "Accepter les conditons d'utilisations "}) }}
+         {{ form_row(proRegistrationForm.user.location.address,{label:"N° et Rue "}) }}
+         {{ form_row(proRegistrationForm.user.location.zipCode,{label:"Code postale "})}}
+         {{ form_row(proRegistrationForm.user.location.city,{label:"Ville "})}}
+         {{ form_row(proRegistrationForm.user.location.region,{label:"Région "}) }}
+         {{ form_row(proRegistrationForm.user.location.department,{label:"Département "}) }}
+         {{ form_row(proRegistrationForm.user.location.country,{label:"Pays "}) }}
+         {{ form_row(proRegistrationForm.user.phone,{label:"N° de téléphone "}) }}
+        {{ form_row(proRegistrationForm.user.agreeTerms,{label: "Accepter les conditons d'utilisations "}) }} #}
 
-        <button type="submit" class="btn">S'inscrire</button>
-    {{ form_end(proRegistrationForm) }}
+        {# <button type="submit" class="btn">S'inscrire</button> #}
+    {# {{ form_end(proRegistrationForm) }} #}
+
+     <div class="container">
+
+		{# <section class="h-100 h-custom"> #}
+        {{ form_start(proRegistrationForm) }}
+			<div class="container h-100">
+				<div class="row d-flex justify-content-center align-items-center h-100">
+					<div class="col-12">
+						<div class="card card-registration card-registration-2 shadow p-3 mb-5 bg-white" style="border-radius: 15px;">
+							<div class="card-body p-0">
+								<div class="row g-0">
+									<div class="col-lg-6 col-sm-12 rounded-start rounded-3">
+										<div class="p-5">
+											<h3 class="fw-bold mb-5">Informations générales</h3>
+                                            {{ form_errors(proRegistrationForm) }}
+											<div class="row">
+												<div class="col-md-12 mb-4 pb-2">
+
+													<div class="form-outline">
+                                                        {{ form_widget(proRegistrationForm.name, {'attr': {'class': 'form-control'}}) }}
+														<label class="form-label" for="form3Examplev2">{{ form_label(proRegistrationForm.name, "Nom de l'entreprise") }}</label>
+													</div>
+
+												</div>
+											</div>
+
+											<div class="mb-4 pb-2">
+												<div class="form-outline">
+													{{ form_widget(proRegistrationForm.user.email, {'attr': {'class': 'form-control'}}) }}
+													<label class="form-label" for="form3Examplev4">{{ form_label(proRegistrationForm.user.email, "Adresse mail") }}</label>
+												</div>
+											</div>
+
+											<div class="row mb-4 pb-2">
+													<div class="col-6 form-outline">
+														{{ form_widget(proRegistrationForm.siret, {'attr': {'class': 'form-control'}}) }}
+														<label class="form-label" for="form3Examplev5">{{ form_label(proRegistrationForm.siret, "SIRET")}}</label>
+													</div>
+
+                                                    <div class="col-6 form-outline">
+														{{ form_widget(proRegistrationForm.user.phone, {'attr': {'class': 'form-control'}}) }}
+														<label class="form-label" for="form3Examplev5">{{ form_label(proRegistrationForm.user.phone, "N° de téléphone")}}</label>
+													</div>
+											</div>
+
+                                            <div class="mb-4 pb-2">
+												<div class="form-outline">
+													{{ form_widget(proRegistrationForm.user.plainPassword, {'attr': {'class': 'form-control'}}) }}
+													<label class="form-label" for="form3Examplev4">{{ form_label(proRegistrationForm.user.plainPassword, "Mot de passe")}}</label>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<div class="col-lg-6 col-sm-12 rounded-end rounded-3 bg-indigo text-white">
+										<div class="p-5">
+											<h3 class="fw-bold mb-5 text-white">Coordonnées</h3>
+
+											<div class="mb-4 pb-2 text-white">
+												<div class="form-outline form-white">
+													{{ form_widget(proRegistrationForm.user.location.address, {"id":"adress-choice",'attr': {'class': 'form-control', "list":"adress-suggestions", "oninput":"searchAddress()"}}) }}
+													<label class="form-label" for="form3Examplea2">{{ form_label(proRegistrationForm.user.location.address, "Saisissez une adresse", {'label_attr': {'class': 'text-white'}})}}</label>
+                                                    <datalist id="adress-suggestions"></datalist>
+												</div>
+											</div>
+
+											<div class="row text-white">
+												<div class="col-md-5 mb-4 pb-2">
+
+													<div class="form-outline form-white">
+														{{ form_widget(proRegistrationForm.user.location.zipCode, {"id":"adress-cp", 'attr': {'class': 'form-control', "id":"adress-cp", "name":"adress-cp",'readonly':'readonly'}}) }}
+														<label class="form-label" for="form3Examplea4">{{ form_label(proRegistrationForm.user.location.zipCode, "Code Postal", {'label_attr': {'class': 'text-white'}})}}</label>
+													</div>
+
+												</div>
+												<div class="col-md-7 mb-4 pb-2 text-white">
+
+													<div class="form-outline form-white">
+														{{ form_widget(proRegistrationForm.user.location.city, {"id":"adress-city", 'attr': {'class': 'form-control', "id":"adress-city", "name":"adress-city", 'readonly':'readonly'}}) }}
+														<label class="form-label" for="form3Examplea5">{{ form_label(proRegistrationForm.user.location.city, "Ville", {'label_attr': {'class': 'text-white'}})}}</label>
+													</div>
+
+												</div>
+											</div>
+
+											<div class="row text-white">
+												<div class="col-md-5 mb-4 pb-2">
+													<div class="form-outline form-white">
+														{{ form_widget(proRegistrationForm.user.location.region, {"id":"adress-region", 'attr': {'class': 'form-control', "id":"adress-region", "name":"adress-region", 'readonly':'readonly'}}) }}
+														<label class="form-label" for="form3Examplea4">{{ form_label(proRegistrationForm.user.location.region, "Région", {'label_attr': {'class': 'text-white'}})}}</label>
+													</div>
+												</div>
+												<div class="col-md-7 mb-4 pb-2 text-white">
+													<div class="form-outline form-white">
+														{{ form_widget(proRegistrationForm.user.location.department, {"id":"adress-department", 'attr': {'class': 'form-control', "id":"adress-department", "name":"adress-department", 'readonly':'readonly'}}) }}
+														<label class="form-label" for="form3Examplea5">{{ form_label(proRegistrationForm.user.location.department, "Département", {'label_attr': {'class': 'text-white'}})}}</label>
+													</div>
+												</div>
+											</div>
+
+											<div class="form-check d-flex justify-content-start mb-4 pb-3">
+                                                {{ form_widget(proRegistrationForm.user.agreeTerms, {'attr': {'class': 'form-check-input me-3','type':"checkbox"}}) }}
+												<label class="form-check-label text-black" for="form2Example3">J'ai lu et j'accepte les <a href="#!" class="text-white"><u>Conditions Générales d'Utilisation</u></a> de MatchJob.</label>
+											</div>
+										</div>
+									</div>
+                                    <center><button type="submit" class="col-2 btn btn-success btn my-2" data-mdb-ripple-color="dark">S'inscrire</button></center>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            {{ form_end(proRegistrationForm) }}
+		{# </section> #}
+	</div>
+
+	</div>
+
+
+	<script src="{{ asset('assets/js/api-adress.js') }}"></script>
 {% endblock %}
