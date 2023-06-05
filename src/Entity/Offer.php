@@ -54,6 +54,9 @@ class Offer
     #[ORM\Column]
     private ?int $views = 0;
 
+    #[ORM\ManyToOne(inversedBy: 'offers')]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->demands = new ArrayCollection();
@@ -232,6 +235,18 @@ class Offer
     public function setViews(int $views): self
     {
         $this->views = $views;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

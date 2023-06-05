@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Offer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,20 +40,21 @@ class OfferRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Offer[] Returns an array of Offer objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Offer[] Returns an array of Offer objects
+    */
+   public function findByCategory(Category $category): array
+   {
+       return $this->createQueryBuilder('o')
+           ->andWhere('o.category = :categoryId')
+           ->setParameter('categoryId', $category->getId())
+           ->orderBy('o.createdAt', 'DESC')
+           ->getQuery()
+           ->getResult()
+       ;
+
+       
+   }
 
 //    public function findOneBySomeField($value): ?Offer
 //    {

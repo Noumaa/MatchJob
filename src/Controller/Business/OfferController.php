@@ -3,10 +3,12 @@ namespace App\Controller\Business;
 
 use App\Entity\Offer;
 use App\Form\OfferType;
+use App\Entity\Category;
 use App\Service\Applications\Applications;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpParser\Node\Stmt\Catch_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +22,24 @@ class OfferController extends AbstractController
     public function list(ManagerRegistry $doctrine) : Response
     {
         $Offers = $doctrine->getRepository(Offer::class)->findBy(['isArchived' => 0]);
+        $categories = $doctrine->getRepository(Category::class)->findAll();
 
         return $this->render('offer/list.html.twig', 
         [
             'Offers' => $Offers,
+            "Categories" => $categories
+        ]);
+    }
+
+    #[Route('/offres/filter/{id}', name: 'app_offer_filter')]
+    public function filterOffer(ManagerRegistry $doctrine, Category $category) : Response
+    {
+        $Offers = $doctrine->getRepository(Offer::class)->findByCategory($category);
+        $categories = $doctrine->getRepository(Category::class)->findAll();
+        return $this->render('offer/list.html.twig', 
+        [
+            'Offers' => $Offers,
+            "Categories" => $categories
         ]);
     }
 

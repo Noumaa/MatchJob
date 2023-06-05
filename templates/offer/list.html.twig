@@ -36,21 +36,23 @@
 				<h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Les offres</h1>
 				<div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
 					<ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-						<li class="nav-item">
-							<a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-								<h6 class="mt-n1 mb-0">Nouveaux</h6>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-								<h6 class="mt-n1 mb-0">Temps plein</h6>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-								<h6 class="mt-n1 mb-0">Temps partiel</h6>
-							</a>
-						</li>
+					{% for oneCategory in Categories %}
+					<div class="row mx-4">
+						<div class="card mx-5">
+							<div class="row g-0">
+								<div class="col-md-4">
+									<img src="{{ asset("assets/images/categories/" ~ oneCategory.imageName) }}" class="img-fluid rounded-start" alt="...">
+								</div>
+								<div class="col-md-8">
+									<div class="card-body">
+										<h5 class="card-title"><a href="{{path('app_offer_filter',{id:oneCategory.id})}}">{{oneCategory.label}}</a></h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+					{% endfor %}
 					</ul>
 					<div class="tab-content">
 						<div id="tab-1" class="tab-pane fade show p-0 active">
